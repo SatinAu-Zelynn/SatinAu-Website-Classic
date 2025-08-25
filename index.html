@@ -9,14 +9,27 @@
       font-family: "Helvetica", sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(120deg, #fdfbfb, #ebedee);
+      background: linear-gradient(120deg, #fdfbfb, #ebedee, #d7e1ec);
+      background-size: 400% 400%;
+      animation: bgMove 10s ease infinite;
       color: #333;
-      opacity: 1;
+      opacity: 0;
       transition: opacity 0.8s ease;
+    }
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
     header {
       text-align: center;
       padding: 40px 0;
+      animation: slideDown 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     section {
       padding: 20px;
@@ -30,7 +43,7 @@
     footer {
       text-align: center;
       padding: 20px;
-      background-color: #eee;
+      background-color: rgba(255,255,255,0.6);
       margin-top: 40px;
     }
     .btn-link {
@@ -55,6 +68,7 @@
     }
     window.onload = function() {
       document.body.style.opacity = 1;
+      document.querySelector("header").style.opacity = 1;
     }
   </script>
 </head>
