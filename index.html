@@ -11,26 +11,17 @@
       padding: 0;
       background: linear-gradient(120deg, #fdfbfb, #ebedee);
       color: #333;
-      animation: fadeIn 2s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      opacity: 1;
+      transition: opacity 0.8s ease;
     }
     header {
       text-align: center;
       padding: 40px 0;
-      animation: slideDown 1.5s ease-out;
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
     }
     section {
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      animation: fadeIn 2s ease-in-out;
     }
     h2 {
       border-bottom: 2px solid #999;
@@ -41,14 +32,6 @@
       padding: 20px;
       background-color: #eee;
       margin-top: 40px;
-      animation: fadeIn 3s ease-in-out;
-    }
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
     }
     .btn-link {
       display: inline-block;
@@ -63,6 +46,17 @@
       background-color: #005fa3;
     }
   </style>
+  <script>
+    function fadeToPage(url) {
+      document.body.style.opacity = 0;
+      setTimeout(function() {
+        window.location.href = url;
+      }, 800);
+    }
+    window.onload = function() {
+      document.body.style.opacity = 1;
+    }
+  </script>
 </head>
 <body>
 
@@ -75,7 +69,7 @@
     <p>促成大自由中之社会进步及较善之民生</p>
     <p>To promote social progress and better standards of life in larger freedom</p>
     <p>
-      <a class="btn-link" href="zelynn.html">泽凌Zelynn</a>
+      <a class="btn-link" href="javascript:void(0);" onclick="fadeToPage('zelynn.html')">泽凌Zelynn</a>
     </p>
   </section>
 
