@@ -70,9 +70,12 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       width: 250px;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      animation: cardFadeIn 0.8s ease forwards;
     }
     .lang-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1);
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
     .lang-card a {
@@ -104,13 +107,37 @@
       will-change: transform;
       min-width: 260px;
       max-width: 420px;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      animation: cardFadeIn 0.8s ease forwards;
     }
     .contact-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-4px) scale(1);
       box-shadow: 0 16px 40px rgba(0,0,0,0.12);
       background: rgba(255,255,255,0.65);
       text-decoration: none;
     }
+
+    /* 入场动画 */
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* 延迟序列：语言卡片 */
+    .lang-card:nth-child(1) { animation-delay: 0.2s; }
+    .lang-card:nth-child(2) { animation-delay: 0.4s; }
+    .lang-card:nth-child(3) { animation-delay: 0.6s; }
+
+    /* 返回按钮延迟出现 */
+    .nav-wrapper .contact-card { animation-delay: 0.9s; }
+
     .contact-card .icon {
       width: 36px;
       height: 36px;
@@ -168,13 +195,12 @@
       </div>
     </div>
 
-    <!-- 升级为卡片风格的“返回首页”按钮 -->
+    <!-- 返回首页按钮 -->
     <div class="nav-wrapper">
       <a class="contact-card contact-link clickable"
          href="javascript:void(0);" onclick="fadeToPage('index.html')"
          aria-label="返回：首页">
         <div class="icon" aria-hidden="true">
-          <!-- 返回/左箭头图标 -->
           <svg viewBox="0 0 24 24">
             <path d="M20 11H7.83l4.58-4.59L11 5l-6 6 6 6 1.41-1.41L7.83 13H20v-2z"/>
           </svg>

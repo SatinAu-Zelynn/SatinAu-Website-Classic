@@ -56,7 +56,7 @@
     a { color: #0a66c2; text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* 通用卡片样式（联系方式与导航按钮共用） */
+    /* 卡片容器 */
     .contact-wrapper, .nav-wrapper {
       display: grid;
       gap: 16px;
@@ -75,6 +75,7 @@
       .contact-wrapper, .nav-wrapper { grid-template-columns: 1fr; }
     }
 
+    /* 卡片样式 */
     .contact-card {
       position: relative;
       background: rgba(255,255,255,0.55);
@@ -87,13 +88,35 @@
       gap: 12px;
       transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
       will-change: transform;
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+      animation: cardFadeIn 0.8s ease forwards;
     }
     .contact-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-4px) scale(1);
       box-shadow: 0 16px 40px rgba(0,0,0,0.12);
       background: rgba(255,255,255,0.65);
       text-decoration: none;
     }
+
+    /* 入场动画：错位淡入 */
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* 延迟序列 */
+    .contact-card:nth-child(1) { animation-delay: 0.2s; }
+    .contact-card:nth-child(2) { animation-delay: 0.4s; }
+    .contact-card:nth-child(3) { animation-delay: 0.6s; }
+    .contact-card:nth-child(4) { animation-delay: 0.8s; }
+
     .contact-card .icon {
       width: 36px;
       height: 36px;
