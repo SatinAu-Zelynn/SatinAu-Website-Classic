@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zelynn</title>
-  <!-- 添加 favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
+    /* 背景与淡入动画 */
     body {
       font-family: "Helvetica", sans-serif;
       margin: 0;
@@ -23,6 +23,8 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
+    /* 标题下滑动画 */
     header {
       text-align: center;
       padding: 40px 0;
@@ -33,6 +35,7 @@
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
     section {
       padding: 20px;
       max-width: 900px;
@@ -42,7 +45,16 @@
       border-bottom: 2px solid #999;
       padding-bottom: 5px;
       text-align: center;
+      margin-bottom: 16px;
     }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(255,255,255,0.6);
+      margin-top: 40px;
+    }
+
+    /* 语言卡片 */
     .lang-container {
       display: flex;
       flex-wrap: wrap;
@@ -69,25 +81,58 @@
       font-size: 18px;
       font-weight: bold;
     }
-    .btn-link {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #0077cc;
-      color: white;
-      border-radius: 5px;
+
+    /* 通用卡片样式（导航卡片复用联系方式风格） */
+    .nav-wrapper {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 32px;
+      justify-items: center;
+    }
+    .contact-card {
+      position: relative;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      will-change: transform;
+      min-width: 260px;
+      max-width: 420px;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+      background: rgba(255,255,255,0.65);
       text-decoration: none;
-      transition: background-color 0.3s ease;
-      margin-top: 40px;
     }
-    .btn-link:hover {
-      background-color: #005fa3;
+    .contact-card .icon {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #e8f0fe, #ffffff);
+      border: 1px solid #e6ecf5;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+      flex-shrink: 0;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: rgba(255,255,255,0.6);
-      margin-top: 40px;
+    .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
+    .contact-card .label { font-size: 12px; color: #666; letter-spacing: 0.4px; }
+    .contact-card .value {
+      font-size: 15px; color: #111; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    .contact-link { color: inherit; text-decoration: none; }
+    .contact-link:hover { text-decoration: none; }
+    .clickable { cursor: pointer; }
+    .icon svg { width: 20px; height: 20px; fill: #0a66c2; }
   </style>
   <script>
     function fadeToPage(url) {
@@ -98,7 +143,8 @@
     }
     window.onload = function() {
       document.body.style.opacity = 1;
-      document.querySelector("header").style.opacity = 1;
+      var header = document.querySelector("header");
+      if (header) header.style.opacity = 1;
     }
   </script>
 </head>
@@ -112,19 +158,33 @@
     <h2>选择语言 / Select Language</h2>
     <div class="lang-container">
       <div class="lang-card">
-        <a href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank">简体中文</a>
+        <a href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank" rel="noopener noreferrer">简体中文</a>
       </div>
       <div class="lang-card">
-        <a href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank">繁體中文</a>
+        <a href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank" rel="noopener noreferrer">繁體中文</a>
       </div>
       <div class="lang-card">
-        <a href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank">English</a>
+        <a href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank" rel="noopener noreferrer">English</a>
       </div>
     </div>
 
-    <p style="text-align:center;">
-      <a class="btn-link" href="javascript:void(0);" onclick="fadeToPage('index.html')">返回首页</a>
-    </p>
+    <!-- 升级为卡片风格的“返回首页”按钮 -->
+    <div class="nav-wrapper">
+      <a class="contact-card contact-link clickable"
+         href="javascript:void(0);" onclick="fadeToPage('index.html')"
+         aria-label="返回：首页">
+        <div class="icon" aria-hidden="true">
+          <!-- 返回/左箭头图标 -->
+          <svg viewBox="0 0 24 24">
+            <path d="M20 11H7.83l4.58-4.59L11 5l-6 6 6 6 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+        </div>
+        <div class="text">
+          <span class="label">返回</span>
+          <span class="value">首页</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <footer>
