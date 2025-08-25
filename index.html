@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>缎金SatinAu</title>
-  <!-- favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* 基础与背景动画 */
+    /* 背景与淡入动画 */
     body {
       font-family: "Helvetica", sans-serif;
       margin: 0;
@@ -25,7 +24,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 结构与标题动画 */
+    /* 标题下滑动画 */
     header {
       text-align: center;
       padding: 40px 0;
@@ -36,6 +35,7 @@
       from { transform: translateY(-50px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
     section {
       padding: 20px;
       max-width: 1000px;
@@ -53,33 +53,26 @@
       margin-top: 40px;
     }
 
-    /* 链接与按钮 */
     a { color: #0a66c2; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .btn-link {
-      display: inline-block;
-      padding: 10px 20px;
-      background-color: #0a66c2;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      will-change: transform;
-    }
-    .btn-link:hover { background-color: #084f98; transform: translateY(-1px); }
 
-    /* 联系方式卡片区 */
-    .contact-wrapper {
+    /* 通用卡片样式（联系方式与导航按钮共用） */
+    .contact-wrapper, .nav-wrapper {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-top: 20px;
+    }
+    .contact-wrapper {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .nav-wrapper {
+      grid-template-columns: 1fr;
     }
     @media (max-width: 900px) {
       .contact-wrapper { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 520px) {
-      .contact-wrapper { grid-template-columns: 1fr; }
+      .contact-wrapper, .nav-wrapper { grid-template-columns: 1fr; }
     }
 
     .contact-card {
@@ -99,6 +92,7 @@
       transform: translateY(-4px);
       box-shadow: 0 16px 40px rgba(0,0,0,0.12);
       background: rgba(255,255,255,0.65);
+      text-decoration: none;
     }
     .contact-card .icon {
       width: 36px;
@@ -112,31 +106,15 @@
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
       flex-shrink: 0;
     }
-    .contact-card .text {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-    .contact-card .label {
-      font-size: 12px;
-      color: #666;
-      letter-spacing: 0.4px;
-    }
+    .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
+    .contact-card .label { font-size: 12px; color: #666; letter-spacing: 0.4px; }
     .contact-card .value {
-      font-size: 15px;
-      color: #111;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 15px; color: #111; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-
-    /* 可点击卡片样式 */
     .contact-link { color: inherit; text-decoration: none; }
     .contact-link:hover { text-decoration: none; }
     .clickable { cursor: pointer; }
-
-    /* 内嵌 SVG 统一色 */
     .icon svg { width: 20px; height: 20px; fill: #0a66c2; }
   </style>
   <script>
@@ -163,19 +141,33 @@
     <h2>简介</h2>
     <p>促成大自由中之社会进步及较善之民生</p>
     <p>To promote social progress and better standards of life in larger freedom</p>
-    <p>
-      <a class="btn-link" href="javascript:void(0);" onclick="fadeToPage('zelynn.html')">泽凌Zelynn</a>
-    </p>
+
+    <!-- 升级为卡片风格的“泽凌Zelynn”导航按钮 -->
+    <div class="nav-wrapper">
+      <a class="contact-card contact-link clickable"
+         href="javascript:void(0);" onclick="fadeToPage('zelynn.html')"
+         aria-label="进入：泽凌Zelynn 页面">
+        <div class="icon" aria-hidden="true">
+          <!-- 箭头/进入图标 -->
+          <svg viewBox="0 0 24 24">
+            <path d="M12 4l1.41 1.41L8.83 10H20v2H8.83l4.58 4.59L12 18l-8-8 8-8z"/>
+          </svg>
+        </div>
+        <div class="text">
+          <span class="label">进入</span>
+          <span class="value">泽凌Zelynn</span>
+        </div>
+      </a>
+    </div>
   </section>
 
   <section>
     <h2>联系方式</h2>
 
     <div class="contact-wrapper">
-      <!-- 邮箱（纯文本，不可点击） -->
+      <!-- 邮箱（纯文本） -->
       <div class="contact-card" aria-label="邮箱：mifanz090820@outlook.com">
         <div class="icon" aria-hidden="true">
-          <!-- 信封图标 -->
           <svg viewBox="0 0 24 24">
             <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/>
           </svg>
@@ -186,13 +178,12 @@
         </div>
       </div>
 
-      <!-- GitHub（可点击） -->
+      <!-- GitHub -->
       <a class="contact-card contact-link clickable"
          href="https://github.com/SatinAu-Zelynn/"
          target="_blank" rel="noopener noreferrer"
          aria-label="访问 GitHub：github.com/SatinAu-Zelynn">
         <div class="icon" aria-hidden="true">
-          <!-- GitHub 图标 -->
           <svg viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.55 2.33 1.1 2.9.84.09-.66.35-1.1.63-1.35-2.22-.26-4.55-1.14-4.55-5.09 0-1.13.39-2.06 1.03-2.79-.1-.26-.45-1.32.1-2.75 0 0 .85-.28 2.8 1.06A9.43 9.43 0 0 1 12 7.5c.86 0 1.73.12 2.54.35 1.95-1.34 2.8-1.06 2.8-1.06.55 1.43.2 2.49.1 2.75.64.73 1.03 1.66 1.03 2.79 0 3.96-2.34 4.82-4.57 5.08.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.59.69.49A10.02 10.02 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/>
           </svg>
@@ -203,13 +194,12 @@
         </div>
       </a>
 
-      <!-- Bilibili（可点击） -->
+      <!-- Bilibili -->
       <a class="contact-card contact-link clickable"
          href="https://space.bilibili.com/1502522588"
          target="_blank" rel="noopener noreferrer"
          aria-label="访问 Bilibili 空间">
         <div class="icon" aria-hidden="true">
-          <!-- TV/播放图标拟态 -->
           <svg viewBox="0 0 24 24">
             <path d="M7 4h10l-2-2h-2l1.5 2H9.5L11 2H9L7 4zm-3 4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6c0-1.1-.9-2-2-2H4zm6 2 6 4-6 4V10z"/>
           </svg>
@@ -220,13 +210,12 @@
         </div>
       </a>
 
-      <!-- QQ（可点击） -->
+      <!-- QQ -->
       <a class="contact-card contact-link clickable"
          href="https://qm.qq.com/q/WTOl1Swrqa"
          target="_blank" rel="noopener noreferrer"
          aria-label="通过 QQ 联系">
         <div class="icon" aria-hidden="true">
-          <!-- 气泡/企鹅简化图标 -->
           <svg viewBox="0 0 24 24">
             <path d="M12 2c3.31 0 6 2.79 6 6.23 0 .49-.06.96-.18 1.4.86.74 1.71 2.1 2.02 3.7.16.8-.44 1.53-1.25 1.53-.23 0-.45-.06-.65-.17-.4 1.36-1.18 2.77-2.27 3.9A6.96 6.96 0 0 1 12 21a6.96 6.96 0 0 1-3.67-1.41c-1.09-1.13-1.87-2.54-2.27-3.9-.2.11-.42.17-.65.17-.81 0-1.41-.73-1.25-1.53.31-1.6 1.16-2.96 2.02-3.7-.12-.44-.18-.91-.18-1.4C6 4.79 8.69 2 12 2zm-3 17h6c-.8.62-1.84 1-3 1s-2.2-.38-3-1z"/>
           </svg>
@@ -243,9 +232,5 @@
     <p>© 2025 缎金SatinAu. 保留所有权利。</p>
   </footer>
 
-  <!-- 页面淡入初始化 -->
-  <script>
-    // 已在 <head> 中设置 onload 逻辑
-  </script>
 </body>
 </html>
