@@ -61,7 +61,23 @@
       border-bottom: 2px solid #999;
       padding-bottom: 5px;
       margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
     }
+
+    /* 渐入动画 */
+    p {
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+    }
+    p:nth-of-type(1) { animation-delay: 0.6s; }
+    p:nth-of-type(2) { animation-delay: 0.9s; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -174,10 +190,10 @@
 
   <header>
     <h1>缎金SatinAu</h1>
+    <img src="SatinAu_v3_Black.png" alt="SatinAu Logo" style="max-width:240px; margin-top:15px;">
   </header>
 
   <section>
-    <h2>简介</h2>
     <p>促成大自由中之社会进步及较善之民生</p>
     <p>To promote social progress and better standards of life in larger freedom</p>
 
