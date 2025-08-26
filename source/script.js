@@ -1,25 +1,4 @@
-/* 📧 邮箱复制（支持多地址） */
-function copyEmail(email) {
-  navigator.clipboard.writeText(email).then(() => {
-    const tip = document.getElementById("copiedTip");
-    if (tip) {
-      tip.textContent = "📋 已复制: " + email;
-      tip.classList.add("show");
-      setTimeout(() => tip.classList.add("done"), 250);
-      setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
-    }
-  });
-}
-
-/* 📧 邮箱选择弹窗逻辑 */
-function showEmailPopup() {
-  document.getElementById("emailOverlay").classList.add("show");
-  document.getElementById("emailPopup").classList.add("show");
-}
-function closeEmailPopup() {
-  document.getElementById("emailOverlay").classList.remove("show");
-  document.getElementById("emailPopup").classList.remove("show");
-}
+/* ========== 公用逻辑 ========== */
 
 /* 📱 iOS 弹窗逻辑 */
 let pendingUrl = null;
@@ -45,16 +24,6 @@ function closeIosAlert() {
 function confirmIosAlert() {
   if (pendingUrl) { window.open(pendingUrl, "_blank"); }
   closeIosAlert();
-}
-
-/* 📱 微信二维码弹窗逻辑 */
-function showWeChatQR() {
-  document.getElementById("wechatOverlay").classList.add("show");
-  document.getElementById("wechatQR").classList.add("show");
-}
-function closeWeChatQR() {
-  document.getElementById("wechatOverlay").classList.remove("show");
-  document.getElementById("wechatQR").classList.remove("show");
 }
 
 /* ✨ 页面加载动画 & 卡片入场 */
@@ -106,3 +75,46 @@ document.querySelectorAll(".bottom-nav a").forEach(link => {
     setTimeout(() => { window.location.href = target; }, 500);
   });
 });
+
+
+/* ========== index.html 独有逻辑 ========== */
+if (document.body.id === "index-page") {
+  /* 📧 邮箱复制（支持多地址） */
+  window.copyEmail = function(email) {
+    navigator.clipboard.writeText(email).then(() => {
+      const tip = document.getElementById("copiedTip");
+      if (tip) {
+        tip.textContent = "📋 已复制: " + email;
+        tip.classList.add("show");
+        setTimeout(() => tip.classList.add("done"), 250);
+        setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
+      }
+    });
+  };
+
+  /* 📧 邮箱选择弹窗 */
+  window.showEmailPopup = function() {
+    document.getElementById("emailOverlay").classList.add("show");
+    document.getElementById("emailPopup").classList.add("show");
+  };
+  window.closeEmailPopup = function() {
+    document.getElementById("emailOverlay").classList.remove("show");
+    document.getElementById("emailPopup").classList.remove("show");
+  };
+
+  /* 📱 微信二维码弹窗 */
+  window.showWeChatQR = function() {
+    document.getElementById("wechatOverlay").classList.add("show");
+    document.getElementById("wechatQR").classList.add("show");
+  };
+  window.closeWeChatQR = function() {
+    document.getElementById("wechatOverlay").classList.remove("show");
+    document.getElementById("wechatQR").classList.remove("show");
+  };
+}
+
+
+/* ========== zelynn.html 独有逻辑（预留） ========== */
+if (document.body.id === "zelynn-page") {
+  // 未来如果要加交互逻辑，可以写在这里
+}

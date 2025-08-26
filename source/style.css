@@ -308,14 +308,14 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
 }
 
-/* 📧 邮箱选择弹窗内部样式 */
-.email-list {
+/* 📧 邮箱选择弹窗内部样式（仅 index 页面用） */
+body#index-page .email-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin: 10px 0 16px;
 }
-.email-item {
+body#index-page .email-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -325,44 +325,41 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   backdrop-filter: blur(12px) saturate(180%);
 }
-.email-item span {
+body#index-page .email-item span {
   font-size: 14px;
   font-weight: 500;
   word-break: break-all;
 }
-
-/* ✅ iOS 风格胶囊按钮 */
-.email-item button {
+body#index-page .email-item button {
   min-width: 60px;
   padding: 6px 14px;
   font-size: 13px;
   font-weight: 600;
   border: none;
-  border-radius: 999px; /* 胶囊 */
+  border-radius: 999px;
   background: rgba(0,122,255,0.85);
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
   flex-shrink: 0;
-
   -webkit-backdrop-filter: blur(10px) saturate(180%);
   backdrop-filter: blur(10px) saturate(180%);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
 }
-.email-item button:hover {
+body#index-page .email-item button:hover {
   background: rgba(0,122,255,1);
   box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
 }
-.email-item button:active {
+body#index-page .email-item button:active {
   transform: scale(0.95);
 }
 @media (prefers-color-scheme: dark) {
-  .email-item { background: rgba(30,30,30,0.45); }
-  .email-item span { color: #fff; }
+  body#index-page .email-item { background: rgba(30,30,30,0.45); }
+  body#index-page .email-item span { color: #fff; }
 }
 
-/* ========== 微信二维码弹窗 ========== */
-.wechat-overlay {
+/* ========== 微信二维码弹窗（仅 index 页面用） ========== */
+body#index-page .wechat-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.35);
@@ -373,9 +370,9 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   transition: opacity 0.35s ease;
   z-index: 9998;
 }
-.wechat-overlay.show { opacity: 1; pointer-events: auto; }
+body#index-page .wechat-overlay.show { opacity: 1; pointer-events: auto; }
 
-.wechat-qr {
+body#index-page .wechat-qr {
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.8);
@@ -391,15 +388,15 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
   z-index: 9999;
 }
-.wechat-qr.show {
+body#index-page .wechat-qr.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
 }
-.wechat-qr img { width: 240px; height: 240px; border-radius: 12px; }
-.wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 600; color: #111; }
+body#index-page .wechat-qr img { width: 240px; height: 240px; border-radius: 12px; }
+body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 600; color: #111; }
 @media (prefers-color-scheme: dark) {
-  .wechat-qr { background: rgba(30,30,30,0.45); color: #fff; }
+  body#index-page .wechat-qr { background: rgba(30,30,30,0.45); color: #fff; }
 }
 
 /* ========== Apple Liquid Glass 底部导航栏 ========== */
