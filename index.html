@@ -11,11 +11,13 @@
 <body>
   <main class="page">
     <header>
-      <h1>缎金SatinAu</h1>
-      <picture>
-        <source srcset="source/SatinAu_v3_White.png" media="(prefers-color-scheme: dark)">
-        <img src="source/SatinAu_v3_Black.png" alt="SatinAu Logo">
-      </picture>
+      <div class="title-row">
+        <h1>缎金</h1>
+        <picture>
+          <source srcset="source/SatinAu_v3_White.png" media="(prefers-color-scheme: dark)">
+          <img src="source/SatinAu_v3_Black.png" alt="SatinAu Logo">
+        </picture>
+      </div>
     </header>
 
     <section>
@@ -28,40 +30,59 @@
       <div class="contact-wrapper">
         <!-- 📧 邮箱 -->
         <a class="contact-card" href="javascript:void(0);" onclick="copyEmail()">
-          <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg></div>
-          <div class="text"><div class="label">邮箱</div><div class="value">mifanz090820@outlook.com</div></div>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg>
+          </div>
+          <div class="text">
+            <div class="label">邮箱</div>
+            <div class="value">mifanz090820@outlook.com</div>
+          </div>
         </a>
 
         <!-- 🅱️ Bilibili -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://space.bilibili.com/1502522588','是否跳转到 Bilibili？')">
           <div class="icon"><img src="source/favicon_bilibili.ico" alt="Bilibili"></div>
-          <div class="text"><div class="label">Bilibili</div><div class="value">bilibili.com/1502522588</div></div>
+          <div class="text">
+            <div class="label">Bilibili</div>
+            <div class="value">bilibili.com/1502522588</div>
+          </div>
         </a>
 
         <!-- 🟦 QQ -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://qm.qq.com/q/WTOl1Swrqa','是否跳转到 QQ？')">
           <div class="icon"><img src="source/favicon_qq.ico" alt="QQ"></div>
-          <div class="text"><div class="label">QQ</div><div class="value">点击快速联系（2668588966）</div></div>
+          <div class="text">
+            <div class="label">QQ</div>
+            <div class="value">点击快速联系（2668588966）</div>
+          </div>
         </a>
 
         <!-- 🟩 微信 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showWeChatQR()">
           <div class="icon"><img src="source/favicon_wechat.ico" alt="WeChat"></div>
-          <div class="text"><div class="label">微信</div><div class="value">扫码加我</div></div>
+          <div class="text">
+            <div class="label">微信</div>
+            <div class="value">扫码加我</div>
+          </div>
         </a>
 
         <!-- 🟧 酷安 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('http://www.coolapk.com/u/3561588','是否跳转到 酷安？')">
           <div class="icon"><img src="source/favicon_coolapk.ico" alt="Coolapk"></div>
-          <div class="text"><div class="label">酷安</div><div class="value">coolapk.com/u/3561588</div></div>
+          <div class="text">
+            <div class="label">酷安</div>
+            <div class="value">coolapk.com/u/3561588</div>
+          </div>
         </a>
       </div>
     </section>
 
-    <footer><p>© 2025 缎金SatinAu 保留所有权利。</p></footer>
+    <footer>
+      <p>© 2025 缎金 保留所有权利。</p>
+    </footer>
   </main>
 
-  <!-- 📋 iOS 毛玻璃提示 -->
+  <!-- 📋 iOS 风格复制提示 -->
   <div id="copiedTip" class="copied-tip">📋 邮箱已复制</div>
 
   <!-- 📱 iOS 弹窗遮罩 -->
