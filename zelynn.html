@@ -88,14 +88,13 @@
     .contact-card:nth-of-type(1).visible { animation-delay: 0.2s; }
     .contact-card:nth-of-type(2).visible { animation-delay: 0.4s; }
     .contact-card:nth-of-type(3).visible { animation-delay: 0.6s; }
-    .contact-card:nth-of-type(4).visible { animation-delay: 0.8s; } /* 返回按钮 */
+    .contact-card:nth-of-type(4).visible { animation-delay: 0.8s; }
 
     .contact-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 60px rgba(0,0,0,0.12); background: rgba(255,255,255,0.5); }
 
+    /* 🐾 渐变 paw */
     .icon { width: 40px; height: 40px; display:inline-flex; align-items:center; justify-content:center;
-            border-radius:12px; flex-shrink:0; font-size:22px; }
-
-    /* 爪印渐变 */
+            border-radius:12px; background:rgba(255,255,255,0.6); flex-shrink:0; font-size:22px; }
     .paw-pink   { background: linear-gradient(135deg, #ff9a9e, #fad0c4); -webkit-background-clip:text; color:transparent; }
     .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); -webkit-background-clip:text; color:transparent; }
     .paw-cyan   { background: linear-gradient(135deg, #43e97b, #38f9d7); -webkit-background-clip:text; color:transparent; }
@@ -105,6 +104,8 @@
     .label{font-size:12px;color:#666;}
     .value{font-size:15px;font-weight:600;color:#111;}
 
+    /* 返回箭头和主页统一 */
+    .nav-wrapper .icon { background:linear-gradient(135deg,#e8f0fe,#ffffff); box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4); }
     .nav-wrapper .icon svg { width:22px; height:22px; stroke:#0a66c2; stroke-width:2; fill:none; }
     .nav-wrapper .icon:hover svg { animation: arrowWiggle 0.7s ease infinite; }
     @keyframes arrowWiggle { 0%,100%{transform:translateX(0);} 50%{transform:translateX(-4px);} }
@@ -139,9 +140,18 @@
   <section>
     <h2>设定总览 / Character Overview</h2>
     <div class="lang-wrapper">
-      <a class="contact-card" href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank"><div class="icon paw-pink">🐾</div><div class="text"><div class="label">语言</div><div class="value">简体中文</div></div></a>
-      <a class="contact-card" href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank"><div class="icon paw-purple">🐾</div><div class="text"><div class="label">語言</div><div class="value">繁體中文</div></div></a>
-      <a class="contact-card" href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank"><div class="icon paw-cyan">🐾</div><div class="text"><div class="label">Language</div><div class="value">English</div></div></a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank">
+        <div class="icon"><span class="paw-pink">🐾</span></div>
+        <div class="text"><div class="label">语言</div><div class="value">简体中文</div></div>
+      </a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank">
+        <div class="icon"><span class="paw-purple">🐾</span></div>
+        <div class="text"><div class="label">語言</div><div class="value">繁體中文</div></div>
+      </a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank">
+        <div class="icon"><span class="paw-cyan">🐾</span></div>
+        <div class="text"><div class="label">Language</div><div class="value">English</div></div>
+      </a>
     </div>
 
     <div class="nav-wrapper">

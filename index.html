@@ -108,12 +108,55 @@
     @keyframes arrowWiggle { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
 
     footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:#666;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);}
+
+    /* 📋 iOS 风格毛玻璃提示 + 缩放动效 */
+    .copied-tip {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px) scale(0.95);
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      background: rgba(30,30,30,0.6);
+      backdrop-filter: blur(12px) saturate(160%);
+      -webkit-backdrop-filter: blur(12px) saturate(160%);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .copied-tip.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1.05);
+    }
+    .copied-tip.show.done {
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
   </style>
   <script>
     function fadeToPage(url){
       document.body.style.opacity=0;
       setTimeout(()=>{window.location.href=url;},600);
     }
+
+    function copyEmail() {
+      const email = "mifanz090820@outlook.com";
+      navigator.clipboard.writeText(email).then(()=>{
+        const tip = document.getElementById("copiedTip");
+        tip.classList.add("show");
+        // 回弹效果：0.25s 后 scale 回到 1
+        setTimeout(()=> tip.classList.add("done"), 250);
+        // 1.8s 后消失
+        setTimeout(()=>{
+          tip.classList.remove("show","done");
+        }, 1800);
+      });
+    }
+
     window.onload=function(){
       document.body.style.opacity=1;
       document.querySelectorAll('.contact-card').forEach(card=>{
@@ -149,12 +192,27 @@
   <section>
     <h2>联系方式</h2>
     <div class="contact-wrapper">
-      <div class="contact-card"><div class="icon"><svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg></div><div class="text"><div class="label">邮箱</div><div class="value">mifanz090820@outlook.com</div></div></div>
-      <a class="contact-card" href="https://space.bilibili.com/1502522588" target="_blank"><div class="icon"><img src="source/favicon_bilibili.ico" alt="Bilibili"></div><div class="text"><div class="label">Bilibili</div><div class="value">bilibili.com/1502522588</div></div></a>
-      <a class="contact-card" href="https://qm.qq.com/q/WTOl1Swrqa" target="_blank"><div class="icon"><img src="source/favicon_qq.ico" alt="QQ"></div><div class="text"><div class="label">QQ</div><div class="value">点击快速联系（2668588966）</div></div></a>
+      <!-- 📧 邮箱卡片：点击复制 -->
+      <a class="contact-card" href="javascript:void(0);" onclick="copyEmail()">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg></div>
+        <div class="text"><div class="label">邮箱</div><div class="value">mifanz090820@outlook.com</div></div>
+      </a>
+
+      <a class="contact-card" href="https://space.bilibili.com/1502522588" target="_blank">
+        <div class="icon"><img src="source/favicon_bilibili.ico" alt="Bilibili"></div>
+        <div class="text"><div class="label">Bilibili</div><div class="value">bilibili.com/1502522588</div></div>
+      </a>
+
+      <a class="contact-card" href="https://qm.qq.com/q/WTOl1Swrqa" target="_blank">
+        <div class="icon"><img src="source/favicon_qq.ico" alt="QQ"></div>
+        <div class="text"><div class="label">QQ</div><div class="value">点击快速联系（2668588966）</div></div>
+      </a>
     </div>
   </section>
 
   <footer><p>© 2025 缎金SatinAu 保留所有权利。</p></footer>
+
+  <!-- 📋 iOS 毛玻璃提示 -->
+  <div id="copiedTip" class="copied-tip">📋 邮箱已复制</div>
 </body>
 </html>
