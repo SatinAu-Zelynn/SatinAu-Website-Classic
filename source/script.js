@@ -51,10 +51,13 @@ function closeWeChatQR() {
 window.onload = function () {
   document.body.style.opacity = 1;
 
-  document.querySelectorAll('.contact-card').forEach(card => {
+  // 🚀 自动为每个 contact-card 分配错位淡入延迟
+  document.querySelectorAll('.contact-card').forEach((card, index) => {
     new IntersectionObserver((entries, observer) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
+          // 每个卡片比前一个延迟 0.2s
+          e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
           e.target.classList.add('visible');
           observer.unobserve(e.target);
         }

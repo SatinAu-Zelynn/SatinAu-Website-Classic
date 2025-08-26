@@ -114,10 +114,6 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
   from { opacity: 0; transform: translateY(40px) translateX(-20px) scale(0.96); }
   to   { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
 }
-.contact-card:nth-of-type(1).visible { animation-delay: 0.2s; }
-.contact-card:nth-of-type(2).visible { animation-delay: 0.4s; }
-.contact-card:nth-of-type(3).visible { animation-delay: 0.6s; }
-.contact-card:nth-of-type(4).visible { animation-delay: 0.8s; }
 
 /* 🌊 光泽扫过效果 */
 .contact-card::after {
