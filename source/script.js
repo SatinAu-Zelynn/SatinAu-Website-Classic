@@ -1,9 +1,3 @@
-/* 页面淡出切换 */
-function fadeToPage(url){
-  document.body.style.opacity=0;
-  setTimeout(()=>{window.location.href=url;},600);
-}
-
 /* 邮箱复制 */
 function copyEmail() {
   const email = "mifanz090820@outlook.com";
