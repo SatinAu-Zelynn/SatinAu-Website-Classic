@@ -115,7 +115,7 @@
       text-decoration: none;
     }
 
-    /* 小爪印图标基础样式 */
+    /* 小爪印图标样式 */
     .contact-card .icon {
       width: 36px;
       height: 36px;
@@ -130,17 +130,31 @@
       color: transparent;
       background-clip: text;
       -webkit-background-clip: text;
+      position: relative;
+      overflow: hidden;
       transition: transform 0.4s ease;
     }
-    /* 渐变样式：三种不同颜色 */
+    /* 渐变色 */
     .paw-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fcb69f); }
     .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
     .paw-cyan { background: linear-gradient(135deg, #43e97b, #38f9d7); }
 
-    /* hover 动画效果 */
+    /* hover 动画：旋转 + 光带扫过 */
+    .contact-card .icon::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -50%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
     .paw-pink:hover, .paw-purple:hover, .paw-cyan:hover {
       transform: rotate(12deg) scale(1.1);
       filter: brightness(1.2);
+    }
+    .paw-pink:hover::after, .paw-purple:hover::after, .paw-cyan:hover::after {
+      left: 120%;
     }
 
     .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
@@ -153,8 +167,19 @@
     .contact-link:hover { text-decoration: none; }
     .clickable { cursor: pointer; }
 
-    /* 返回按钮图标（统一与 index.html） */
+    /* 返回按钮箭头样式与 index.html 统一 */
     .icon svg { width: 22px; height: 22px; fill: none; stroke: #0a66c2; stroke-width: 2; }
+    .nav-wrapper .icon {
+      background: linear-gradient(135deg, #e8f0fe, #ffffff);
+    }
+    /* 返回箭头 hover 动效 */
+    .nav-wrapper .icon:hover svg {
+      animation: arrowWiggle 0.6s ease infinite;
+    }
+    @keyframes arrowWiggle {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(-3px); }
+    }
 
     @keyframes cardFadeIn {
       from { opacity: 0; transform: translateY(20px) scale(0.98); }
@@ -224,7 +249,7 @@
       <a class="contact-card contact-link clickable"
          href="javascript:void(0);" onclick="fadeToPage('index.html')"
          aria-label="返回：首页">
-        <div class="icon" style="background:linear-gradient(135deg,#e8f0fe,#ffffff);">
+        <div class="icon">
           <svg viewBox="0 0 24 24">
             <path d="M15.5 4.5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
