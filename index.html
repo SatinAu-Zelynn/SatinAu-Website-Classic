@@ -29,13 +29,13 @@
       <h2>联系方式</h2>
       <div class="contact-wrapper">
         <!-- 📧 邮箱 -->
-        <a class="contact-card" href="javascript:void(0);" onclick="copyEmail()">
+        <a class="contact-card" href="javascript:void(0);" onclick="showEmailPopup()">
           <div class="icon">
             <svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg>
           </div>
           <div class="text">
             <div class="label">邮箱</div>
-            <div class="value">mifanz090820@outlook.com</div>
+            <div class="value">点击选择邮箱</div>
           </div>
         </a>
 
@@ -111,6 +111,25 @@
 
   <!-- 📋 iOS 风格复制提示 -->
   <div id="copiedTip" class="copied-tip">📋 邮箱已复制</div>
+
+  <!-- 📱 邮箱选择弹窗 -->
+  <div id="emailOverlay" class="ios-overlay" onclick="closeEmailPopup()"></div>
+  <div id="emailPopup" class="ios-alert">
+    <p>请选择邮箱地址</p>
+    <div class="email-list">
+      <div class="email-item">
+        <span>mifanz090820@outlook.com</span>
+        <button onclick="copyEmail('mifanz090820@outlook.com')">复制</button>
+      </div>
+      <div class="email-item">
+        <span>mifanz090820@gmail.com</span>
+        <button onclick="copyEmail('mifanz090820@gmail.com')">复制</button>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="cancel" onclick="closeEmailPopup()">关闭</button>
+    </div>
+  </div>
 
   <!-- 📱 iOS 弹窗遮罩 -->
   <div id="iosOverlay" class="ios-overlay" onclick="closeIosAlert()"></div>
