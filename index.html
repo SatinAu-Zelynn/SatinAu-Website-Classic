@@ -136,6 +136,68 @@
     .copied-tip.show.done {
       transform: translateX(-50%) translateY(0) scale(1);
     }
+
+    /* 📱 iOS 弹窗背景模糊遮罩 */
+    .ios-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+    .ios-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 📱 iOS 风格确认弹窗 */
+    .ios-alert {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 280px;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10000;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      text-align: center;
+      padding: 18px;
+    }
+    .ios-alert.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .ios-alert p {
+      margin: 0 0 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #222;
+    }
+    .ios-alert .actions {
+      display: flex;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .ios-alert button {
+      flex: 1;
+      padding: 12px 0;
+      font-size: 15px;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .ios-alert button.confirm { color: #007aff; }
+    .ios-alert button.cancel { color: #ff3b30; border-right: 1px solid rgba(0,0,0,0.1); }
   </style>
   <script>
     function fadeToPage(url){
@@ -148,13 +210,31 @@
       navigator.clipboard.writeText(email).then(()=>{
         const tip = document.getElementById("copiedTip");
         tip.classList.add("show");
-        // 回弹效果：0.25s 后 scale 回到 1
         setTimeout(()=> tip.classList.add("done"), 250);
-        // 1.8s 后消失
         setTimeout(()=>{
           tip.classList.remove("show","done");
         }, 1800);
       });
+    }
+
+    // 📱 iOS 确认弹窗逻辑
+    let pendingUrl = null;
+    function showIosAlert(url, msg="是否跳转到外部链接？") {
+      pendingUrl = url;
+      document.getElementById("iosAlertMsg").textContent = msg;
+      document.getElementById("iosAlert").classList.add("show");
+      document.getElementById("iosOverlay").classList.add("show");
+    }
+    function closeIosAlert() {
+      document.getElementById("iosAlert").classList.remove("show");
+      document.getElementById("iosOverlay").classList.remove("show");
+      pendingUrl = null;
+    }
+    function confirmIosAlert() {
+      if (pendingUrl) {
+        window.open(pendingUrl, "_blank");
+      }
+      closeIosAlert();
     }
 
     window.onload=function(){
@@ -198,12 +278,12 @@
         <div class="text"><div class="label">邮箱</div><div class="value">mifanz090820@outlook.com</div></div>
       </a>
 
-      <a class="contact-card" href="https://space.bilibili.com/1502522588" target="_blank">
+      <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://space.bilibili.com/1502522588','是否跳转到 Bilibili？')">
         <div class="icon"><img src="source/favicon_bilibili.ico" alt="Bilibili"></div>
         <div class="text"><div class="label">Bilibili</div><div class="value">bilibili.com/1502522588</div></div>
       </a>
 
-      <a class="contact-card" href="https://qm.qq.com/q/WTOl1Swrqa" target="_blank">
+      <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://qm.qq.com/q/WTOl1Swrqa','是否跳转到 QQ？')">
         <div class="icon"><img src="source/favicon_qq.ico" alt="QQ"></div>
         <div class="text"><div class="label">QQ</div><div class="value">点击快速联系（2668588966）</div></div>
       </a>
@@ -214,5 +294,17 @@
 
   <!-- 📋 iOS 毛玻璃提示 -->
   <div id="copiedTip" class="copied-tip">📋 邮箱已复制</div>
+
+  <!-- 📱 iOS 弹窗遮罩 -->
+  <div id="iosOverlay" class="ios-overlay" onclick="closeIosAlert()"></div>
+
+  <!-- 📱 iOS 确认弹窗 -->
+  <div id="iosAlert" class="ios-alert">
+    <p id="iosAlertMsg">是否跳转？</p>
+    <div class="actions">
+      <button class="cancel" onclick="closeIosAlert()">取消</button>
+      <button class="confirm" onclick="confirmIosAlert()">确定</button>
+    </div>
+  </div>
 </body>
 </html>
