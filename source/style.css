@@ -147,7 +147,7 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
   opacity: 1;
 }
 
-/* 悬停时：浮起 + 微倾，流体玻璃感 */
+/* 悬停时：浮起 + 微倾 */
 .contact-card:hover {
   transform: translateY(-10px) scale(1.03) rotate3d(1,1,0,0.8deg);
   box-shadow: 0 32px 70px rgba(0,0,0,0.2);
@@ -155,17 +155,9 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
   -webkit-backdrop-filter: blur(28px) saturate(220%);
   backdrop-filter: blur(28px) saturate(220%);
 }
-
-/* 点击缩放反馈 */
 .contact-card:active { transform: scale(0.96); }
 
-/* 内部 icon 微动画 */
-.contact-card:hover .icon {
-  transform: scale(1.12);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* Icon & Text */
+/* Icon */
 .icon { width: 40px; height: 40px; display:inline-flex; align-items:center; justify-content:center;
         border-radius:12px; background:linear-gradient(135deg,#e8f0fe,#ffffff);
         box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4);
@@ -176,16 +168,10 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
 .label{font-size:12px;color:#666;}
 .value{font-size:15px;font-weight:600;color:#111;}
 
-/* 🐾 渐变 paw + hover 效果 */
+/* 渐变 paw */
 .paw-pink   { background: linear-gradient(135deg, #ff9a9e, #fad0c4); -webkit-background-clip:text; color:transparent; }
 .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); -webkit-background-clip:text; color:transparent; }
 .paw-cyan   { background: linear-gradient(135deg, #43e97b, #38f9d7); -webkit-background-clip:text; color:transparent; }
-.paw-pink, .paw-purple, .paw-cyan {
-  transition: transform 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease;
-}
-.paw-pink:hover   { transform: scale(1.1) rotate(6deg);  filter: brightness(1.2); text-shadow: 0 0 8px rgba(255,154,158,0.6); }
-.paw-purple:hover { transform: scale(1.1) rotate(-6deg); filter: brightness(1.2); text-shadow: 0 0 8px rgba(161,140,209,0.6); }
-.paw-cyan:hover   { transform: scale(1.1) rotate(5deg);  filter: brightness(1.2); text-shadow: 0 0 8px rgba(67,233,123,0.6); }
 
 /* ========== Footer ========== */
 footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:#666;background:rgba(255,255,255,0.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
@@ -217,98 +203,86 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   .copied-tip { background: rgba(30,30,30,0.45); color: #fff; }
 }
 
-/* iOS 弹窗背景模糊遮罩 */
-.ios-overlay {
+/* 通用遮罩 */
+.overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0.35);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 9999;
+  transition: opacity 0.35s ease;
+  z-index: 9998;
 }
-.ios-overlay.show { opacity: 1; pointer-events: auto; }
+.overlay.show { opacity: 1; pointer-events: auto; }
 
-/* iOS 确认弹窗 */
-.ios-alert {
+/* 通用模态框 */
+.modal {
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  width: 300px;
-  background: rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.3);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
   border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  padding: 20px;
+  text-align: center;
   opacity: 0;
   pointer-events: none;
-  z-index: 10000;
-  text-align: center;
-  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
+  z-index: 9999;
+}
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* iOS 弹窗（复用 .modal） */
+.ios-alert {
+  width: 300px;
   overflow: hidden;
-}
-.ios-alert.show {
-  opacity: 1; pointer-events: auto;
-  animation: popupSpring 0.5s cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
-}
-.ios-alert.hide {
-  animation: popupDismiss 0.35s cubic-bezier(0.4, 0, 0.6, 1) forwards;
-}
-@keyframes popupSpring {
-  0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-  60%  { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
-  80%  { transform: translate(-50%, -50%) scale(0.97); }
-  100% { transform: translate(-50%, -50%) scale(1); }
-}
-@keyframes popupDismiss {
-  0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
 }
 .ios-alert p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #111; }
 
-/* 弹窗按钮 */
-.ios-alert .actions { display: flex; border-top: 1px solid rgba(255,255,255,0.25); position: relative; overflow: hidden; }
+/* iOS 弹窗按钮：竖直堆叠 + 胶囊形状 */
+.ios-alert .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  border-top: none;
+}
 .ios-alert button {
-  flex: 1;
   padding: 12px 0;
   font-size: 15px;
   font-weight: 600;
-  background: none;
   border: none;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.6);
+  color: #007aff;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
 }
-.ios-alert button:active { transform: scale(0.95); filter: brightness(0.9); }
+.ios-alert button.cancel { color: #ff3b30; }
 .ios-alert button.confirm { color: #007aff; }
-.ios-alert button.cancel { color: #ff3b30; border-right: 1px solid rgba(255,255,255,0.25); }
+.ios-alert button:hover { background: rgba(255,255,255,0.75); }
+.ios-alert button:active { transform: scale(0.96); filter: brightness(0.9); }
 
-/* 波纹效果 */
-.ios-alert button::after {
-  content: "";
-  position: absolute;
-  width: 10px; height: 10px;
-  background: currentColor;
-  opacity: 0.25;
-  border-radius: 50%;
-  transform: scale(0);
-  pointer-events: none;
-  animation: none;
-}
-.ios-alert button:active::after {
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  animation: rippleExpand 0.6s ease-out;
-}
-@keyframes rippleExpand {
-  to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+@media (prefers-color-scheme: dark) {
+  .ios-alert button {
+    background: rgba(40,40,40,0.6);
+    color: #0a84ff;
+  }
+  .ios-alert button.cancel { color: #ff453a; }
+  .ios-alert button:hover { background: rgba(60,60,60,0.75); }
 }
 
-/* 📧 邮箱选择弹窗内部样式（仅 index 页面用） */
+/* 📧 邮箱选择弹窗内部样式 */
 body#index-page .email-list {
   display: flex;
   flex-direction: column;
@@ -325,11 +299,7 @@ body#index-page .email-item {
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   backdrop-filter: blur(12px) saturate(180%);
 }
-body#index-page .email-item span {
-  font-size: 14px;
-  font-weight: 500;
-  word-break: break-all;
-}
+body#index-page .email-item span { font-size: 14px; font-weight: 500; word-break: break-all; }
 body#index-page .email-item button {
   min-width: 60px;
   padding: 6px 14px;
@@ -350,53 +320,52 @@ body#index-page .email-item button:hover {
   background: rgba(0,122,255,1);
   box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
 }
-body#index-page .email-item button:active {
-  transform: scale(0.95);
-}
+body#index-page .email-item button:active { transform: scale(0.95); }
 @media (prefers-color-scheme: dark) {
   body#index-page .email-item { background: rgba(30,30,30,0.45); }
   body#index-page .email-item span { color: #fff; }
 }
 
-/* ========== 微信二维码弹窗（仅 index 页面用） ========== */
-body#index-page .wechat-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-  z-index: 9998;
+/* 📧 邮箱关闭按钮：修复背景不可见 */
+body#index-page .actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
 }
-body#index-page .wechat-overlay.show { opacity: 1; pointer-events: auto; }
+body#index-page .actions .cancel {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ff3b30;
+  background: rgba(255,255,255,0.6);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
+}
+body#index-page .actions .cancel:hover {
+  background: rgba(255,255,255,0.75);
+}
+body#index-page .actions .cancel:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+@media (prefers-color-scheme: dark) {
+  body#index-page .actions .cancel {
+    background: rgba(40,40,40,0.6);
+    color: #ff453a;
+  }
+  body#index-page .actions .cancel:hover {
+    background: rgba(60,60,60,0.75);
+  }
+}
 
-body#index-page .wechat-qr {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: rgba(255,255,255,0.3);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-  padding: 20px;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
-  z-index: 9999;
-}
-body#index-page .wechat-qr.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto;
-}
+/* 微信二维码弹窗 */
 body#index-page .wechat-qr img { width: 240px; height: 240px; border-radius: 12px; }
 body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 600; color: #111; }
 @media (prefers-color-scheme: dark) {
-  body#index-page .wechat-qr { background: rgba(30,30,30,0.45); color: #fff; }
+  body#index-page .wechat-qr { color: #fff; }
 }
 
 /* ========== Apple Liquid Glass 底部导航栏 ========== */

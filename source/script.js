@@ -7,23 +7,34 @@ function showIosAlert(url, msg = "是否跳转到外部链接？") {
   pendingUrl = url;
   const msgEl = document.getElementById("iosAlertMsg");
   if (msgEl) msgEl.textContent = msg;
-  const alertEl = document.getElementById("iosAlert");
-  const overlayEl = document.getElementById("iosOverlay");
-  if (alertEl) alertEl.classList.add("show");
-  if (overlayEl) overlayEl.classList.add("show");
+  toggleModal("iosOverlay", true);
+  toggleModal("iosAlert", true);
 }
 
 function closeIosAlert() {
-  const alertEl = document.getElementById("iosAlert");
-  const overlayEl = document.getElementById("iosOverlay");
-  if (alertEl) alertEl.classList.remove("show");
-  if (overlayEl) overlayEl.classList.remove("show");
+  toggleModal("iosOverlay", false);
+  toggleModal("iosAlert", false);
   pendingUrl = null;
 }
 
 function confirmIosAlert() {
   if (pendingUrl) { window.open(pendingUrl, "_blank"); }
   closeIosAlert();
+}
+
+/* ✨ 通用工具函数 */
+function toggleModal(id, show = true) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle("show", show);
+}
+
+function showToast(msg) {
+  const tip = document.getElementById("copiedTip");
+  if (!tip) return;
+  tip.textContent = msg;
+  tip.classList.add("show");
+  setTimeout(() => tip.classList.add("done"), 250);
+  setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
 }
 
 /* ✨ 页面加载动画 & 卡片入场 */
@@ -82,35 +93,17 @@ if (document.body.id === "index-page") {
   /* 📧 邮箱复制（支持多地址） */
   window.copyEmail = function(email) {
     navigator.clipboard.writeText(email).then(() => {
-      const tip = document.getElementById("copiedTip");
-      if (tip) {
-        tip.textContent = "📋 已复制: " + email;
-        tip.classList.add("show");
-        setTimeout(() => tip.classList.add("done"), 250);
-        setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
-      }
+      showToast("📋 已复制: " + email);
     });
   };
 
   /* 📧 邮箱选择弹窗 */
-  window.showEmailPopup = function() {
-    document.getElementById("emailOverlay").classList.add("show");
-    document.getElementById("emailPopup").classList.add("show");
-  };
-  window.closeEmailPopup = function() {
-    document.getElementById("emailOverlay").classList.remove("show");
-    document.getElementById("emailPopup").classList.remove("show");
-  };
+  window.showEmailPopup  = () => { toggleModal("emailOverlay", true); toggleModal("emailPopup", true); };
+  window.closeEmailPopup = () => { toggleModal("emailOverlay", false); toggleModal("emailPopup", false); };
 
   /* 📱 微信二维码弹窗 */
-  window.showWeChatQR = function() {
-    document.getElementById("wechatOverlay").classList.add("show");
-    document.getElementById("wechatQR").classList.add("show");
-  };
-  window.closeWeChatQR = function() {
-    document.getElementById("wechatOverlay").classList.remove("show");
-    document.getElementById("wechatQR").classList.remove("show");
-  };
+  window.showWeChatQR  = () => { toggleModal("wechatOverlay", true); toggleModal("wechatQR", true); };
+  window.closeWeChatQR = () => { toggleModal("wechatOverlay", false); toggleModal("wechatQR", false); };
 }
 
 
