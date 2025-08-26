@@ -6,7 +6,6 @@
   <title>泽凌Zelynn</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* 背景与淡入动画 */
     body {
       font-family: "Helvetica", sans-serif;
       margin: 0;
@@ -40,7 +39,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 标题下滑动画 */
     header {
       text-align: center;
       padding: 40px 0;
@@ -79,7 +77,6 @@
       margin-top: 40px;
     }
 
-    /* 卡片容器 */
     .lang-wrapper, .nav-wrapper {
       display: grid;
       gap: 16px;
@@ -93,7 +90,6 @@
       grid-template-columns: 1fr;
     }
 
-    /* 通用卡片样式 */
     .contact-card {
       position: relative;
       background: rgba(255,255,255,0.55);
@@ -118,6 +114,8 @@
       background: rgba(255,255,255,0.65);
       text-decoration: none;
     }
+
+    /* 小爪印图标基础样式 */
     .contact-card .icon {
       width: 36px;
       height: 36px;
@@ -125,11 +123,26 @@
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      background: linear-gradient(135deg, #e8f0fe, #ffffff);
       border: 1px solid #e6ecf5;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
       flex-shrink: 0;
+      font-size: 20px;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      transition: transform 0.4s ease;
     }
+    /* 渐变样式：三种不同颜色 */
+    .paw-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fcb69f); }
+    .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .paw-cyan { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+    /* hover 动画效果 */
+    .paw-pink:hover, .paw-purple:hover, .paw-cyan:hover {
+      transform: rotate(12deg) scale(1.1);
+      filter: brightness(1.2);
+    }
+
     .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
     .contact-card .label { font-size: 12px; color: #666; letter-spacing: 0.4px; }
     .contact-card .value {
@@ -139,21 +152,14 @@
     .contact-link { color: inherit; text-decoration: none; }
     .contact-link:hover { text-decoration: none; }
     .clickable { cursor: pointer; }
-    .icon svg { width: 20px; height: 20px; fill: #0a66c2; }
 
-    /* 入场动画 */
+    /* 返回按钮图标（统一与 index.html） */
+    .icon svg { width: 22px; height: 22px; fill: none; stroke: #0a66c2; stroke-width: 2; }
+
     @keyframes cardFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(20px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
-
-    /* 延迟序列 */
     .lang-wrapper .contact-card:nth-child(1) { animation-delay: 0.2s; }
     .lang-wrapper .contact-card:nth-child(2) { animation-delay: 0.4s; }
     .lang-wrapper .contact-card:nth-child(3) { animation-delay: 0.6s; }
@@ -185,12 +191,7 @@
       <!-- 简体中文 -->
       <a class="contact-card contact-link clickable"
          href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank" rel="noopener noreferrer">
-        <div class="icon">
-          <!-- 地球图标 -->
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18c-1.7 0-3.2-4-3.2-8s1.5-8 3.2-8 3.2 4 3.2 8-1.5 8-3.2 8zM4.9 6.5A8 8 0 0116 4.3c-.6.8-1.2 1.9-1.6 3.2H4.9zm0 11h9.5c.4 1.3 1 2.4 1.6 3.2A8 8 0 014.9 17.5zM19.1 17.5A8 8 0 018 19.7c.6-.8 1.2-1.9 1.6-3.2h9.5zm-9.5-11h9.5A8 8 0 0119.1 6.5H9.6z"/>
-          </svg>
-        </div>
+        <div class="icon paw-pink">🐾</div>
         <div class="text">
           <span class="label">语言</span>
           <span class="value">简体中文</span>
@@ -200,11 +201,7 @@
       <!-- 繁體中文 -->
       <a class="contact-card contact-link clickable"
          href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank" rel="noopener noreferrer">
-        <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18c-1.7 0-3.2-4-3.2-8s1.5-8 3.2-8 3.2 4 3.2 8-1.5 8-3.2 8zM4.9 6.5A8 8 0 0116 4.3c-.6.8-1.2 1.9-1.6 3.2H4.9zm0 11h9.5c.4 1.3 1 2.4 1.6 3.2A8 8 0 014.9 17.5zM19.1 17.5A8 8 0 018 19.7c.6-.8 1.2-1.9 1.6-3.2h9.5zm-9.5-11h9.5A8 8 0 0119.1 6.5H9.6z"/>
-          </svg>
-        </div>
+        <div class="icon paw-purple">🐾</div>
         <div class="text">
           <span class="label">語言</span>
           <span class="value">繁體中文</span>
@@ -214,11 +211,7 @@
       <!-- English -->
       <a class="contact-card contact-link clickable"
          href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank" rel="noopener noreferrer">
-        <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18c-1.7 0-3.2-4-3.2-8s1.5-8 3.2-8 3.2 4 3.2 8-1.5 8-3.2 8zM4.9 6.5A8 8 0 0116 4.3c-.6.8-1.2 1.9-1.6 3.2H4.9zm0 11h9.5c.4 1.3 1 2.4 1.6 3.2A8 8 0 014.9 17.5zM19.1 17.5A8 8 0 018 19.7c.6-.8 1.2-1.9 1.6-3.2h9.5zm-9.5-11h9.5A8 8 0 0119.1 6.5H9.6z"/>
-          </svg>
-        </div>
+        <div class="icon paw-cyan">🐾</div>
         <div class="text">
           <span class="label">Language</span>
           <span class="value">English</span>
@@ -231,9 +224,9 @@
       <a class="contact-card contact-link clickable"
          href="javascript:void(0);" onclick="fadeToPage('index.html')"
          aria-label="返回：首页">
-        <div class="icon">
+        <div class="icon" style="background:linear-gradient(135deg,#e8f0fe,#ffffff);">
           <svg viewBox="0 0 24 24">
-            <path d="M20 11H7.83l4.58-4.59L11 5l-6 6 6 6 1.41-1.41L7.83 13H20v-2z"/>
+            <path d="M15.5 4.5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="text">

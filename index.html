@@ -16,7 +16,7 @@
       transition: opacity 0.8s ease;
       position: relative;
       overflow-x: hidden;
-      background: #fdfbfb; /* 柔和底色 */
+      background: #fdfbfb;
     }
     body::before {
       content: "";
@@ -40,7 +40,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* 标题下滑动画 */
     header {
       text-align: center;
       padding: 40px 0;
@@ -65,7 +64,6 @@
       animation: fadeIn 1s ease forwards;
     }
 
-    /* 渐入动画 */
     p {
       opacity: 0;
       animation: fadeIn 1.2s ease forwards;
@@ -88,7 +86,6 @@
     a { color: #0a66c2; text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* 卡片容器 */
     .contact-wrapper, .nav-wrapper {
       display: grid;
       gap: 16px;
@@ -107,7 +104,6 @@
       .contact-wrapper, .nav-wrapper { grid-template-columns: 1fr; }
     }
 
-    /* 卡片样式 */
     .contact-card {
       position: relative;
       background: rgba(255,255,255,0.55);
@@ -131,7 +127,6 @@
       text-decoration: none;
     }
 
-    /* 入场动画 */
     @keyframes cardFadeIn {
       from {
         opacity: 0;
@@ -143,7 +138,6 @@
       }
     }
 
-    /* 延迟序列 */
     .contact-card:nth-child(1) { animation-delay: 0.2s; }
     .contact-card:nth-child(2) { animation-delay: 0.4s; }
     .contact-card:nth-child(3) { animation-delay: 0.6s; }
@@ -160,6 +154,7 @@
       border: 1px solid #e6ecf5;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
       flex-shrink: 0;
+      overflow: hidden;
     }
     .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
     .contact-card .label { font-size: 12px; color: #666; letter-spacing: 0.4px; }
@@ -171,6 +166,7 @@
     .contact-link:hover { text-decoration: none; }
     .clickable { cursor: pointer; }
     .icon svg { width: 20px; height: 20px; fill: #0a66c2; }
+    .icon img { width: 20px; height: 20px; display: block; }
   </style>
   <script>
     function fadeToPage(url) {
@@ -197,14 +193,14 @@
     <p>促成大自由中之社会进步及较善之民生</p>
     <p>To promote social progress and better standards of life in larger freedom</p>
 
-    <!-- 导航按钮 -->
     <div class="nav-wrapper">
       <a class="contact-card contact-link clickable"
          href="javascript:void(0);" onclick="fadeToPage('zelynn.html')"
          aria-label="进入：泽凌Zelynn 页面">
         <div class="icon" aria-hidden="true">
+          <!-- Fluent 风格右箭头 -->
           <svg viewBox="0 0 24 24">
-            <path d="M12 4l-1.41 1.41L15.17 10H4v2h11.17l-4.58 4.59L12 18l8-8-8-8z"/>
+            <path d="M8.5 4.5l7 7-7 7" stroke="#0a66c2" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="text">
@@ -234,9 +230,7 @@
       <a class="contact-card contact-link clickable"
          href="https://space.bilibili.com/1502522588" target="_blank" rel="noopener noreferrer">
         <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M7 4h10l-2-2h-2l1.5 2H9.5L11 2H9L7 4zm-3 4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-6c0-1.1-.9-2-2-2H4zm6 2 6 4-6 4V10z"/>
-          </svg>
+          <img src="favicon_bilibili.ico" alt="Bilibili">
         </div>
         <div class="text">
           <span class="label">Bilibili</span>
@@ -247,9 +241,7 @@
       <a class="contact-card contact-link clickable"
          href="https://qm.qq.com/q/WTOl1Swrqa" target="_blank" rel="noopener noreferrer">
         <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2c3.31 0 6 2.79 6 6.23 0 .49-.06.96-.18 1.4.86.74 1.71 2.1 2.02 3.7.16.8-.44 1.53-1.25 1.53-.23 0-.45-.06-.65-.17-.4 1.36-1.18 2.77-2.27 3.9A6.96 6.96 0 0 1 12 21a6.96 6.96 0 0 1-3.67-1.41c-1.09-1.13-1.87-2.54-2.27-3.9-.2.11-.42.17-.65.17-.81 0-1.41-.73-1.25-1.53.31-1.6 1.16-2.96 2.02-3.7-.12-.44-.18-.91-.18-1.4C6 4.79 8.69 2 12 2zm-3 17h6c-.8.62-1.84 1-3 1s-2.2-.38-3-1z"/>
-          </svg>
+          <img src="favicon_qq.ico" alt="QQ">
         </div>
         <div class="text">
           <span class="label">QQ</span>
