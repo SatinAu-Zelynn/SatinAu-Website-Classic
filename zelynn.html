@@ -7,23 +7,32 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <style>
     body {
-      font-family: "Helvetica", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
       margin: 0;
       padding: 0;
-      color: #333;
+      color: #111;
       opacity: 0;
       transition: opacity 0.8s ease;
-      position: relative;
+      background: #fdfdfd;
       overflow-x: hidden;
-      background: #fdfbfb;
     }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111; color: #f5f5f5; }
+      .contact-card {
+        background: rgba(30,30,30,0.35);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      }
+      .contact-card:hover { background: rgba(40,40,40,0.5); }
+      footer { background: rgba(30,30,30,0.5); color: #aaa; }
+    }
+
+    /* 背景动态渐变 */
     body::before {
       content: "";
       position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 140%;
-      height: 140%;
+      top: 50%; left: 50%;
+      width: 140%; height: 140%;
       transform: translate(-50%, -50%);
       background: linear-gradient(120deg, #00FFCC, #FFE92C, #00FFCC);
       background-size: 300% 300%;
@@ -41,171 +50,88 @@
 
     header {
       text-align: center;
-      padding: 40px 0;
-      animation: slideDown 1s ease-out forwards;
+      padding: 60px 20px 30px;
+      animation: fadeDown 1.2s ease forwards;
       opacity: 0;
     }
-    @keyframes slideDown {
-      from { transform: translateY(-50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    header h1 { font-size: 2.3rem; font-weight: 700; margin: 0; }
+    @keyframes fadeDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
     }
 
-    section {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      border-bottom: 2px solid #999;
-      padding-bottom: 5px;
-      text-align: center;
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      animation-delay: 0.5s;
-    }
+    section { padding: 20px; max-width: 960px; margin: auto; text-align: center; }
+    h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s ease forwards; animation-delay: 0.4s; }
+    @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .lang-wrapper, .nav-wrapper { display: grid; gap: 18px; margin-top: 30px; justify-items: center; }
+    .lang-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .nav-wrapper { grid-template-columns: 1fr; max-width: 420px; margin: 50px auto 0; }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: rgba(255,255,255,0.6);
-      margin-top: 40px;
-    }
-
-    .lang-wrapper, .nav-wrapper {
-      display: grid;
-      gap: 16px;
-      margin-top: 30px;
-      justify-items: center;
-    }
-    .lang-wrapper {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-    .nav-wrapper {
-      grid-template-columns: 1fr;
-    }
-
+    /* ✨ 卡片错位淡入动画 */
     .contact-card {
-      position: relative;
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(255,255,255,0.6);
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      padding: 18px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      will-change: transform;
-      min-width: 260px;
-      max-width: 420px;
-      opacity: 0;
-      transform: translateY(20px) scale(0.98);
-      animation: cardFadeIn 0.8s ease forwards;
+      display: flex; align-items: center; gap: 14px;
+      min-width: 260px; max-width: 420px; padding: 20px 18px;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+      text-decoration: none; color: inherit;
+      opacity: 0; transform: translateY(40px) translateX(-20px) scale(0.96);
     }
-    .contact-card:hover {
-      transform: translateY(-4px) scale(1);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
-      background: rgba(255,255,255,0.65);
-      text-decoration: none;
+    .contact-card.visible { animation: staggerFade 0.8s ease forwards; }
+    @keyframes staggerFade {
+      from { opacity: 0; transform: translateY(40px) translateX(-20px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
     }
+    .contact-card:nth-of-type(1).visible { animation-delay: 0.2s; }
+    .contact-card:nth-of-type(2).visible { animation-delay: 0.4s; }
+    .contact-card:nth-of-type(3).visible { animation-delay: 0.6s; }
+    .contact-card:nth-of-type(4).visible { animation-delay: 0.8s; } /* 返回按钮 */
 
-    /* 小爪印图标样式 */
-    .contact-card .icon {
-      width: 36px;
-      height: 36px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      border: 1px solid #e6ecf5;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
-      flex-shrink: 0;
-      font-size: 20px;
-      color: transparent;
-      background-clip: text;
-      -webkit-background-clip: text;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.4s ease;
-    }
-    /* 渐变色 */
-    .paw-pink { background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fcb69f); }
-    .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
-    .paw-cyan { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .contact-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 60px rgba(0,0,0,0.12); background: rgba(255,255,255,0.5); }
 
-    /* hover 动画：旋转 + 光带扫过 */
-    .contact-card .icon::after {
-      content: "";
-      position: absolute;
-      top: 0; left: -50%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
-      transform: skewX(-20deg);
-      transition: left 0.6s ease;
-    }
-    .paw-pink:hover, .paw-purple:hover, .paw-cyan:hover {
-      transform: rotate(12deg) scale(1.1);
-      filter: brightness(1.2);
-    }
-    .paw-pink:hover::after, .paw-purple:hover::after, .paw-cyan:hover::after {
-      left: 120%;
-    }
+    .icon { width: 40px; height: 40px; display:inline-flex; align-items:center; justify-content:center;
+            border-radius:12px; flex-shrink:0; font-size:22px; }
 
-    .contact-card .text { display: flex; flex-direction: column; min-width: 0; }
-    .contact-card .label { font-size: 12px; color: #666; letter-spacing: 0.4px; }
-    .contact-card .value {
-      font-size: 15px; color: #111; font-weight: 600;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .contact-link { color: inherit; text-decoration: none; }
-    .contact-link:hover { text-decoration: none; }
-    .clickable { cursor: pointer; }
+    /* 爪印渐变 */
+    .paw-pink   { background: linear-gradient(135deg, #ff9a9e, #fad0c4); -webkit-background-clip:text; color:transparent; }
+    .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); -webkit-background-clip:text; color:transparent; }
+    .paw-cyan   { background: linear-gradient(135deg, #43e97b, #38f9d7); -webkit-background-clip:text; color:transparent; }
+    .paw-pink:hover, .paw-purple:hover, .paw-cyan:hover { transform: scale(1.1) rotate(8deg); filter: brightness(1.2); }
 
-    /* 返回按钮箭头样式与 index.html 统一 */
-    .icon svg { width: 22px; height: 22px; fill: none; stroke: #0a66c2; stroke-width: 2; }
-    .nav-wrapper .icon {
-      background: linear-gradient(135deg, #e8f0fe, #ffffff);
-    }
-    /* 返回箭头 hover 动效 */
-    .nav-wrapper .icon:hover svg {
-      animation: arrowWiggle 0.6s ease infinite;
-    }
-    @keyframes arrowWiggle {
-      0%,100% { transform: translateX(0); }
-      50% { transform: translateX(-3px); }
-    }
+    .text{display:flex;flex-direction:column;text-align:left;}
+    .label{font-size:12px;color:#666;}
+    .value{font-size:15px;font-weight:600;color:#111;}
 
-    @keyframes cardFadeIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .lang-wrapper .contact-card:nth-child(1) { animation-delay: 0.2s; }
-    .lang-wrapper .contact-card:nth-child(2) { animation-delay: 0.4s; }
-    .lang-wrapper .contact-card:nth-child(3) { animation-delay: 0.6s; }
-    .nav-wrapper .contact-card { animation-delay: 0.9s; }
+    .nav-wrapper .icon svg { width:22px; height:22px; stroke:#0a66c2; stroke-width:2; fill:none; }
+    .nav-wrapper .icon:hover svg { animation: arrowWiggle 0.7s ease infinite; }
+    @keyframes arrowWiggle { 0%,100%{transform:translateX(0);} 50%{transform:translateX(-4px);} }
+
+    footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:#666;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);}
   </style>
   <script>
-    function fadeToPage(url) {
-      document.body.style.opacity = 0;
-      setTimeout(function() {
-        window.location.href = url;
-      }, 800);
+    function fadeToPage(url){
+      document.body.style.opacity=0;
+      setTimeout(()=>{window.location.href=url;},600);
     }
-    window.onload = function() {
-      document.body.style.opacity = 1;
-      var header = document.querySelector("header");
-      if (header) header.style.opacity = 1;
+    window.onload=function(){
+      document.body.style.opacity=1;
+      document.querySelectorAll('.contact-card').forEach(card=>{
+        new IntersectionObserver((entries,observer)=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          });
+        },{threshold:0.2}).observe(card);
+      });
     }
   </script>
 </head>
 <body>
-
   <header>
     <h1>泽凌Zelynn</h1>
   </header>
@@ -213,58 +139,19 @@
   <section>
     <h2>设定总览 / Character Overview</h2>
     <div class="lang-wrapper">
-      <!-- 简体中文 -->
-      <a class="contact-card contact-link clickable"
-         href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank" rel="noopener noreferrer">
-        <div class="icon paw-pink">🐾</div>
-        <div class="text">
-          <span class="label">语言</span>
-          <span class="value">简体中文</span>
-        </div>
-      </a>
-
-      <!-- 繁體中文 -->
-      <a class="contact-card contact-link clickable"
-         href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank" rel="noopener noreferrer">
-        <div class="icon paw-purple">🐾</div>
-        <div class="text">
-          <span class="label">語言</span>
-          <span class="value">繁體中文</span>
-        </div>
-      </a>
-
-      <!-- English -->
-      <a class="contact-card contact-link clickable"
-         href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank" rel="noopener noreferrer">
-        <div class="icon paw-cyan">🐾</div>
-        <div class="text">
-          <span class="label">Language</span>
-          <span class="value">English</span>
-        </div>
-      </a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank"><div class="icon paw-pink">🐾</div><div class="text"><div class="label">语言</div><div class="value">简体中文</div></div></a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank"><div class="icon paw-purple">🐾</div><div class="text"><div class="label">語言</div><div class="value">繁體中文</div></div></a>
+      <a class="contact-card" href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank"><div class="icon paw-cyan">🐾</div><div class="text"><div class="label">Language</div><div class="value">English</div></div></a>
     </div>
 
-    <!-- 返回首页按钮 -->
     <div class="nav-wrapper">
-      <a class="contact-card contact-link clickable"
-         href="javascript:void(0);" onclick="fadeToPage('index.html')"
-         aria-label="返回：首页">
-        <div class="icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M15.5 4.5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="text">
-          <span class="label">返回</span>
-          <span class="value">首页</span>
-        </div>
+      <a class="contact-card" href="javascript:void(0);" onclick="fadeToPage('index.html')">
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M15.5 4.5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="text"><div class="label">返回</div><div class="value">首页</div></div>
       </a>
     </div>
   </section>
 
-  <footer>
-    <p>© 2025 缎金SatinAu 保留所有权利。</p>
-  </footer>
-
+  <footer><p>© 2025 缎金SatinAu 保留所有权利。</p></footer>
 </body>
 </html>
