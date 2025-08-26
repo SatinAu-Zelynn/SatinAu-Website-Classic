@@ -308,6 +308,59 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
 }
 
+/* 📧 邮箱选择弹窗内部样式 */
+.email-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 10px 0 16px;
+}
+.email-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.35);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
+}
+.email-item span {
+  font-size: 14px;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* ✅ iOS 风格胶囊按钮 */
+.email-item button {
+  min-width: 60px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px; /* 胶囊 */
+  background: rgba(0,122,255,0.85);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
+}
+.email-item button:hover {
+  background: rgba(0,122,255,1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
+}
+.email-item button:active {
+  transform: scale(0.95);
+}
+@media (prefers-color-scheme: dark) {
+  .email-item { background: rgba(30,30,30,0.45); }
+  .email-item span { color: #fff; }
+}
+
 /* ========== 微信二维码弹窗 ========== */
 .wechat-overlay {
   position: fixed;

@@ -1,14 +1,24 @@
-/* 📧 邮箱复制 */
-function copyEmail() {
-  const email = "mifanz090820@outlook.com";
+/* 📧 邮箱复制（支持多地址） */
+function copyEmail(email) {
   navigator.clipboard.writeText(email).then(() => {
     const tip = document.getElementById("copiedTip");
     if (tip) {
+      tip.textContent = "📋 已复制: " + email;
       tip.classList.add("show");
       setTimeout(() => tip.classList.add("done"), 250);
       setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
     }
   });
+}
+
+/* 📧 邮箱选择弹窗逻辑 */
+function showEmailPopup() {
+  document.getElementById("emailOverlay").classList.add("show");
+  document.getElementById("emailPopup").classList.add("show");
+}
+function closeEmailPopup() {
+  document.getElementById("emailOverlay").classList.remove("show");
+  document.getElementById("emailPopup").classList.remove("show");
 }
 
 /* 📱 iOS 弹窗逻辑 */
