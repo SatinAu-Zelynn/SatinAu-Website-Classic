@@ -25,13 +25,13 @@ body::before {
   content: "";
   position: fixed;
   top: 50%; left: 50%;
-  width: 140%; height: 140%;
+  width: 160%; height: 160%;
   transform: translate(-50%, -50%);
   background: linear-gradient(120deg, #00FFCC, #FFE92C, #00FFCC);
   background-size: 300% 300%;
-  animation: bgMove 12s ease infinite;
-  filter: blur(80px);
-  opacity: 0.45;
+  animation: bgMove 18s ease infinite;
+  filter: blur(100px);
+  opacity: 0.35;
   border-radius: 50%;
   z-index: -1;
 }
@@ -69,17 +69,23 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
 .lang-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); justify-items: center; }
 .nav-wrapper { grid-template-columns: 1fr; max-width: 420px; margin: 40px auto 0; }
 
-/* ✨ 卡片错位淡入动画 */
+/* ✨ 卡片液态玻璃效果 */
 .contact-card {
   display: flex; align-items: center; gap: 14px;
   min-width: 260px; max-width: 420px; padding: 20px 18px;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.35);
-  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), inset 0 0 20px rgba(255,255,255,0.08);
   text-decoration: none; color: inherit;
   opacity: 0; transform: translateY(40px) translateX(-20px) scale(0.96);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.5s ease;
+  will-change: transform, box-shadow;
 }
 .contact-card.visible { animation: staggerFade 0.8s ease forwards; }
 @keyframes staggerFade {
@@ -91,26 +97,73 @@ h2 { font-size: 1.6rem; margin: 20px 0 30px; opacity: 0; animation: fadeUp 1.2s 
 .contact-card:nth-of-type(3).visible { animation-delay: 0.6s; }
 .contact-card:nth-of-type(4).visible { animation-delay: 0.8s; }
 
-.contact-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 60px rgba(0,0,0,0.12); background: rgba(255,255,255,0.5); }
+/* 🌊 光泽扫过效果 */
+.contact-card::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -150%;
+  width: 150%; height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.05) 100%);
+  transform: skewX(-20deg);
+  transition: all 0.8s ease;
+  opacity: 0;
+}
+.contact-card:hover::after {
+  left: -20%;
+  opacity: 1;
+}
+
+/* 悬停时：浮起 + 微倾，流体玻璃感 */
+.contact-card:hover {
+  transform: translateY(-10px) scale(1.03) rotate3d(1,1,0,0.8deg);
+  box-shadow: 0 32px 70px rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(28px) saturate(220%);
+}
+
+/* 点击缩放反馈 */
+.contact-card:active {
+  transform: scale(0.96);
+}
+
+/* 内部 icon 微动画 */
+.contact-card:hover .icon {
+  transform: scale(1.12);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
 
 /* Icon & Text */
 .icon { width: 40px; height: 40px; display:inline-flex; align-items:center; justify-content:center;
         border-radius:12px; background:linear-gradient(135deg,#e8f0fe,#ffffff);
-        box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4); flex-shrink:0; }
+        box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4);
+        flex-shrink:0; transition: transform 0.4s ease, background 0.5s ease; }
 .icon svg{width:22px;height:22px;stroke:#0a66c2;stroke-width:2;fill:none;}
 .icon img{width:22px;height:22px;}
 .text{display:flex;flex-direction:column;text-align:left;}
 .label{font-size:12px;color:#666;}
 .value{font-size:15px;font-weight:600;color:#111;}
 
-/* 🐾 渐变 paw */
+/* 🐾 渐变 paw + 发光效果 */
 .paw-pink   { background: linear-gradient(135deg, #ff9a9e, #fad0c4); -webkit-background-clip:text; color:transparent; }
 .paw-purple { background: linear-gradient(135deg, #a18cd1, #fbc2eb); -webkit-background-clip:text; color:transparent; }
 .paw-cyan   { background: linear-gradient(135deg, #43e97b, #38f9d7); -webkit-background-clip:text; color:transparent; }
-.paw-pink:hover, .paw-purple:hover, .paw-cyan:hover { transform: scale(1.1) rotate(8deg); filter: brightness(1.2); }
+.paw-pink, .paw-purple, .paw-cyan {
+  transition: transform 0.4s ease, filter 0.4s ease, text-shadow 0.4s ease;
+}
+.paw-pink:hover   { transform: scale(1.1) rotate(6deg); filter: brightness(1.2); text-shadow: 0 0 8px rgba(255,154,158,0.6); }
+.paw-purple:hover { transform: scale(1.1) rotate(-6deg); filter: brightness(1.2); text-shadow: 0 0 8px rgba(161,140,209,0.6); }
+.paw-cyan:hover   { transform: scale(1.1) rotate(5deg); filter: brightness(1.2); text-shadow: 0 0 8px rgba(67,233,123,0.6); }
 
-/* 箭头 wiggle 动效 */
-.nav-wrapper .icon:hover svg { animation: arrowWiggle 0.7s ease infinite; }
+/* 箭头 wiggle 动效 + 高光发光 */
+.nav-wrapper .icon svg {
+  stroke: #0a66c2;
+  filter: drop-shadow(0 0 2px rgba(10,102,194,0.25));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.nav-wrapper .icon:hover svg {
+  filter: drop-shadow(0 0 6px rgba(10,102,194,0.5));
+  animation: arrowWiggle 0.7s ease infinite;
+}
 @keyframes arrowWiggle { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
 .nav-wrapper .icon svg.back { transform: rotate(180deg); }
 @keyframes arrowWiggleBack { 0%,100%{transform:translateX(0);} 50%{transform:translateX(-4px);} }
@@ -124,14 +177,15 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) translateY(20px) scale(0.95);
-  padding: 10px 18px;
-  border-radius: 14px;
+  padding: 12px 20px;
+  border-radius: 16px;
   font-size: 15px;
   font-weight: 500;
-  background: rgba(255,255,255,0.8);
-  color: #222;
-  backdrop-filter: blur(12px) saturate(160%);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.25);
+  color: #111;
+  backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
   opacity: 0;
   pointer-events: none;
   z-index: 9999;
@@ -140,7 +194,7 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
 .copied-tip.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.05); }
 .copied-tip.show.done { transform: translateX(-50%) translateY(0) scale(1); }
 @media (prefers-color-scheme: dark) {
-  .copied-tip { background: rgba(30,30,30,0.8); color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.35); }
+  .copied-tip { background: rgba(30,30,30,0.45); color: #fff; }
 }
 
 /* iOS 弹窗背景模糊遮罩 */
@@ -156,26 +210,78 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
 }
 .ios-overlay.show { opacity: 1; pointer-events: auto; }
 
-/* iOS 确认弹窗 */
+/* iOS 确认弹窗 + 弹性缩放动画 */
 .ios-alert {
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  width: 280px;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  width: 300px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
   opacity: 0;
   pointer-events: none;
   z-index: 10000;
-  transition: opacity 0.3s ease, transform 0.3s ease;
   text-align: center;
-  padding: 18px;
+  padding: 20px;
+  overflow: hidden;
 }
-.ios-alert.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
-.ios-alert p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #222; }
-.ios-alert .actions { display: flex; border-top: 1px solid rgba(0,0,0,0.1); }
-.ios-alert button { flex: 1; padding: 12px 0; font-size: 15px; font-weight: 600; background: none; border: none; cursor: pointer; }
+.ios-alert.show {
+  opacity: 1; pointer-events: auto;
+  animation: popupSpring 0.5s cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
+}
+.ios-alert.hide {
+  animation: popupDismiss 0.35s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+@keyframes popupSpring {
+  0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  60%  { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  80%  { transform: translate(-50%, -50%) scale(0.97); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes popupDismiss {
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.85); opacity: 0; }
+}
+.ios-alert p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #111; }
+
+/* 弹窗按钮 + 波纹动画 */
+.ios-alert .actions { display: flex; border-top: 1px solid rgba(255,255,255,0.25); position: relative; overflow: hidden; }
+.ios-alert button {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.ios-alert button:active { transform: scale(0.95); filter: brightness(0.9); }
 .ios-alert button.confirm { color: #007aff; }
-.ios-alert button.cancel { color: #ff3b30; border-right: 1px solid rgba(0,0,0,0.1); }
+.ios-alert button.cancel { color: #ff3b30; border-right: 1px solid rgba(255,255,255,0.25); }
+
+/* 波纹效果 */
+.ios-alert button::after {
+  content: "";
+  position: absolute;
+  width: 10px; height: 10px;
+  background: currentColor;
+  opacity: 0.25;
+  border-radius: 50%;
+  transform: scale(0);
+  pointer-events: none;
+  animation: none;
+}
+.ios-alert button:active::after {
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: rippleExpand 0.6s ease-out;
+}
+@keyframes rippleExpand {
+  to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+}
