@@ -285,3 +285,87 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
 @keyframes rippleExpand {
   to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
 }
+
+/* ========== 页面容器切换 ========== */
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
+  overflow-x: hidden;
+}
+
+/* 初始状态：隐藏在右边 */
+.page {
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 当前显示页面 */
+.page.active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* 页面切换方向 */
+.page.to-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.page.to-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* ========== 底部导航栏 ========== */
+.navbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+  max-width: 500px;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 18px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+}
+
+.navbar button {
+  flex: 1;
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navbar button.active {
+  color: #007aff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background: rgba(30, 30, 30, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .navbar button {
+    color: #ddd;
+  }
+  .navbar button.active {
+    color: #0a84ff;
+  }
+}
