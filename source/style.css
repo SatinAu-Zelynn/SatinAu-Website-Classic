@@ -66,7 +66,7 @@ body::before {
 /* ========== Header ========== */
 header {
   text-align: center;
-  padding: 60px 20px 30px;
+  padding: 100px 20px 60px;
   animation: fadeDown 1.2s ease forwards;
   opacity: 0;
 }
