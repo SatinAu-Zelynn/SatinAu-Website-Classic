@@ -37,6 +37,16 @@ function confirmIosAlert() {
   closeIosAlert();
 }
 
+/* 📱 微信二维码弹窗逻辑 */
+function showWeChatQR() {
+  document.getElementById("wechatOverlay").classList.add("show");
+  document.getElementById("wechatQR").classList.add("show");
+}
+function closeWeChatQR() {
+  document.getElementById("wechatOverlay").classList.remove("show");
+  document.getElementById("wechatQR").classList.remove("show");
+}
+
 /* ✨ 页面加载动画 & 卡片入场 */
 window.onload = function () {
   document.body.style.opacity = 1;
