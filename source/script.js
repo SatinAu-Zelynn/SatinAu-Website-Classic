@@ -144,6 +144,7 @@ if (document.body.id === "blog-page") {
   const postDate = document.getElementById("postDate");
   const postContent = document.getElementById("postContent");
   const backToList = document.getElementById("backToList");
+  const loader = document.getElementById("loadingOverlay");
 
   // 加载 index.json
   fetch("blog/index.json")
@@ -178,6 +179,8 @@ if (document.body.id === "blog-page") {
 
   // 加载单篇文章
   function loadPost(post) {
+    loader.classList.add("show"); // 👉 点击卡片后立刻显示加载动画
+
     fetch("blog/" + post.file)
       .then(res => res.text())
       .then(md => {
@@ -191,6 +194,9 @@ if (document.body.id === "blog-page") {
         postView.classList.remove("animate");
         void postView.offsetWidth; // 强制重绘
         postView.classList.add("animate");
+      })
+      .finally(() => {
+        loader.classList.remove("show"); // 👉 加载完成后隐藏动画
       });
   }
 
