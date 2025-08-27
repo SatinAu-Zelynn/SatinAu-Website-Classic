@@ -151,29 +151,29 @@ if (document.body.id === "blog-page") {
     .then(posts => {
       listEl.innerHTML = "";
       posts.forEach((post, index) => {
-  const card = document.createElement("a");
-  card.className = "contact-card";
-  card.href = "javascript:void(0);";
-  card.innerHTML = `
-    <div class="text">
-      <div class="value">${post.title}</div>
-      <div class="label">${post.date}</div>
-    </div>
-  `;
-  card.addEventListener("click", () => loadPost(post));
-  listEl.appendChild(card);
+        const card = document.createElement("a");
+        card.className = "contact-card";
+        card.href = "javascript:void(0);";
+        card.innerHTML = `
+          <div class="text">
+            <div class="value">${post.title}</div>
+            <div class="label">${post.date}</div>
+          </div>
+        `;
+        card.addEventListener("click", () => loadPost(post));
+        listEl.appendChild(card);
 
-  // ✅ 加入错位淡入动画
-  new IntersectionObserver((entries, observer) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.2 }).observe(card);
-});
+        // ✅ 加入错位淡入动画
+        new IntersectionObserver((entries, observer) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
+              e.target.classList.add('visible');
+              observer.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.2 }).observe(card);
+      });
     });
 
   // 加载单篇文章
@@ -186,6 +186,11 @@ if (document.body.id === "blog-page") {
         postContent.innerHTML = marked.parse(md);
         listEl.style.display = "none";
         postView.style.display = "block";
+
+        // ✅ 触发文章淡入动画
+        postView.classList.remove("animate");
+        void postView.offsetWidth; // 强制重绘
+        postView.classList.add("animate");
       });
   }
 
