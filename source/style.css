@@ -1,3 +1,17 @@
+/* ========== 全局字体设置 ========== */
+@font-face {
+  font-family: 'MiSans';
+  src: url('source/font/MiSans VF.ttf') format('truetype');
+  font-weight: 100 900; /* 支持可变字重 */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 强制全站使用 MiSans */
+* {
+  font-family: 'MiSans', sans-serif !important;
+}
+
 /* ========== 全局基础 ========== */
 :root{
   --nav-height: 68px; /* 底栏高度，用于预留滚动空间 */
