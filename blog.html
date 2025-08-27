@@ -22,7 +22,10 @@
       <div id="blogList" class="contact-wrapper"></div>
       <article id="postView" class="md-article" style="display:none;">
         <div class="post-meta">
-          <a id="backToList" href="javascript:void(0);">← 返回列表</a>
+          <!-- ✅ 修改后的返回按钮：Liquid Glass 圆形 + 箭头 -->
+          <button id="backToList" class="back-button" aria-label="返回">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
           <h2 id="postTitle"></h2>
           <p id="postDate" class="post-date"></p>
         </div>
