@@ -407,3 +407,88 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   .bottom-nav a{ color: #f0f0f0; }
   .bottom-nav a.active{ background: rgba(255,255,255,0.18); color: #0a84ff; }
 }
+
+
+
+/* ===================== iOS-like parallel page transitions (3 pages) ===================== */
+.page { will-change: transform, opacity; transform: translateZ(0); }
+
+/* Exit current page */
+@keyframes slideOutToLeft {
+  from { transform: translateX(0); opacity: 1; filter: blur(0); }
+  to   { transform: translateX(-22px); opacity: 0.01; filter: blur(6px); }
+}
+@keyframes slideOutToRight {
+  from { transform: translateX(0); opacity: 1; filter: blur(0); }
+  to   { transform: translateX(22px); opacity: 0.01; filter: blur(6px); }
+}
+
+/* Enter new page */
+@keyframes slideInFromRight {
+  from { transform: translateX(22px); opacity: 0.01; filter: blur(6px); }
+  to   { transform: translateX(0); opacity: 1; filter: blur(0); }
+}
+@keyframes slideInFromLeft {
+  from { transform: translateX(-22px); opacity: 0.01; filter: blur(6px); }
+  to   { transform: translateX(0); opacity: 1; filter: blur(0); }
+}
+
+/* Classes used by JS */
+.page.slide-out-left  { animation: slideOutToLeft 420ms cubic-bezier(0.22,0.61,0.36,1) both; }
+.page.slide-out-right { animation: slideOutToRight 420ms cubic-bezier(0.22,0.61,0.36,1) both; }
+.page.slide-in-right  { animation: slideInFromRight 420ms cubic-bezier(0.22,0.61,0.36,1) both; }
+.page.slide-in-left   { animation: slideInFromLeft 420ms cubic-bezier(0.22,0.61,0.36,1) both; }
+
+/* Disable fancy motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .page.slide-out-left,
+  .page.slide-out-right,
+  .page.slide-in-right,
+  .page.slide-in-left {
+    animation: none !important;
+    transition: opacity 240ms ease;
+  }
+}
+
+
+
+/* ======== 博客 Markdown 正文排版（轻量） ======== */
+.md-article { max-width: 860px; margin: 0 auto; text-align: left; }
+.md-article .post-meta { margin-bottom: 18px; }
+.md-article #backToList {
+  display: inline-block; margin-bottom: 8px; text-decoration: none; font-weight: 600;
+  padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,0.6);
+}
+@media (prefers-color-scheme: dark) {
+  .md-article #backToList { background: rgba(40,40,40,0.6); color: #f5f5f5; }
+}
+.md-article .post-date { margin: 6px 0 16px; color: #666; font-size: 0.95rem; }
+
+.md-body { font-size: 1rem; line-height: 1.8; }
+.md-body h1, .md-body h2, .md-body h3, .md-body h4 { margin: 1.2em 0 0.6em; }
+.md-body h1 { font-size: 2rem; }
+.md-body h2 { font-size: 1.6rem; }
+.md-body h3 { font-size: 1.3rem; }
+.md-body p { margin: 0.8em 0; }
+.md-body a { color: #007aff; text-decoration: none; }
+.md-body a:hover { text-decoration: underline; }
+.md-body img { max-width: 100%; height: auto; border-radius: 12px; }
+.md-body code { padding: 0.2em 0.4em; border-radius: 6px; background: rgba(0,0,0,0.06); }
+@media (prefers-color-scheme: dark) {
+  .md-body code { background: rgba(255,255,255,0.12); }
+}
+.md-body pre { overflow: auto; padding: 14px; border-radius: 12px; background: rgba(0,0,0,0.06); }
+.md-body pre code { background: transparent; padding: 0; }
+@media (prefers-color-scheme: dark) {
+  .md-body pre { background: rgba(255,255,255,0.08); }
+}
+/* 列表 */
+.md-body ul, .md-body ol { padding-left: 1.4em; margin: 0.6em 0; }
+/* 引用 */
+.md-body blockquote {
+  margin: 1em 0; padding: 0.6em 1em; border-left: 3px solid #ccc; opacity: 0.9;
+  background: rgba(255,255,255,0.5); border-radius: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  .md-body blockquote { background: rgba(40,40,40,0.4); border-left-color: #666; }
+}

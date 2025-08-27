@@ -41,18 +41,19 @@ function showToast(msg) {
 window.onload = function () {
   document.body.style.opacity = 1;
 
-  // 🚀 自动为每个 contact-card 分配错位淡入延迟
+  // 🚀 自动为每个 contact-card 分配错位淡入延迟（仅首页和泽凌）
   document.querySelectorAll('.contact-card').forEach((card, index) => {
-    new IntersectionObserver((entries, observer) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          // 每个卡片比前一个延迟 0.2s
-          e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 }).observe(card);
+    if (document.body.id !== "blog-page") { // ✅ 博客页面不走这段逻辑
+      new IntersectionObserver((entries, observer) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.2 }).observe(card);
+    }
   });
 
   /* 🚀 页面进入动画（目标是 .page 而不是 body） */
@@ -111,3 +112,140 @@ if (document.body.id === "index-page") {
 if (document.body.id === "zelynn-page") {
   // 未来如果要加交互逻辑，可以写在这里
 }
+
+
+/* ========== blog.html 独有逻辑 ========== */
+if (document.body.id === "blog-page") {
+  const listEl = document.getElementById("blogList");
+  const postView = document.getElementById("postView");
+  const postTitle = document.getElementById("postTitle");
+  const postDate = document.getElementById("postDate");
+  const postContent = document.getElementById("postContent");
+  const backToList = document.getElementById("backToList");
+
+  // 加载 index.json
+  fetch("blog/index.json")
+    .then(res => res.json())
+    .then(posts => {
+      listEl.innerHTML = "";
+      posts.forEach((post, index) => {
+  const card = document.createElement("a");
+  card.className = "contact-card";
+  card.href = "javascript:void(0);";
+  card.innerHTML = `
+    <div class="text">
+      <div class="value">${post.title}</div>
+      <div class="label">${post.date}</div>
+    </div>
+  `;
+  card.addEventListener("click", () => loadPost(post));
+  listEl.appendChild(card);
+
+  // ✅ 加入错位淡入动画
+  new IntersectionObserver((entries, observer) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 }).observe(card);
+});
+    });
+
+  // 加载单篇文章
+  function loadPost(post) {
+    fetch("blog/" + post.file)
+      .then(res => res.text())
+      .then(md => {
+        postTitle.textContent = post.title;
+        postDate.textContent = post.date;
+        postContent.innerHTML = marked.parse(md);
+        listEl.style.display = "none";
+        postView.style.display = "block";
+      });
+  }
+
+  // 返回列表
+  backToList.addEventListener("click", () => {
+    postView.style.display = "none";
+    listEl.style.display = "grid";
+  });
+}
+
+
+/* ===================== Unified 3-page left/right transitions ===================== */
+(function(){
+  var ORDER = ["index","blog","zelynn"];
+
+  function pageIdFromHref(href){
+    if(!href) return null;
+    var name = href.split("?")[0].split("#")[0].split("/").pop();
+    if (name.indexOf("zelynn")>-1) return "zelynn";
+    if (name.indexOf("blog")>-1) return "blog";
+    if (name.indexOf("index")>-1) return "index";
+    return null;
+  }
+  function currentId(){
+    var id = (document.body && document.body.id) || "";
+    return id.replace("-page","") || "index";
+  }
+  function clearAnims(el){
+    ["slide-in-right","slide-in-left","slide-out-right","slide-out-left"].forEach(function(c){ el.classList.remove(c); });
+  }
+  function animateEnter(){
+    try{
+      var from = sessionStorage.getItem("from");
+      if(!from) return;
+      var to = currentId();
+      var fromIdx = ORDER.indexOf(from);
+      var toIdx = ORDER.indexOf(to);
+      var page = document.querySelector(".page") || document.body;
+      clearAnims(page);
+      if (fromIdx>-1 && toIdx>-1){
+        page.classList.add(toIdx>fromIdx ? "slide-in-right" : "slide-in-left");
+        page.addEventListener("animationend", function handler(){ page.classList.remove("slide-in-right","slide-in-left"); page.removeEventListener("animationend", handler); }, { once:true });
+      }
+      sessionStorage.removeItem("from");
+    }catch(e){}
+  }
+  function animateExit(toId, href){
+    var cur = currentId();
+    var page = document.querySelector(".page") || document.body;
+    clearAnims(page);
+    var curIdx = ORDER.indexOf(cur);
+    var toIdx = ORDER.indexOf(toId);
+    var dirClass = (toIdx>curIdx) ? "slide-out-left" : "slide-out-right";
+    page.classList.add(dirClass);
+    var navigated = false;
+    var go = function(){ if(navigated) return; navigated = true; window.location.href = href; };
+    page.addEventListener("animationend", go, { once:true });
+    setTimeout(go, 480);
+    try{ sessionStorage.setItem("from", cur); }catch(e){}
+  }
+
+  function interceptNav(){
+    var links = document.querySelectorAll('.bottom-nav a[href$=".html"]');
+    links.forEach(function(a){
+      a.addEventListener("click", function(e){
+        var href = a.getAttribute("href");
+        var toId = pageIdFromHref(href);
+        if(!toId) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        animateExit(toId, href);
+      }, true);
+    });
+  }
+
+  if (document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", function(){
+      interceptNav();
+      animateEnter();
+    });
+  } else {
+    interceptNav();
+    animateEnter();
+  }
+})();
