@@ -91,8 +91,6 @@
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
              signOut, onAuthStateChanged } 
     from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, onSnapshot, orderBy, serverTimestamp, doc, updateDoc, deleteDoc } 
-    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB4Zfij4aVResllpzk94UbJ0NKMIaJT_ao",
@@ -108,99 +106,6 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // 评论表单和列表元素
-    const commentsList = document.getElementById("comments-list");
-    const commentForm = document.getElementById("comment-form");
-    const commentFormContainer = document.getElementById("comment-form-container");
-    const commentContent = document.getElementById("comment-content");
-
-    // 实时加载评论
-    const commentsQuery = query(collection(db, "comments"), orderBy("timestamp", "desc"));
-
-    onSnapshot(commentsQuery, (snapshot) => {
-      commentsList.innerHTML = '';
-      snapshot.forEach((doc) => {
-        const commentData = doc.data();
-        const commentId = doc.id;
-        const commentEl = document.createElement("div");
-        commentEl.className = "comment";
-        
-        let commentHtml = `
-          <div class="comment-author"><strong>${commentData.authorEmail}</strong></div>
-          <div class="comment-content">${commentData.content}</div>
-          <div class="comment-timestamp">${new Date(commentData.timestamp.toDate()).toLocaleString()}</div>
-        `;
-
-        if (auth.currentUser && auth.currentUser.uid === commentData.authorId) {
-          commentHtml += `
-            <div class="comment-actions">
-              <button class="edit-btn" data-id="${commentId}">修改</button>
-              <button class="delete-btn" data-id="${commentId}">删除</button>
-            </div>
-          `;
-        }
-
-        commentEl.innerHTML = commentHtml;
-        commentsList.appendChild(commentEl);
-      });
-    });
-
-    // 提交评论
-    commentForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const content = commentContent.value.trim();
-      const user = auth.currentUser;
-      if (content && user) {
-        try {
-          await addDoc(collection(db, "comments"), {
-            content: content,
-            authorId: user.uid,
-            authorEmail: user.email,
-            timestamp: serverTimestamp(),
-            // 这里可以添加文章ID来区分不同博客的评论
-            // postId: "your-post-id-here"
-          });
-          commentContent.value = '';
-        } catch (error) {
-          console.error("发表评论失败: ", error);
-        }
-      }
-    });
-
-    // 修改和删除评论
-    commentsList.addEventListener("click", async (e) => {
-      const target = e.target;
-      const commentId = target.dataset.id;
-      if (!commentId) return;
-
-      if (target.classList.contains("delete-btn")) {
-        if (confirm("确定要删除这条评论吗？")) {
-          try {
-            await deleteDoc(doc(db, "comments", commentId));
-          } catch (error) {
-            console.error("删除评论失败: ", error);
-          }
-        }
-      } else if (target.classList.contains("edit-btn")) {
-        const commentEl = target.closest(".comment");
-        const currentContentEl = commentEl.querySelector(".comment-content");
-        const currentContent = currentContentEl.innerText;
-
-        const newContent = prompt("请修改您的评论:", currentContent);
-        if (newContent !== null && newContent.trim() !== "") {
-          try {
-            await updateDoc(doc(db, "comments", commentId), {
-              content: newContent.trim()
-            });
-          } catch (error) {
-            console.error("修改评论失败: ", error);
-          }
-        }
-      }
-    });
-
 
     // 监听用户状态
     onAuthStateChanged(auth, (user) => {
@@ -208,20 +113,12 @@
         document.getElementById("userInfo").innerText = "欢迎: " + user.email;
         document.getElementById("logoutBtn").style.display = "inline-block";
         document.getElementById("loginForm").style.display = "none";
-        document.querySelector("main section:nth-of-type(2)").style.display = "block";
-        // 登录后显示评论区
-        document.getElementById("comments-section").style.display = "block";
-        // 登录后显示评论表单
-        commentFormContainer.style.display = "block";
+        document.querySelector("main section:nth-of-type(2)").style.display = "block"; // 显示文章
       } else {
         document.getElementById("userInfo").innerText = "";
         document.getElementById("logoutBtn").style.display = "none";
         document.getElementById("loginForm").style.display = "block";
-        document.querySelector("main section:nth-of-type(2)").style.display = "none";
-        // 未登录时仍显示评论列表
-        document.getElementById("comments-section").style.display = "block";
-        // 未登录时隐藏评论表单
-        commentFormContainer.style.display = "none";
+        document.querySelector("main section:nth-of-type(2)").style.display = "none"; // 隐藏文章
       }
     });
 
