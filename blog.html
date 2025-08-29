@@ -29,14 +29,17 @@
     <section>
       <h2>用户登录</h2>
       <div id="loginForm">
-        <input type="email" id="email" placeholder="邮箱" />
-        <input type="password" id="password" placeholder="密码" />
-        <button id="loginBtn">登录</button>
-        <button id="registerBtn">注册</button>
+        <!-- 修改：添加 liquid-input 类 -->
+        <input type="email" id="email" placeholder="邮箱" class="liquid-input" />
+        <input type="password" id="password" placeholder="密码" class="liquid-input" />
+        <!-- 修改这里：加上 liquid-btn -->
+        <button id="loginBtn" class="liquid-btn">登录</button>
+        <button id="registerBtn" class="liquid-btn">注册</button>
       </div>
 
       <p id="userInfo"></p>
-      <button id="logoutBtn" style="display:none;">退出登录</button>
+      <!-- 修改这里：加上 liquid-btn -->
+      <button id="logoutBtn" style="display:none;" class="liquid-btn">退出登录</button>
 
       <h2>最新文章</h2>
       <div id="blogList" class="contact-wrapper"></div>
