@@ -25,6 +25,20 @@
       </div>
     </header>
 
+    <!-- ✅ 登录表单 -->
+    <section id="authSection">
+      <h2>用户登录</h2>
+      <div id="loginForm">
+        <input type="email" id="email" placeholder="邮箱" />
+        <input type="password" id="password" placeholder="密码" />
+        <button id="loginBtn">登录</button>
+        <button id="registerBtn">注册</button>
+      </div>
+
+      <p id="userInfo"></p>
+      <button id="logoutBtn" style="display:none;">退出登录</button>
+    </section>
+
     <section>
       <h2>最新文章</h2>
       <div id="blogList" class="contact-wrapper"></div>
@@ -69,10 +83,13 @@
     </a>
   </nav>
 
-  <!-- ✅ Firebase 初始化 -->
+  <!-- ✅ Firebase 初始化 + Authentication -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, 
+             signOut, onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB4Zfij4aVResllpzk94UbJ0NKMIaJT_ao",
@@ -87,6 +104,43 @@
     // 初始化 Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    // 监听用户状态
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("userInfo").innerText = "欢迎: " + user.email;
+        document.getElementById("logoutBtn").style.display = "inline-block";
+        document.getElementById("loginForm").style.display = "none";
+        document.querySelector("main section:nth-of-type(2)").style.display = "block"; // 显示文章
+      } else {
+        document.getElementById("userInfo").innerText = "";
+        document.getElementById("logoutBtn").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+        document.querySelector("main section:nth-of-type(2)").style.display = "none"; // 隐藏文章
+      }
+    });
+
+    // 登录
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .catch(err => alert("登录失败: " + err.message));
+    });
+
+    // 注册
+    document.getElementById("registerBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .catch(err => alert("注册失败: " + err.message));
+    });
+
+    // 退出
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth);
+    });
   </script>
 </body>
 </html>
