@@ -325,6 +325,7 @@ body#index-page .email-item button {
   color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0;
   -webkit-backdrop-filter: blur(10px) saturate(180%);
   backdrop-filter: blur(10px) saturate(180%);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
@@ -338,49 +339,6 @@ body#index-page .email-item button:active { transform: scale(0.95); }
   body#index-page .email-item { background: rgba(30,30,30,0.45); }
   body#index-page .email-item span { color: #fff; }
 }
-
-/* 🌊 Liquid Glass 风格的输入框，增加白色模糊背景 */
-.liquid-input {
-  background: rgba(255, 255, 255, 0.15); /* 半透明白色背景 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  padding: 12px 20px;
-  color: white;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  -webkit-backdrop-filter: blur(10px); /* 模糊效果 */
-  backdrop-filter: blur(10px); /* 模糊效果 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.liquid-input:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* 🌊 通用 Liquid Glass 按钮（登录/注册/退出） */
-.liquid-btn {
-  min-width: 100px; /* 登录注册按钮比复制按钮宽一点 */
-  padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  border-radius: 999px;
-  background: rgba(0,122,255,0.85);
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  backdrop-filter: blur(10px) saturate(180%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
-}
-
-.liquid-btn:hover {
-  background: rgba(0,122,255,1);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
-}
-
-.liquid-btn:active { transform: scale(0.95); }
 
 /* 📧 邮箱关闭按钮：修复背景不可见 */
 body#index-page .actions {
