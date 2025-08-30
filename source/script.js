@@ -282,3 +282,73 @@ if (document.body.id === "blog-page") {
     animateEnter();
   }
 })();
+
+// 存储当前CSS版本状态
+let usingFluentCss = localStorage.getItem('useFluentCss') === 'true';
+
+// 初始化CSS版本
+document.addEventListener('DOMContentLoaded', () => {
+  applyCssVersion(usingFluentCss);
+});
+
+// 切换CSS版本
+function toggleCssVersion() {
+  usingFluentCss = !usingFluentCss;
+  localStorage.setItem('useFluentCss', usingFluentCss);
+  applyCssVersion(usingFluentCss);
+  
+  // 显示切换提示
+  showCopiedTip(usingFluentCss ? '已切换到Fluent样式' : '已切换到原版样式');
+}
+
+// 应用CSS版本
+function applyCssVersion(useFluent) {
+  // 获取所有CSS链接
+  const styleLink = document.querySelector('link[href="source/style.css"]');
+  const fluentStyleLink = document.querySelector('link[href="source/style-fluent.css"]');
+  
+  if (useFluent) {
+    // 启用Fluent CSS，禁用原版CSS
+    if (styleLink) styleLink.disabled = true;
+    if (fluentStyleLink) {
+      fluentStyleLink.disabled = false;
+    } else {
+      // 如果不存在则创建Fluent CSS链接
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'source/style-fluent.css';
+      document.head.appendChild(link);
+    }
+  } else {
+    // 启用原版CSS，禁用Fluent CSS
+    if (fluentStyleLink) fluentStyleLink.disabled = true;
+    if (styleLink) {
+      styleLink.disabled = false;
+    } else {
+      // 如果不存在则创建原版CSS链接
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'source/style.css';
+      document.head.appendChild(link);
+    }
+  }
+}
+
+// 显示提示信息（复用现有提示功能）
+function showCopiedTip(text) {
+  const tip = document.querySelector('.copied-tip') || createCopiedTip();
+  tip.textContent = text;
+  tip.classList.add('show');
+  
+  setTimeout(() => {
+    tip.classList.remove('show');
+  }, 2000);
+}
+
+// 创建提示元素（如果不存在）
+function createCopiedTip() {
+  const tip = document.createElement('div');
+  tip.className = 'copied-tip';
+  document.body.appendChild(tip);
+  return tip;
+}
