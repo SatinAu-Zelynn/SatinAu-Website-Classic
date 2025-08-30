@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>缎金SatinAu</title>
-  <meta name="description" content="缎金SatinAu 致力于促成大自由中之社会进步及较善之民生，分享思想、创作与交流。">
+  <meta name="description" content="缎金SatinAu 促成大自由中之社会进步及较善之民生">
   <meta name="keywords" content="缎金,SatinAu,社会进步,思想,创作,博客,联系方式">
   <meta name="author" content="缎金SatinAu">
   <link rel="canonical" href="https://satinau.cn/">
   <link rel="icon" type="image/png" href="source/png/favicon.png">
   <link rel="stylesheet" href="source/style.css">
+  <link rel="stylesheet" href="source/style-fluent.css" disabled>
   <script src="source/script.js" defer></script>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9426096622283590"
        crossorigin="anonymous"></script>
   
-  <!-- ✅ 站点 Logo 结构化数据 -->
+  <!-- 站点 Logo 结构化数据 -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,7 +47,7 @@
     <section>
       <h2>联系方式 / Contact Information</h2>
       <div class="contact-wrapper">
-        <!-- 📧 邮箱 -->
+        <!-- 邮箱 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showEmailPopup()">
           <div class="icon">
             <svg viewBox="0 0 24 24"><path d="M20 4H4v16h16V4zm0 4-8 5-8-5"/></svg>
@@ -57,7 +58,7 @@
           </div>
         </a>
 
-        <!-- 🟦 QQ -->
+        <!-- QQ -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://qm.qq.com/q/WTOl1Swrqa','是否跳转到 QQ？')">
           <div class="icon"><img src="source/ico/favicon_qq.ico" alt="QQ"></div>
           <div class="text">
@@ -66,7 +67,7 @@
           </div>
         </a>
 
-        <!-- 🟩 微信 -->
+        <!-- 微信 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showWeChatQR()">
           <div class="icon"><img src="source/ico/favicon_wechat.ico" alt="WeChat"></div>
           <div class="text">
@@ -75,7 +76,7 @@
           </div>
         </a>
 
-        <!-- 🅱️ 哔哩哔哩 -->
+        <!-- 哔哩哔哩 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://space.bilibili.com/1502522588','是否跳转到 哔哩哔哩？')">
           <div class="icon"><img src="source/ico/favicon_bilibili.ico" alt="Bilibili"></div>
           <div class="text">
@@ -84,7 +85,7 @@
           </div>
         </a>
 
-        <!-- 🟧 酷安 -->
+        <!-- 酷安 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('http://www.coolapk.com/u/3561588','是否跳转到 酷安？')">
           <div class="icon"><img src="source/ico/favicon_coolapk.ico" alt="Coolapk"></div>
           <div class="text">
@@ -93,7 +94,7 @@
           </div>
         </a>
 
-        <!-- 🟥 微博 -->
+        <!-- 微博 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://weibo.com/u/7452701895','是否跳转到 微博？')">
           <div class="icon"><img src="source/ico/favicon_weibo.ico" alt="Weibo"></div>
           <div class="text">
@@ -102,7 +103,7 @@
           </div>
         </a>
 
-        <!-- 🟥 小红书 -->
+        <!-- 小红书 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://www.xiaohongshu.com/user/profile/5e950c600000000001009b54','是否跳转到 小红书？')">
           <div class="icon"><img src="source/ico/favicon_xiaohongshu.ico" alt="Xiaohongshu"></div>
           <div class="text">
@@ -111,7 +112,7 @@
           </div>
         </a>
 
-        <!-- 🟦 知乎 -->
+        <!-- 知乎 -->
         <a class="contact-card" href="javascript:void(0);" onclick="showIosAlert('https://www.zhihu.com/people/31-87-23-61','是否跳转到 知乎？')">
           <div class="icon"><img src="source/ico/favicon_zhihu.ico" alt="Zhihu"></div>
           <div class="text">
@@ -125,14 +126,15 @@
     <footer>
       <p>© 2025 缎金SatinAu 保留所有权利。 
        <a href="https://www.kdocs.cn/l/chC750lu9LQC" target="_blank">问题反馈</a>
+       <button id="cssToggle" onclick="toggleCssVersion()">切换样式</button>
       </p>
     </footer>
   </main>
 
-  <!-- 📋 iOS 风格复制提示 -->
+  <!-- iOS 风格复制提示 -->
   <div id="copiedTip" class="copied-tip">📋 邮箱已复制</div>
 
-  <!-- 📱 邮箱选择弹窗 -->
+  <!-- 邮箱选择弹窗 -->
   <div id="emailOverlay" class="overlay" onclick="closeEmailPopup()"></div>
   <div id="emailPopup" class="modal">
     <p>请选择邮箱地址</p>
@@ -151,10 +153,10 @@
     </div>
   </div>
 
-  <!-- 📱 iOS 弹窗遮罩 -->
+  <!-- iOS 弹窗遮罩 -->
   <div id="iosOverlay" class="overlay" onclick="closeIosAlert()"></div>
 
-  <!-- 📱 iOS 确认弹窗 -->
+  <!-- iOS 确认弹窗 -->
   <div id="iosAlert" class="modal ios-alert">
     <p id="iosAlertMsg">是否跳转？</p>
     <div class="actions">
@@ -163,14 +165,14 @@
     </div>
   </div>
 
-  <!-- 📱 微信二维码弹窗 -->
+  <!-- 微信二维码弹窗 -->
   <div id="wechatOverlay" class="overlay" onclick="closeWeChatQR()"></div>
   <div id="wechatQR" class="modal wechat-qr">
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://u.wechat.com/MASBAq1qageU9c51LoYg2-Q?s=2" alt="WeChat QR">
     <p>微信扫码加我（若未显示二维码请多次刷新重试，微信仅允许二维码名片，程序会自动将地址转为二维码）</p>
   </div>
 
-  <!-- 📱 底部导航栏 -->
+  <!-- 底部导航栏 -->
   <nav class="bottom-nav">
     <a href="index.html" class="active">
       <span class="nav-cn">缎金</span>

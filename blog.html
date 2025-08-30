@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>博客Blog</title>
+  <title>缎金SatinAu - 博客Blog</title>
   <meta name="description" content="缎金SatinAu 博客 - 分享文章、观点与创作，记录思想与社会进步的思考。">
   <meta name="keywords" content="缎金,博客,SatinAu,文章,观点,创作">
   <meta name="author" content="缎金SatinAu">
   <link rel="canonical" href="https://satinau.cn/blog.html">
   <link rel="icon" type="image/png" href="source/png/favicon.png">
   <link rel="stylesheet" href="source/style.css">
+  <link rel="stylesheet" href="source/style-fluent.css" disabled>
   <script src="source/script.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -30,7 +31,7 @@
       <div id="blogList" class="contact-wrapper"></div>
       <article id="postView" class="md-article" style="display:none;">
         <div class="post-meta">
-          <!-- ✅ 修改后的返回按钮：Liquid Glass 圆形 + 箭头 -->
+          <!-- 返回按钮：Liquid Glass 圆形 + 箭头 -->
           <button id="backToList" class="back-button" aria-label="返回">
             <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
@@ -44,11 +45,12 @@
     <footer>
       <p>© 2025 缎金SatinAu 保留所有权利。 
        <a href="https://www.kdocs.cn/l/chC750lu9LQC" target="_blank">问题反馈</a>
+       <button id="cssToggle" onclick="toggleCssVersion()">切换样式</button>
       </p>
     </footer>
   </main>
 
-  <!-- 📌 加载动画 -->
+  <!-- 加载动画 -->
   <div id="loadingOverlay" class="loading-overlay">
     <div class="spinner"></div>
   </div>
