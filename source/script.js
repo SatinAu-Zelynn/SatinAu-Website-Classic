@@ -306,7 +306,7 @@ function applyCssVersion(useFluent) {
   // 获取所有CSS链接
   const styleLink = document.querySelector('link[href="source/style.css"]');
   const fluentStyleLink = document.querySelector('link[href="source/style-fluent.css"]');
-  
+
   if (useFluent) {
     // 启用Fluent CSS，禁用原版CSS
     if (styleLink) styleLink.disabled = true;
