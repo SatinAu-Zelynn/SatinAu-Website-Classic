@@ -82,6 +82,24 @@ header h1 {
   letter-spacing: 1px;
 }
 
+/* 标题和 Logo 一行显示 */
+.title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.title-row h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+.title-row img {
+  max-height: 100px;
+  width: auto;
+  margin: 0;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
+}
+
 /* ========== Section 通用 ========== */
 section {
   padding: 24px 0;
