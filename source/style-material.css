@@ -42,9 +42,10 @@ header h1 {
   gap: 14px;
 }
 .title-row img {
-  max-height: 100px;
+  max-height: 90px;
   width: auto;
   margin: 0;
+  margin-top: 5px;
   filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
 }
 
