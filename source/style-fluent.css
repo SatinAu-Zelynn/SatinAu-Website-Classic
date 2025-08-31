@@ -545,3 +545,28 @@ footer {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.style-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 12px;
+  padding: 6px 10px;
+  border-radius: var(--fluent-border-radius-sm);
+  background: var(--fluent-color-bg-hover);
+}
+
+.style-switcher label {
+  cursor: pointer;
+  font-size: var(--fluent-font-size);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--fluent-color-text);
+}
+
+.style-switcher input[type="radio"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--fluent-color-primary);
+}

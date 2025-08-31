@@ -1,6 +1,6 @@
 /* ========== 公用逻辑 ========== */
 
-/* 📱 iOS 弹窗逻辑 */
+/* iOS 弹窗逻辑 */
 let pendingUrl = null;
 
 function showIosAlert(url, msg = "是否跳转到外部链接？") {
@@ -22,7 +22,7 @@ function confirmIosAlert() {
   closeIosAlert();
 }
 
-/* ✨ 通用工具函数 */
+/* 通用工具函数 */
 function toggleModal(id, show = true) {
   const el = document.getElementById(id);
   if (el) el.classList.toggle("show", show);
@@ -37,13 +37,13 @@ function showToast(msg) {
   setTimeout(() => { tip.classList.remove("show", "done"); }, 1800);
 }
 
-/* ✨ 页面加载动画 & 卡片入场 */
+/* 页面加载动画 & 卡片入场 */
 window.onload = function () {
   document.body.style.opacity = 1;
 
-  // 🚀 自动为每个 contact-card 分配错位淡入延迟（仅首页和泽凌）
+  // 自动为每个 contact-card 分配错位淡入延迟（仅首页和泽凌）
   document.querySelectorAll('.contact-card').forEach((card, index) => {
-    if (document.body.id !== "blog-page") { // ✅ 博客页面不走这段逻辑
+    if (document.body.id !== "blog-page") { // 博客页面不走这段逻辑
       new IntersectionObserver((entries, observer) => {
         entries.forEach(e => {
           if (e.isIntersecting) {
@@ -56,7 +56,7 @@ window.onload = function () {
     }
   });
 
-  /* 🚀 页面进入动画（目标是 .page 而不是 body） */
+  /* 页面进入动画（目标是 .page 而不是 body） */
   const PAGE = document.querySelector('.page') || document.body;
   const from = sessionStorage.getItem("from");
   if (from === "index") {
@@ -67,7 +67,7 @@ window.onload = function () {
   sessionStorage.removeItem("from");
 };
 
-/* 📌 底部导航栏页面切换（对 .page 做退出动画） */
+/* 底部导航栏页面切换（对 .page 做退出动画） */
 document.querySelectorAll(".bottom-nav a").forEach(link => {
   link.addEventListener("click", function (e) {
     const target = this.getAttribute("href") || "";
@@ -91,7 +91,7 @@ document.querySelectorAll(".bottom-nav a").forEach(link => {
 
 /* ========== index.html 独有逻辑 ========== */
 if (document.body.id === "index-page") {
-  /* 📧 邮箱复制（支持多地址，带回退方案） */
+  /* 邮箱复制（支持多地址，带回退方案） */
   window.copyEmail = function(email) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(email).then(() => {
@@ -120,11 +120,11 @@ if (document.body.id === "index-page") {
     document.body.removeChild(input);
   }
 
-  /* 📧 邮箱选择弹窗 */
+  /* 邮箱选择弹窗 */
   window.showEmailPopup  = () => { toggleModal("emailOverlay", true); toggleModal("emailPopup", true); };
   window.closeEmailPopup = () => { toggleModal("emailOverlay", false); toggleModal("emailPopup", false); };
 
-  /* 📱 微信二维码弹窗 */
+  /* 微信二维码弹窗 */
   window.showWeChatQR  = () => { toggleModal("wechatOverlay", true); toggleModal("wechatQR", true); };
   window.closeWeChatQR = () => { toggleModal("wechatOverlay", false); toggleModal("wechatQR", false); };
 }
@@ -164,7 +164,7 @@ if (document.body.id === "blog-page") {
         card.addEventListener("click", () => loadPost(post));
         listEl.appendChild(card);
 
-        // ✅ 加入错位淡入动画
+        // 加入错位淡入动画
         new IntersectionObserver((entries, observer) => {
           entries.forEach(e => {
             if (e.isIntersecting) {
@@ -179,7 +179,7 @@ if (document.body.id === "blog-page") {
 
   // 加载单篇文章
   function loadPost(post) {
-    loader.classList.add("show"); // 👉 点击卡片后立刻显示加载动画
+    loader.classList.add("show"); // 点击卡片后立刻显示加载动画
 
     fetch("blog/" + post.file)
       .then(res => res.text())
@@ -190,13 +190,13 @@ if (document.body.id === "blog-page") {
         listEl.style.display = "none";
         postView.style.display = "block";
 
-        // ✅ 触发文章淡入动画
+        // 触发文章淡入动画
         postView.classList.remove("animate");
         void postView.offsetWidth; // 强制重绘
         postView.classList.add("animate");
       })
       .finally(() => {
-        loader.classList.remove("show"); // 👉 加载完成后隐藏动画
+        loader.classList.remove("show"); // 加载完成后隐藏动画
       });
   }
 
@@ -283,72 +283,44 @@ if (document.body.id === "blog-page") {
   }
 })();
 
-// 存储当前CSS版本状态
-let usingFluentCss = localStorage.getItem('useFluentCss') === 'true';
-
-// 初始化CSS版本
+// 样式切换逻辑 - 替换原按钮为选项框
 document.addEventListener('DOMContentLoaded', () => {
-  applyCssVersion(usingFluentCss);
-});
-
-// 切换CSS版本
-function toggleCssVersion() {
-  usingFluentCss = !usingFluentCss;
-  localStorage.setItem('useFluentCss', usingFluentCss);
-  applyCssVersion(usingFluentCss);
+  // 初始化样式选项
+  const styleOptions = document.querySelectorAll('input[name="style"]');
+  const savedStyle = localStorage.getItem('preferredStyle') || 'sainau';
   
-  // 显示切换提示
-  showCopiedTip(usingFluentCss ? '已切换到Fluent样式' : '已切换到原版样式');
-}
+  // 设置初始选中状态
+  const savedOption = document.querySelector(`input[name="style"][value="${savedStyle}"]`);
+  if (savedOption) {
+    savedOption.checked = true;
+  }
+  
+  // 应用初始样式
+  applyCssVersion(savedStyle === 'fluent');
+  
+  // 为每个选项添加change事件监听
+  styleOptions.forEach(option => {
+    option.addEventListener('change', function() {
+      const useFluent = this.value === 'fluent';
+      applyCssVersion(useFluent);
+      localStorage.setItem('preferredStyle', this.value);
+      showToast(useFluent ? '已切换到Microsoft Fluent样式' : '已切换到SainAu Design样式');
+    });
+  });
+});
 
 // 应用CSS版本
 function applyCssVersion(useFluent) {
   // 获取所有CSS链接
-  const styleLink = document.querySelector('link[href="source/style.css"]');
-  const fluentStyleLink = document.querySelector('link[href="source/style-fluent.css"]');
-
-  if (useFluent) {
-    // 启用Fluent CSS，禁用原版CSS
-    if (styleLink) styleLink.disabled = true;
-    if (fluentStyleLink) {
-      fluentStyleLink.disabled = false;
-    } else {
-      // 如果不存在则创建Fluent CSS链接
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'source/style-fluent.css';
-      document.head.appendChild(link);
-    }
-  } else {
-    // 启用原版CSS，禁用Fluent CSS
-    if (fluentStyleLink) fluentStyleLink.disabled = true;
-    if (styleLink) {
-      styleLink.disabled = false;
-    } else {
-      // 如果不存在则创建原版CSS链接
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'source/style.css';
-      document.head.appendChild(link);
-    }
-  }
-}
-
-// 显示提示信息（复用现有提示功能）
-function showCopiedTip(text) {
-  const tip = document.querySelector('.copied-tip') || createCopiedTip();
-  tip.textContent = text;
-  tip.classList.add('show');
+  const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
   
-  setTimeout(() => {
-    tip.classList.remove('show');
-  }, 2000);
-}
-
-// 创建提示元素（如果不存在）
-function createCopiedTip() {
-  const tip = document.createElement('div');
-  tip.className = 'copied-tip';
-  document.body.appendChild(tip);
-  return tip;
+  // 根据需要切换CSS文件（这里假设你有两个CSS文件分别对应两种样式）
+  cssLinks.forEach(link => {
+    // 示例逻辑：根据文件名切换，实际项目中请根据你的文件命名调整
+    if (link.href.includes('style-fluent.css')) {
+      link.disabled = !useFluent;
+    } else if (link.href.includes('style.css') && !link.href.includes('style-fluent.css')) {
+      link.disabled = useFluent;
+    }
+  });
 }

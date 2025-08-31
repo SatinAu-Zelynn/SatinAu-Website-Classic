@@ -558,7 +558,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   .md-body blockquote { background: rgba(40,40,40,0.4); border-left-color: #666; }
 }
 
-/* ✅ 二级页面淡入动画 */
+/* 二级页面淡入动画 */
 .md-article {
   animation: fadeInUp 0.5s ease forwards;
   opacity: 0;
@@ -604,4 +604,35 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 @media (prefers-color-scheme: dark) {
   .loading-overlay { background: rgba(0,0,0,0.55); }
   .spinner { border: 4px solid rgba(255,255,255,0.15); border-top-color: #0a84ff; }
+}
+
+.style-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.style-switcher label {
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.style-switcher input[type="radio"] {
+  width: 14px;
+  height: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .style-switcher {
+    background: rgba(30, 30, 30, 0.6);
+  }
 }
