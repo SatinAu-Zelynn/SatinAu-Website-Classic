@@ -283,44 +283,44 @@ if (document.body.id === "blog-page") {
   }
 })();
 
-// 样式切换逻辑 - 替换原按钮为选项框
+// ---- 样式切换逻辑 更新版 ----
 document.addEventListener('DOMContentLoaded', () => {
   // 初始化样式选项
   const styleOptions = document.querySelectorAll('input[name="style"]');
   const savedStyle = localStorage.getItem('preferredStyle') || 'sainau';
-  
+
   // 设置初始选中状态
   const savedOption = document.querySelector(`input[name="style"][value="${savedStyle}"]`);
   if (savedOption) {
     savedOption.checked = true;
   }
-  
+
   // 应用初始样式
-  applyCssVersion(savedStyle === 'fluent');
-  
+  applyCssVersion(savedStyle);
+
   // 为每个选项添加change事件监听
   styleOptions.forEach(option => {
     option.addEventListener('change', function() {
-      const useFluent = this.value === 'fluent';
-      applyCssVersion(useFluent);
+      applyCssVersion(this.value);
       localStorage.setItem('preferredStyle', this.value);
-      showToast(useFluent ? '已切换到Microsoft Fluent样式' : '已切换到SainAu Design样式');
+      let msg = '已切换到SainAu Design样式';
+      if (this.value === 'fluent') msg = '已切换到Microsoft Fluent样式';
+      if (this.value === 'material') msg = '已切换到Google Material样式';
+      showToast(msg);
     });
   });
 });
 
 // 应用CSS版本
-function applyCssVersion(useFluent) {
-  // 获取所有CSS链接
+function applyCssVersion(style) {
   const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
-  
-  // 根据需要切换CSS文件（这里假设你有两个CSS文件分别对应两种样式）
   cssLinks.forEach(link => {
-    // 示例逻辑：根据文件名切换，实际项目中请根据你的文件命名调整
     if (link.href.includes('style-fluent.css')) {
-      link.disabled = !useFluent;
-    } else if (link.href.includes('style.css') && !link.href.includes('style-fluent.css')) {
-      link.disabled = useFluent;
+      link.disabled = style !== 'fluent';
+    } else if (link.href.includes('style-material.css')) {
+      link.disabled = style !== 'material';
+    } else if (link.href.includes('style.css') && !link.href.includes('style-fluent.css') && !link.href.includes('style-material.css')) {
+      link.disabled = style !== 'sainau';
     }
   });
 }
