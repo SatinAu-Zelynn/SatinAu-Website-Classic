@@ -122,9 +122,9 @@ body {
     opacity: 0.22; /* 深色模式降低色块透明度，避免过亮刺眼 */
     filter: blur(120px) brightness(0.85); /* 轻微降亮，保留色彩辨识度 */
   }
-  /* 页面背景保持透明（深色模式下，透明背景会与系统深色环境融合，无需额外改色） */
-  body {
-    background: transparent !important;
+  body { 
+    background: #000 !important;
+    color: #f5f5f5; 
   }
 }
 
