@@ -44,24 +44,88 @@ body{
 }
 
 /* 背景动态渐变 */
-body::before {
-  content: "";
-  position: fixed;
-  top: 50%; left: 50%;
-  width: 160%; height: 160%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(120deg, #00FFCC, #FFE92C, #00FFCC);
-  background-size: 300% 300%;
-  animation: bgMove 18s ease infinite;
-  filter: blur(100px);
-  opacity: 0.35;
-  border-radius: 50%;
-  z-index: -1;
+/* 1. 全局基础：将页面背景改为透明（替代原固定白色，不影响其他属性） */
+body {
+  background: transparent !important; /* 透明背景，让色块直接作为底层 */
 }
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+
+/* 2. 流光色块基础样式（保留原有运动逻辑，仅定义基础视觉） */
+.color-bg {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px); /* 边缘模糊扩散，过渡自然 */
+  opacity: 0.32; /* 浅色模式色块透明度 */
+  z-index: -1; /* 置于最底层，不遮挡原有内容 */
+  transition: none;
+}
+
+/* 3. 4个色块的颜色与位置（原有运动逻辑不变，此处仅定义基础属性） */
+.color-bg-1 {
+  width: 400px; height: 400px;
+  background: #00FFCC;
+  top: 60%; left: 40%;
+  animation: color1Move 20s ease-in-out infinite alternate;
+}
+.color-bg-2 {
+  width: 400px; height: 400px;
+  background: #FFE92C;
+  top: 0%; left: 20%;
+  animation: color2Move 20s ease-in-out infinite alternate;
+}
+.color-bg-3 {
+  width: 400px; height: 400px;
+  background: #5E447B;
+  top: 60%; left: 20%;
+  animation: color3Move 20s ease-in-out infinite alternate;
+}
+.color-bg-4 {
+  width: 400px; height: 400px;
+  background: #FF9999;
+  top: 0%; left: 40%;
+  animation: color4Move 20s ease-in-out infinite alternate;
+}
+
+/* 4. 色块运动关键帧（完全保留原有逻辑，确保流动感不变） */
+@keyframes color1Move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-63%, 0%); }
+  50% { transform: translate(-63%, -83%); }
+  75% { transform: translate(0%, -83%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes color2Move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(63%, 0%); }
+  50% { transform: translate(63%, 83%); }
+  75% { transform: translate(0%, 83%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes color3Move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0%, -83%); }
+  50% { transform: translate(63%, -83%); }
+  75% { transform: translate(63%, 0%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes color4Move {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0%, 83%); }
+  50% { transform: translate(-63%, 83%); }
+  75% { transform: translate(-63%, 0%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ========== 核心：仅针对背景色块适配深色模式（不影响任何原有样式） ========== */
+@media (prefers-color-scheme: dark) {
+  /* 仅调整色块视觉：降低透明度+轻微降亮，适配深色背景下的视觉舒适度 */
+  .color-bg {
+    opacity: 0.22; /* 深色模式降低色块透明度，避免过亮刺眼 */
+    filter: blur(120px) brightness(0.85); /* 轻微降亮，保留色彩辨识度 */
+  }
+  /* 页面背景保持透明（深色模式下，透明背景会与系统深色环境融合，无需额外改色） */
+  body {
+    background: transparent !important;
+  }
 }
 
 /* ========== 页面切换动画（作用于 .page） ========== */
