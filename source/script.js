@@ -138,6 +138,7 @@ if (document.body.id === "zelynn-page") {
 
 /* ========== blog.html 独有逻辑 ========== */
 if (document.body.id === "blog-page") {
+  // DOM元素引用
   const listEl = document.getElementById("blogList");
   const postView = document.getElementById("postView");
   const postTitle = document.getElementById("postTitle");
@@ -145,68 +146,221 @@ if (document.body.id === "blog-page") {
   const postContent = document.getElementById("postContent");
   const backToList = document.getElementById("backToList");
   const loader = document.getElementById("loadingOverlay");
+  const emptyState = document.getElementById("emptyState");
+  const errorState = document.getElementById("errorState");
+  const retryBtn = document.getElementById("retryBtn");
+  const postError = document.getElementById("postError");
+  
+  // 缓存机制
+  const postCache = new Map();
+  let postsData = [];
+  let currentPost = null;
 
-  // 加载 index.json
-  fetch("blog/index.json")
-    .then(res => res.json())
-    .then(posts => {
-      listEl.innerHTML = "";
-      posts.forEach((post, index) => {
-        const card = document.createElement("a");
-        card.className = "contact-card";
-        card.href = "javascript:void(0);";
-        card.innerHTML = `
-          <div class="text">
-            <div class="value">${post.title}</div>
-            <div class="label">${post.date}</div>
-          </div>
-        `;
-        card.addEventListener("click", () => loadPost(post));
-        listEl.appendChild(card);
-
-        // 加入错位淡入动画
-        new IntersectionObserver((entries, observer) => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
-              e.target.classList.add('visible');
-              observer.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.2 }).observe(card);
-      });
+  // 初始化
+  function initBlog() {
+    loadPostsList();
+    
+    // 返回列表按钮事件
+    backToList.addEventListener("click", () => {
+      postView.style.display = "none";
+      listEl.style.display = "grid";
     });
+    
+    // 重试按钮事件
+    retryBtn.addEventListener("click", loadPostsList);
+    
+    // 文章内重试按钮事件委托
+    postView.addEventListener("click", (e) => {
+      if (e.target.closest(".retryPost") && currentPost) {
+        loadPost(currentPost, true);
+      }
+    });
+  }
 
-  // 加载单篇文章
-  function loadPost(post) {
-    loader.classList.add("show"); // 点击卡片后立刻显示加载动画
+  // 加载文章列表
+  function loadPostsList() {
+    // 显示加载状态
+    showLoading(true);
+    listEl.style.display = "none";
+    emptyState.style.display = "none";
+    errorState.style.display = "none";
 
-    fetch("blog/" + post.file)
-      .then(res => res.text())
-      .then(md => {
-        postTitle.textContent = post.title;
-        postDate.textContent = post.date;
-        postContent.innerHTML = marked.parse(md);
-        listEl.style.display = "none";
-        postView.style.display = "block";
-
-        // 触发文章淡入动画
-        postView.classList.remove("animate");
-        void postView.offsetWidth; // 强制重绘
-        postView.classList.add("animate");
+    fetch("blog/index.json")
+      .then(res => {
+        if (!res.ok) throw new Error("网络响应异常");
+        return res.json();
       })
-      .finally(() => {
-        loader.classList.remove("show"); // 加载完成后隐藏动画
+      .then(posts => {
+        postsData = posts;
+        renderPostsList(posts);
+        
+        // 隐藏加载状态，显示列表
+        showLoading(false);
+        listEl.style.display = "grid";
+        
+        // 如果没有文章，显示空状态
+        if (posts.length === 0) {
+          listEl.style.display = "none";
+          emptyState.style.display = "block";
+        }
+      })
+      .catch(err => {
+        console.error("加载文章列表失败:", err);
+        showLoading(false);
+        errorState.style.display = "block";
       });
   }
 
-  // 返回列表
-  backToList.addEventListener("click", () => {
-    postView.style.display = "none";
-    listEl.style.display = "grid";
-  });
-}
+  // 渲染文章列表
+  function renderPostsList(posts) {
+    listEl.innerHTML = "";
+    
+    posts.forEach((post, index) => {
+      const card = document.createElement("a");
+      card.className = "contact-card";
+      card.href = "javascript:void(0);";
+      card.innerHTML = `
+        <div class="text">
+          <div class="value">${post.title}</div>
+          <div class="label">${post.date}</div>
+        </div>
+      `;
+      
+      // 点击事件 - 使用防抖处理
+      card.addEventListener("click", debounce(() => loadPost(post), 300));
+      listEl.appendChild(card);
 
+      // 加入错位淡入动画
+      new IntersectionObserver((entries, observer) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.2 }).observe(card);
+    });
+  }
+
+  // 加载单篇文章
+  function loadPost(post, forceRefresh = false) {
+    currentPost = post;
+    postError.style.display = "none";
+    postContent.innerHTML = "";
+    
+    // 显示加载动画
+    showLoading(true);
+    
+    // 检查缓存
+    if (!forceRefresh && postCache.has(post.file)) {
+      renderPost(post, postCache.get(post.file));
+      showLoading(false);
+      return;
+    }
+
+    // 从网络加载
+    fetch(`blog/${post.file}`)
+      .then(res => {
+        if (!res.ok) throw new Error("文章加载失败");
+        return res.text();
+      })
+      .then(md => {
+        // 存入缓存
+        postCache.set(post.file, md);
+        renderPost(post, md);
+      })
+      .catch(err => {
+        console.error("加载文章失败:", err);
+        showLoading(false);
+        postContent.innerHTML = "";
+        postError.style.display = "block";
+      });
+  }
+
+  // 渲染文章内容
+  function renderPost(post, mdContent) {
+    postTitle.textContent = post.title;
+    postDate.textContent = post.date;
+    
+    // 优化Markdown渲染
+    try {
+      // 处理图片路径
+      const processedMd = mdContent.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+        // 如果是相对路径，添加前缀
+        if (!src.startsWith('http://') && !src.startsWith('https://')) {
+          return `![${alt}](blog/${src})`;
+        }
+        return match;
+      });
+      
+      postContent.innerHTML = marked.parse(processedMd);
+      
+      // 处理链接跳转
+      postContent.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && 
+            !href.startsWith('http://') && 
+            !href.startsWith('https://')) {
+          link.setAttribute('href', `blog/${href}`);
+        }
+        
+        // 外部链接处理
+        if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+          
+          // 对于iOS设备使用弹窗确认
+          link.addEventListener('click', (e) => {
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+              e.preventDefault();
+              showIosAlert(href);
+            }
+          });
+        }
+      });
+    } catch (err) {
+      console.error("Markdown渲染失败:", err);
+      postContent.innerHTML = "<p>文章解析错误，请稍后重试</p>";
+    }
+    
+    // 显示文章视图
+    listEl.style.display = "none";
+    postView.style.display = "block";
+
+    // 触发文章淡入动画
+    postView.classList.remove("animate");
+    void postView.offsetWidth; // 强制重绘
+    postView.classList.add("animate");
+    
+    // 隐藏加载动画
+    showLoading(false);
+    
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 显示/隐藏加载动画
+  function showLoading(show) {
+    if (show) {
+      loader.classList.add("show");
+    } else {
+      loader.classList.remove("show");
+    }
+  }
+
+  // 防抖函数
+  function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  // 初始化博客页面
+  document.addEventListener('DOMContentLoaded', initBlog);
+}
 
 /* ===================== Unified 3-page left/right transitions ===================== */
 (function(){
