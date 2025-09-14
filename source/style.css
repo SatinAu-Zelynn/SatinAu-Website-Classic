@@ -36,9 +36,9 @@ body {
   }
   .contact-card:hover { background: rgba(40,40,40,0.5); }
   footer { 
-    background: rgba(20, 20, 20, 0.8); /* 比原来更暗（alpha从0.5→0.8） */
-    color: #fff; /* 文字改为纯白色 */
-    border-top: 1px solid rgba(255,255,255,0.05); /* 增加顶部边框区分层次 */
+    background: rgba(30,30,30,0.35); /* 与卡片背景完全相同 */
+    color: #fff; /* 确保文字纯白 */
+    border-top: 1px solid rgba(255,255,255,0.05); /* 保持边框区分 */
   }
   .contact-card .label {
     color: #aaa; /* 浅色标签文字 */
