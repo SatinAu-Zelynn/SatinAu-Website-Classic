@@ -36,6 +36,24 @@ body {
   }
   .contact-card:hover { background: rgba(40,40,40,0.5); }
   footer { background: rgba(30,30,30,0.5); color: #aaa; }
+  .contact-card .label {
+    color: #aaa; /* 浅色标签文字 */
+  }
+  .contact-card .value {
+    color: #f5f5f5; /* 白色主文字 */
+  }
+  .contact-card .icon {
+    background: linear-gradient(135deg, #333, #444); /* 深色图标背景 */
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .contact-card .icon svg {
+    stroke: #0a84ff; /* 深色模式下更亮的图标颜色 */
+  }
+  .contact-card::after {
+    background: linear-gradient(120deg, rgba(255,255,255,0.03) 0%, 
+                                      rgba(255,255,255,0.2) 50%, 
+                                      rgba(255,255,255,0.03) 100%);
+  }
 }
 
 /* 预留底部导航栏空间（避免内容被遮挡） */
@@ -115,7 +133,6 @@ body {
   100% { transform: translate(0, 0); }
 }
 
-/* ========== 核心：仅针对背景色块适配深色模式（不影响任何原有样式） ========== */
 @media (prefers-color-scheme: dark) {
   /* 仅调整色块视觉：降低透明度+轻微降亮，适配深色背景下的视觉舒适度 */
   .color-bg {
