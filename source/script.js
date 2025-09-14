@@ -185,7 +185,7 @@ if (document.body.id === "blog-page") {
     emptyState.style.display = "none";
     errorState.style.display = "none";
 
-    fetch("https://raw.githubusercontent.com/SatinAu-Zelynn/Blog/main/index.json")
+    fetch("blog.satinau.cn/index.json")
       .then(res => {
         if (!res.ok) throw new Error("网络响应异常");
         return res.json();
@@ -260,7 +260,7 @@ if (document.body.id === "blog-page") {
     }
 
     // 从网络加载
-    fetch(`https://raw.githubusercontent.com/SatinAu-Zelynn/Blog/main/${post.file}`)
+    fetch(`blog.satinau.cn/${post.file}`)
       .then(res => {
         if (!res.ok) throw new Error("文章加载失败");
         return res.text();
@@ -289,7 +289,7 @@ if (document.body.id === "blog-page") {
       const processedMd = mdContent.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
         // 如果是相对路径，添加前缀
         if (!src.startsWith('http://') && !src.startsWith('https://')) {
-          return `![${alt}](https://raw.githubusercontent.com/SatinAu-Zelynn/Blog/main/${src})`;
+          return `![${alt}](blog.satinau.cn/${src})`;
         }
         return match;
       });
