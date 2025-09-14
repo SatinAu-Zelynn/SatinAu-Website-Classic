@@ -35,11 +35,10 @@ body {
     box-shadow: 0 18px 40px rgba(0,0,0,0.5);
   }
   .contact-card:hover { background: rgba(40,40,40,0.5); }
-  footer {
-    background: rgba(30, 30, 30, 0.7); /* 加深背景透明度，增强与深色背景的区分度 */
-    color: #bbb; /* 文字颜色稍亮，提升可读性 */
-    border-top: 1px solid rgba(255, 255, 255, 0.08); /* 增加顶部边框，增强层次感 */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* 底部阴影，与深色背景融合 */
+  footer { 
+    background: rgba(20, 20, 20, 0.8); /* 比原来更暗（alpha从0.5→0.8） */
+    color: #fff; /* 文字改为纯白色 */
+    border-top: 1px solid rgba(255,255,255,0.05); /* 增加顶部边框区分层次 */
   }
   .contact-card .label {
     color: #aaa; /* 浅色标签文字 */
@@ -720,6 +719,13 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 @media (prefers-color-scheme: dark) {
   .style-switcher {
-    background: rgba(30, 30, 30, 0.6);
+    background: rgba(20, 20, 20, 0.7); /* 比原来更暗（原30,30,30→20,20,20，alpha0.6→0.7） */
+    border: 1px solid rgba(255,255,255,0.08); /* 增加边框增强轮廓 */
+  }
+  .style-switcher label {
+    color: #f0f0f0; /* 选择器文字改为浅白色 */
+  }
+  .style-switcher input[type="radio"] {
+    accent-color: #0a84ff; /* 单选框选中色适配深色 */
   }
 }
