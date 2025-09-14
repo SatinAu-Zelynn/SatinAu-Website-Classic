@@ -289,7 +289,7 @@ if (document.body.id === "blog-page") {
       const processedMd = mdContent.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
         // 如果是相对路径，添加前缀
         if (!src.startsWith('http://') && !src.startsWith('https://')) {
-          return `![${alt}](https://blog.satinau.cn/${src})`;
+          return `![${alt}](blog/${src})`;
         }
         return match;
       });
