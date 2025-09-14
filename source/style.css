@@ -35,7 +35,12 @@ body {
     box-shadow: 0 18px 40px rgba(0,0,0,0.5);
   }
   .contact-card:hover { background: rgba(40,40,40,0.5); }
-  footer { background: rgba(30,30,30,0.5); color: #aaa; }
+  footer {
+    background: rgba(30, 30, 30, 0.7); /* 加深背景透明度，增强与深色背景的区分度 */
+    color: #bbb; /* 文字颜色稍亮，提升可读性 */
+    border-top: 1px solid rgba(255, 255, 255, 0.08); /* 增加顶部边框，增强层次感 */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3); /* 底部阴影，与深色背景融合 */
+  }
   .contact-card .label {
     color: #aaa; /* 浅色标签文字 */
   }
