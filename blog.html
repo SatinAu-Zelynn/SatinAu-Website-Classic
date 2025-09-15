@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="source/style-material.css" disabled>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="source/script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9426096622283590"
        crossorigin="anonymous"></script>
@@ -29,7 +30,39 @@
       <div class="title-row">
         <h1>博客 Blog</h1>
       </div>
+      <div class="auth-controls">
+        <button id="loginBtn" style="display: none;">登录</button>
+        <div id="userInfo" style="display: none;"></div>
+        <button id="logoutBtn" style="display: none;">退出</button>
+      </div>
     </header>
+
+    <!-- 登录弹窗 -->
+    <div id="authModal" class="overlay" style="display: none;">
+      <div class="modal">
+        <h3>用户登录</h3>
+        <div class="auth-tabs">
+          <button class="tab-btn active" data-tab="email">邮箱登录</button>
+          <button class="tab-btn" data-tab="oauth">第三方登录</button>
+        </div>
+    
+        <!-- 邮箱登录表单 -->
+        <div id="emailTab" class="auth-tab">
+          <input type="email" id="email" placeholder="邮箱" required>
+          <input type="password" id="password" placeholder="密码" required>
+          <button id="emailLoginBtn">登录</button>
+          <button id="signupBtn">注册</button>
+          <p id="authError" style="color: red;"></p>
+        </div>
+    
+        <!-- 第三方登录 -->
+        <div id="oauthTab" class="auth-tab" style="display: none;">
+          <button id="githubLoginBtn">GitHub 登录</button>
+          <button id="googleLoginBtn">Google 登录</button>
+        </div>
+        <button id="closeAuthModal">关闭</button>
+      </div>
+    </div>
 
     <section>
       <h2>最新文章</h2>
