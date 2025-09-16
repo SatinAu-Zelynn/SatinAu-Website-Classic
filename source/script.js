@@ -178,6 +178,7 @@ if (document.body.id === "blog-page") {
     loadPostsList();
     checkUserSession();
     setupAuthEventListeners();
+    setupAuthStateListener();
 
   // 检查用户会话
   async function checkUserSession() {
@@ -210,6 +211,24 @@ if (document.body.id === "blog-page") {
     logoutBtn.style.display = 'none';
   }
 
+  function setupAuthStateListener() {
+    // 监听登录状态变化（包括OAuth回调）
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        // 登录成功，显示用户信息
+        showUserInfo(session.user);
+        // 关闭登录弹窗（如果打开）
+        authModal.style.display = 'none';
+        // 可以在这里添加登录成功后的其他操作（如刷新文章列表等）
+        showToast('登录成功！');
+      } else if (event === 'SIGNED_OUT') {
+        // 登出成功
+        showLoginButton();
+        showToast('已退出登录');
+      }
+    });
+  }
+    
   // 设置认证事件监听
   function setupAuthEventListeners() {
     // 登录按钮
@@ -290,9 +309,13 @@ if (document.body.id === "blog-page") {
     // GitHub 登录
     githubLoginBtn.addEventListener('click', async () => {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'github'
+        provider: 'github',
+        options: {
+          // 指定回调地址（必须与Supabase项目设置中的重定向URL匹配）
+          redirectTo: window.location.origin + '/blog'
+        }
       });
-      
+    
       if (error) {
         authError.textContent = error.message;
       }
