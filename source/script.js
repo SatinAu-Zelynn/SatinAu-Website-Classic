@@ -198,7 +198,11 @@ if (document.body.id === "blog-page") {
 
   // 显示用户信息
   function showUserInfo(user) {
-    userInfo.innerHTML = `欢迎, ${user.email || user.id}`;
+    // 从元数据中优先获取用户名，优先级：name > user_name > preferred_username > 邮箱
+    const meta = user.raw_user_meta_data || {};
+    const displayName = meta.name || meta.user_name || meta.preferred_username || user.email;
+  
+    userInfo.innerHTML = `欢迎, ${displayName}`;
     userInfo.style.display = 'inline-block';
     logoutBtn.style.display = 'inline-block';
     loginBtn.style.display = 'none';
