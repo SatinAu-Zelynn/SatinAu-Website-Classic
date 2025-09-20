@@ -66,12 +66,12 @@ body{
 }
 
 /* 背景动态渐变 */
-/* 1. 全局基础：将页面背景改为透明（替代原固定白色，不影响其他属性） */
+/* 1. 全局基础：将页面背景为透明 */
 body {
   background: transparent !important; /* 透明背景，让色块直接作为底层 */
 }
 
-/* 2. 流光色块基础样式（保留原有运动逻辑，仅定义基础视觉） */
+/* 2. 流光色块基础样式 */
 .color-bg {
   position: fixed;
   border-radius: 50%;
@@ -81,7 +81,7 @@ body {
   transition: none;
 }
 
-/* 3. 4个色块的颜色与位置（原有运动逻辑不变，此处仅定义基础属性） */
+/* 3. 4个色块的颜色与位置 */
 .color-bg-1 {
   width: 400px; height: 400px;
   background: #00FFCC;
@@ -107,7 +107,7 @@ body {
   animation: color4Move 20s ease-in-out infinite alternate;
 }
 
-/* 4. 色块运动关键帧（完全保留原有逻辑，确保流动感不变） */
+/* 4. 色块运动关键帧 */
 @keyframes color1Move {
   0% { transform: translate(0, 0); }
   25% { transform: translate(-63%, 0%); }
@@ -138,9 +138,8 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  /* 仅调整色块视觉：降低透明度+轻微降亮，适配深色背景下的视觉舒适度 */
   .color-bg {
-    opacity: 0.22; /* 深色模式降低色块透明度，避免过亮刺眼 */
+    opacity: 0.32;
     filter: blur(120px) brightness(0.85); /* 轻微降亮，保留色彩辨识度 */
   }
   body { 
@@ -205,8 +204,8 @@ section p {
 /* 为四行文字分别设置递增的延迟，间隔 0.3s 形成流畅顺序 */
 section p:nth-of-type(1) { animation-delay: 0.6s; }
 section p:nth-of-type(2) { animation-delay: 0.9s; }
-section p:nth-of-type(3) { animation-delay: 1.2s; } /* 新增第三行延迟 */
-section p:nth-of-type(4) { animation-delay: 1.5s; } /* 新增第四行延迟 */
+section p:nth-of-type(3) { animation-delay: 1.2s; }
+section p:nth-of-type(4) { animation-delay: 1.5s; }
 
 h2 { 
   font-size: 1.6rem; 
@@ -226,7 +225,7 @@ h2 {
 .contact-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .lang-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); justify-items: center; }
 
-/* ✨ 卡片液态玻璃效果 */
+/* 卡片液态玻璃效果 */
 .contact-card {
   display: flex; align-items: center; gap: 14px;
   min-width: 260px; max-width: 420px; padding: 20px 18px;
@@ -251,7 +250,7 @@ h2 {
   to   { opacity: 1; transform: translateY(0) translateX(0) scale(1); }
 }
 
-/* 🌊 光泽扫过效果 */
+/* 光泽扫过效果 */
 .contact-card::after {
   content: "";
   position: absolute;
@@ -402,7 +401,7 @@ footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:
   .ios-alert button:hover { background: rgba(60,60,60,0.75); }
 }
 
-/* 📧 邮箱选择弹窗内部样式 */
+/* 邮箱选择弹窗内部样式 */
 body#index-page .email-list {
   display: flex;
   flex-direction: column;
@@ -446,7 +445,7 @@ body#index-page .email-item button:active { transform: scale(0.95); }
   body#index-page .email-item span { color: #fff; }
 }
 
-/* 📧 邮箱关闭按钮：修复背景不可见 */
+/* 邮箱关闭按钮 */
 body#index-page .actions {
   display: flex;
   justify-content: center;
@@ -530,7 +529,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 /* === 底部导航栏（中英文分两行显示） === */
 .bottom-nav {
-  width: min(320px, calc(100vw - 40px)); /* 缩小整体宽度 */
+  width: min(320px, calc(100vw - 40px));
 }
 
 .bottom-nav a {
@@ -596,7 +595,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 .md-article { max-width: 860px; margin: 0 auto; text-align: left; }
 .md-article .post-meta { margin-bottom: 18px; }
 
-/* ✅ 替换后的返回按钮样式 */
+/* 返回按钮样式 */
 .back-button {
   display: inline-flex;
   align-items: center;
@@ -739,8 +738,8 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 @media (prefers-color-scheme: dark) {
   .style-switcher {
-    background: rgba(20, 20, 20, 0.7); /* 比原来更暗（原30,30,30→20,20,20，alpha0.6→0.7） */
-    border: 1px solid rgba(255,255,255,0.08); /* 增加边框增强轮廓 */
+    background: rgba(20, 20, 20, 0.7);
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .style-switcher label {
     color: #f0f0f0; /* 选择器文字改为浅白色 */
