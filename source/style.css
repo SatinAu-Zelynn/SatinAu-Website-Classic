@@ -76,7 +76,7 @@ body {
   position: fixed;
   border-radius: 50%;
   filter: blur(80px); /* 边缘模糊扩散，过渡自然 */
-  opacity: 0.4; /* 浅色模式色块透明度 */
+  opacity: 0.32; /* 浅色模式色块透明度 */
   z-index: -1; /* 置于最底层，不遮挡原有内容 */
   transition: none;
 }
