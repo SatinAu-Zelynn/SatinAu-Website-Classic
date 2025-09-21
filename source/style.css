@@ -15,6 +15,14 @@
 /* ========== 全局基础 ========== */
 :root{
   --nav-height: 68px; /* 底栏高度，用于预留滚动空间 */
+  --primary-color: #007aff;
+  --primary-dark: #0a84ff;
+  --bg-light: rgba(255,255,255,0.6);
+  --bg-dark: rgba(40,40,40,0.4);
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+  --transition-standard: 0.3s ease;
 }
 
 body {
@@ -149,8 +157,10 @@ body {
 }
 
 /* ========== 页面切换动画（作用于 .page） ========== */
-.page { will-change: transform, opacity; }
-
+.page {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* 触发GPU加速 */
+}
 .page.slide-out-left  { animation: slideOutLeft  0.5s ease forwards; }
 .page.slide-out-right { animation: slideOutRight 0.5s ease forwards; }
 .page.slide-in-left   { animation: slideInLeft   0.5s ease forwards; }
@@ -701,6 +711,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   border-top-color: #007aff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
+  will-change: transform; /* 优化动画性能 */
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
