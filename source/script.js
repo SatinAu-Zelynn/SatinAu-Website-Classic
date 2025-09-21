@@ -38,10 +38,21 @@ function showToast(msg) {
 }
 
 /* 页面加载动画 & 卡片入场 */
-window.onload = function () {
+window.addEventListener('DOMContentLoaded', function() {
+  // 优先显示页面UI
   document.body.style.opacity = 1;
+  
+  // 页面进入动画（目标是 .page 而不是 body）
+  const PAGE = document.querySelector('.page') || document.body;
+  const from = sessionStorage.getItem("from");
+  if (from === "index") {
+    PAGE.classList.add("slide-in-right");
+  } else if (from === "zelynn") {
+    PAGE.classList.add("slide-in-left");
+  }
+  sessionStorage.removeItem("from");
 
-  // 自动为每个 contact-card 分配错位淡入延迟（仅首页和泽凌）
+  // 处理卡片入场动画
   document.querySelectorAll('.contact-card').forEach((card, index) => {
     if (document.body.id !== "blog-page") { // 博客页面不走这段逻辑
       new IntersectionObserver((entries, observer) => {
@@ -56,16 +67,18 @@ window.onload = function () {
     }
   });
 
-  /* 页面进入动画（目标是 .page 而不是 body） */
-  const PAGE = document.querySelector('.page') || document.body;
-  const from = sessionStorage.getItem("from");
-  if (from === "index") {
-    PAGE.classList.add("slide-in-right");
-  } else if (from === "zelynn") {
-    PAGE.classList.add("slide-in-left");
-  }
-  sessionStorage.removeItem("from");
-};
+  // 延迟加载需要后端数据的内容
+  setTimeout(() => {
+    if (document.body.id === "blog-page") {
+      // 显示加载动画
+      const loader = document.getElementById("loadingOverlay");
+      if (loader) {
+        loader.classList.add("show");
+      }
+      initBlog(); // 博客数据加载
+    }
+  }, 100); // 给UI渲染留一点时间
+});
 
 /* 底部导航栏页面切换（对 .page 做退出动画） */
 document.querySelectorAll(".bottom-nav a").forEach(link => {
@@ -173,7 +186,20 @@ if (document.body.id === "blog-page") {
 
   // 初始化
   function initBlog() {
-    loadPostsList();
+    // 先隐藏错误状态，显示加载状态
+    const loader = document.getElementById("loadingOverlay");
+    const emptyState = document.getElementById("emptyState");
+    const errorState = document.getElementById("errorState");
+  
+    if (emptyState) emptyState.style.display = 'none';
+    if (errorState) errorState.style.display = 'none';
+    if (loader) loader.classList.add("show");
+
+    loadPostsList().finally(() => {
+      // 无论成功失败都隐藏加载动画
+      if (loader) loader.classList.remove("show");
+    });
+
     checkUserSession();
     setupAuthEventListeners();
     setupAuthStateListener();
@@ -376,7 +402,8 @@ if (document.body.id === "blog-page") {
     emptyState.style.display = "none";
     errorState.style.display = "none";
 
-    fetch("https://blog.satinau.cn/index.json")
+    // 显式返回 fetch 的 Promise 链
+    return fetch("https://blog.satinau.cn/index.json")
       .then(res => {
         if (!res.ok) throw new Error("网络响应异常");
         return res.json();
@@ -384,11 +411,10 @@ if (document.body.id === "blog-page") {
       .then(posts => {
         postsData = posts;
         renderPostsList(posts);
-        
+      
         // 隐藏加载状态，显示列表
-        showLoading(false);
         listEl.style.display = "grid";
-        
+      
         // 如果没有文章，显示空状态
         if (posts.length === 0) {
           listEl.style.display = "none";
@@ -397,8 +423,12 @@ if (document.body.id === "blog-page") {
       })
       .catch(err => {
         console.error("加载文章列表失败:", err);
-        showLoading(false);
         errorState.style.display = "block";
+        throw err; // 继续抛出错误，让调用者可以捕获
+      })
+      .finally(() => {
+        // 无论成功失败，最终都隐藏加载动画
+        showLoading(false);
       });
   }
 
