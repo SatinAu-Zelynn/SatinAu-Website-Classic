@@ -400,7 +400,7 @@ footer {
   border-radius: var(--md-radius-full);
   background-color: var(--md-surface);
   box-shadow: var(--md-elevation-2);
-  z-index: 1000;
+  z-index: 2001;
 }
 
 .bottom-nav a {

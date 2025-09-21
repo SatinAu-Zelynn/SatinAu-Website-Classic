@@ -227,7 +227,7 @@ button:active, .email-item button:active, .ios-alert button:active, .back-button
   background: var(--fluent-color-bg);
   border: 1px solid var(--fluent-color-border);
   box-shadow: var(--fluent-color-shadow);
-  z-index: 1000;
+  z-index: 2001;
 }
 .bottom-nav a {
   flex: 1;
