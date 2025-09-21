@@ -80,6 +80,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // 延迟加载需要后端数据的内容
   setTimeout(() => {
+    document.body.style.width = '100%';
+    window.dispatchEvent(new Event('resize'));
     if (document.body.id === "blog-page") {
       // 显示加载动画
       const loader = document.getElementById("loadingOverlay");
