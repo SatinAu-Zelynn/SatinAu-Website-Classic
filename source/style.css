@@ -325,6 +325,40 @@ h2 {
 /* ========== Footer ========== */
 footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:#666;background:rgba(255,255,255,0.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
 
+footer a {
+  color: #888; /* 灰色文字 */
+  text-decoration: none; /* 去除下划线 */
+  margin: 0 8px; /* 链接两侧间距 */
+  position: relative;
+}
+
+/* 链接悬停效果优化 */
+footer a:hover {
+  color: #666; /* 略深灰色增强交互感 */
+  text-decoration: none; /* 确保hover时也无下划线 */
+}
+
+/* 竖线分隔符（通过相邻兄弟选择器实现，不影响第一个链接） */
+footer a + a::before {
+  content: "|";
+  color: #ddd; /* 浅灰色竖线 */
+  position: absolute;
+  left: -12px; /* 调整竖线位置 */
+}
+
+/* 适配深色模式 */
+@media (prefers-color-scheme: dark) {
+  footer a {
+    color: #aaa;
+  }
+  footer a:hover {
+    color: #ccc;
+  }
+  footer a + a::before {
+    color: #444; /* 深色模式下的浅灰竖线 */
+  }
+}
+
 /* ========== iOS 风格提示 & 弹窗 ========== */
 .copied-tip {
   position: fixed;

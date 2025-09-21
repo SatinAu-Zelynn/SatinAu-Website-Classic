@@ -1,5 +1,16 @@
 /* ========== 公用逻辑 ========== */
 
+// 页面加载完成后设置当前年份
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取当前年份
+  const currentYear = new Date().getFullYear();
+  // 设置到页面元素
+  const yearElement = document.getElementById('current-year');
+  if (yearElement) {
+    yearElement.textContent = currentYear;
+  }
+});
+
 /* iOS 弹窗逻辑 */
 let pendingUrl = null;
 
