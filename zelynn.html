@@ -2,28 +2,32 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 优化视口设置，禁止缩放，确保1:1显示 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>泽凌Zelynn</title>
   <meta name="description" content="泽凌Zelynn - 缎金SatinAu 兽设展示">
   <meta name="keywords" content="缎金,泽凌,Zelynn,福瑞,Furry,兽设,设定,角色,OC">
   <meta name="author" content="缎金SatinAu">
   <link rel="canonical" href="https://satinau.cn/zelynn.html">
   <link rel="icon" type="image/png" href="source/image/favicon.png">
+  <!-- 关键样式优先加载 -->
   <link rel="stylesheet" href="source/style.css">
-  <link rel="stylesheet" href="source/style-fluent.css" disabled>
-  <link rel="stylesheet" href="source/style-material.css" disabled>
-  <script src="source/script.js" defer></script>
+  <!-- 非关键样式延迟加载 -->
+  <link rel="stylesheet" href="source/style-fluent.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
+  <link rel="stylesheet" href="source/style-material.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
+  <!-- 异步加载脚本 -->
+  <script defer src="source/script.js" onload="if (window.initZelynnPage) initZelynnPage();"></script>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9426096622283590"
        crossorigin="anonymous"></script>
-
 </head>
 <body id="zelynn-page">
   <div class="color-bg color-bg-1"></div>
   <div class="color-bg color-bg-2"></div>
   <div class="color-bg color-bg-3"></div>
   <div class="color-bg color-bg-4"></div>
-  <main class="page">
+  <!-- 添加container容器控制最大宽度 -->
+  <main class="page container">
     <header>
       <h1>泽凌Zelynn</h1>
     </header>
@@ -31,15 +35,15 @@
     <section>
       <h2>设定总览 / Character Overview</h2>
       <div class="lang-wrapper">
-        <a class="contact-card" href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank">
+        <a class="contact-card" href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank" rel="noopener noreferrer">
           <div class="icon"><span class="paw-pink">🐾</span></div>
           <div class="text"><div class="label">语言</div><div class="value">简体中文</div></div>
         </a>
-        <a class="contact-card" href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank">
+        <a class="contact-card" href="https://www.kdocs.cn/l/caB01lLIj8q2" target="_blank" rel="noopener noreferrer">
           <div class="icon"><span class="paw-purple">🐾</span></div>
           <div class="text"><div class="label">語言</div><div class="value">繁體中文</div></div>
         </a>
-        <a class="contact-card" href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank">
+        <a class="contact-card" href="https://www.kdocs.cn/l/cjSN22oChlaT" target="_blank" rel="noopener noreferrer">
           <div class="icon"><span class="paw-cyan">🐾</span></div>
           <div class="text"><div class="label">Language</div><div class="value">English</div></div>
         </a>
@@ -65,8 +69,8 @@
       </p>
       <p>
         © <span id="current-year"></span> 缎金SatinAu. 保留所有权利
-        <a href="sitemap.xml" target="_blank">站点地图</a>
-        <a href="https://www.kdocs.cn/l/chC750lu9LQC" target="_blank">问题反馈</a>
+        <a href="sitemap.xml" target="_blank" rel="noopener noreferrer">站点地图</a>
+        <a href="https://www.kdocs.cn/l/chC750lu9LQC" target="_blank" rel="noopener noreferrer">问题反馈</a>
       </p>
     </footer>
   </main>
@@ -87,7 +91,4 @@
     </a>
   </nav>
 </body>
-
 </html>
-
-
