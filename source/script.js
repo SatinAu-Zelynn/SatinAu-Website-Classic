@@ -335,6 +335,7 @@ if (document.body.id === "blog-page") {
     checkUserSession();
     setupAuthEventListeners();
     setupAuthStateListener();
+    initBlogButtons();
 
   // 检查用户会话
   async function checkUserSession() {
@@ -709,6 +710,31 @@ if (document.body.id === "blog-page") {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
+  }
+
+  // 初始化按钮事件监听
+  function initBlogButtons() {
+    // 返回文章列表按钮
+    const backToListBtn = document.getElementById('backToListBtn');
+    if (backToListBtn) {
+      backToListBtn.addEventListener('click', () => {
+        postView.style.display = 'none';
+        listEl.style.display = 'grid';
+        emptyState.style.display = 'none';
+        window.scrollTo(0, 0);
+      });
+    }
+
+    // 返回顶部按钮
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
   }
 
   // 初始化博客页面

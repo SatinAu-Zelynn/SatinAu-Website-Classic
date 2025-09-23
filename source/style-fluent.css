@@ -571,3 +571,18 @@ footer {
   height: 14px;
   accent-color: var(--fluent-color-primary);
 }
+
+.post-actions {
+  margin: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.post-actions .back-button {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  padding: 0 16px;
+  border-radius: var(--fluent-border-radius-md);
+}
