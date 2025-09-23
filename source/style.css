@@ -165,10 +165,26 @@ body {
   will-change: transform, opacity;
   transform: translateZ(0); /* 触发GPU加速 */
 }
+
+.page.slide-out-left,
+.page.slide-out-right,
+.page.slide-in-left,
+.page.slide-in-right {
+  will-change: transform; /* 提前优化 */
+}
+
 .page.slide-out-left  { animation: slideOutLeft  0.5s ease forwards; }
 .page.slide-out-right { animation: slideOutRight 0.5s ease forwards; }
 .page.slide-in-left   { animation: slideInLeft   0.5s ease forwards; }
 .page.slide-in-right  { animation: slideInRight  0.5s ease forwards; }
+
+/* 动画结束后释放资源 */
+.page.slide-out-left.finished,
+.page.slide-out-right.finished,
+.page.slide-in-left.finished,
+.page.slide-in-right.finished {
+  will-change: auto;
+}
 
 @keyframes slideOutLeft  { from{transform:translateX(0);   opacity:1;} to{transform:translateX(-30%); opacity:0;} }
 @keyframes slideOutRight { from{transform:translateX(0);   opacity:1;} to{transform:translateX(30%);  opacity:0;} }

@@ -95,25 +95,43 @@ window.addEventListener('DOMContentLoaded', function() {
 
 /* 底部导航栏页面切换（对 .page 做退出动画） */
 document.querySelectorAll(".bottom-nav a").forEach(link => {
+  link.addEventListener('mouseenter', preloadPage);
+  link.addEventListener('touchstart', preloadPage, { passive: true });
+
+  function preloadPage() {
+    const target = link.getAttribute("href");
+    if (target && target.endsWith(".html")) {
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'prefetch';
+      preloadLink.href = target;
+      document.head.appendChild(preloadLink);
+
+      link.removeEventListener('mouseenter', preloadPage);
+      link.removeEventListener('touchstart', preloadPage);
+    }
+  }
+
   link.addEventListener("click", function (e) {
     const target = this.getAttribute("href") || "";
-    if (!target.endsWith(".html")) return; // 只处理站内页面
+    if (!target.endsWith(".html")) return;
     e.preventDefault();
 
     const PAGE = document.querySelector('.page') || document.body;
 
-    if (target.includes("zelynn")) {
-      PAGE.classList.add("slide-out-left");
-      sessionStorage.setItem("from", "index");
-    } else {
-      PAGE.classList.add("slide-out-right");
-      sessionStorage.setItem("from", "zelynn");
-    }
+    PAGE.addEventListener('animationend', () => {
+      PAGE.classList.add('finished');
+      window.location.href = target;
+    }, { once: true });
 
-    setTimeout(() => { window.location.href = target; }, 500);
+    PAGE.classList.add(
+      target.includes("zelynn") ? "slide-out-left" : "slide-out-right"
+    );
+    sessionStorage.setItem(
+      "from",
+      target.includes("zelynn") ? "index" : "zelynn"
+    );
   });
 });
-
 
 /* ========== index.html 独有逻辑 ========== */
 if (document.body.id === "index-page") {
