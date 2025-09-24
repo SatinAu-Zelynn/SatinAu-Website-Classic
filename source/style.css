@@ -796,41 +796,70 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   .spinner { border: 4px solid rgba(255,255,255,0.15); border-top-color: #0a84ff; }
 }
 
+/* Liquid Glass风格样式选择器 */
 .style-switcher {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  margin-left: 12px;
-  padding: 4px 8px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  gap: 8px;
+  padding: 6px;
+  margin: 12px auto 0;
+  border-radius: 22px; /* 与底部导航栏统一圆角 */
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
+/* 隐藏原生单选按钮圆圈 */
+.style-switcher input[type="radio"] {
+  display: none;
+}
+
+/* 选项标签基础样式 */
 .style-switcher label {
   cursor: pointer;
   font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 16px;
+  color: #333;
+  transition: all 0.3s ease;
 }
 
-.style-switcher input[type="radio"] {
-  width: 14px;
-  height: 14px;
+/* 选中状态 - 半透明白色遮罩效果 */
+.style-switcher input[type="radio"]:checked + label {
+  background: rgba(255, 255, 255, 0.6); /* 半透明白色遮罩 */
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #007aff;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
 }
 
+/* 未选中状态悬停效果 */
+.style-switcher label:hover:not(:has(~ input:checked)) {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 深色模式适配 */
 @media (prefers-color-scheme: dark) {
   .style-switcher {
-    background: rgba(20, 20, 20, 0.7);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(30, 30, 30, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
+  
   .style-switcher label {
-    color: #f0f0f0; /* 选择器文字改为浅白色 */
+    color: #f0f0f0;
   }
-  .style-switcher input[type="radio"] {
-    accent-color: #0a84ff; /* 单选框选中色适配深色 */
+  
+  .style-switcher input[type="radio"]:checked + label {
+    background: rgba(255, 255, 255, 0.18); /* 深色模式下的半透明遮罩 */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: #0a84ff;
+    box-shadow: 0 4px 12px rgba(10, 132, 255, 0.2);
+  }
+  
+  .style-switcher label:hover:not(:has(~ input:checked)) {
+    background: rgba(255, 255, 255, 0.08);
   }
 }
 
