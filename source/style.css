@@ -343,13 +343,13 @@ h2 {
 .paw-cyan   { background: linear-gradient(135deg, #43e97b, #38f9d7); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 @media (max-width: 768px) {
-  .contact-wrapper {
+  body#index-page .contact-wrapper {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 12px;
     margin-top: 20px;
   }
   
-  .contact-card {
+  body#index-page .contact-card {
     flex-direction: column;
     justify-content: center;
     padding: 16px 8px;
@@ -357,11 +357,11 @@ h2 {
     max-width: none;
   }
   
-  .contact-card .text {
+  body#index-page .contact-card .text {
     display: none; /* 隐藏文本内容 */
   }
   
-  .contact-card .icon {
+  body#index-page .contact-card .icon {
     background: rgba(255, 255, 255, 0.15) !important; /* 半透明白色背景 */
     backdrop-filter: blur(12px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
@@ -370,14 +370,14 @@ h2 {
     height: 56px;
   }
   
-  .contact-card .icon img,
-  .contact-card .icon svg {
+  body#index-page .contact-card .icon img,
+  body#index-page .contact-card .icon svg {
     width: 32px;
     height: 32px;
   }
   
   /* 调整交互效果适配小卡片 */
-  .contact-card:hover {
+  body#index-page .contact-card:hover {
     transform: translateY(-6px) scale(1.05);
   }
 }
