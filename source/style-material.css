@@ -1,5 +1,5 @@
 /* ========== Material Design 3 Expressive CSS Tokens ========== */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 /* 基础颜色系统 - 符合Material Design 3 Expressive规范 */
@@ -51,7 +51,7 @@
   --md-radius-full: 999px;
   
   /* 排版 - 增强层级感 */
-  --md-font: 'Roboto', sans-serif;
+  --md-font: 'Google Sans', sans-serif;
   --md-body-large: 16px/24px;
   --md-body-medium: 14px/20px;
   --md-headline-small: 24px/32px;
