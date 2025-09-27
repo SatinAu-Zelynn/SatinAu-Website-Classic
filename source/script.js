@@ -14,8 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
 /* iOS 弹窗逻辑 */
 let pendingUrl = null;
 
-function showIosAlert(url, msg = "是否跳转到外部链接？") {
-  pendingUrl = url;
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+function showIosAlert(url, msg = "是否跳转到外部链接？", appUrl = null) {
+  pendingUrl = {
+    webUrl: url,
+    appUrl: appUrl
+  };
   const msgEl = document.getElementById("iosAlertMsg");
   if (msgEl) msgEl.textContent = msg;
   toggleModal("iosOverlay", true);
@@ -30,30 +37,28 @@ function closeIosAlert() {
 
 function confirmIosAlert() {
   if (pendingUrl) {
-    // 判断是否为B站链接且在移动设备上
-    const isBilibili = pendingUrl.includes('bilibili.com/space/1502522588');
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-    if (isBilibili && isMobile) {
-      // 尝试唤起B站APP
-      const appUrl = 'bilibili://space/1502522588';
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = appUrl;
-      document.body.appendChild(iframe);
-
-      // 500ms后检查是否唤起成功，失败则跳转网页
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-        // 尝试打开网页版
-        window.open(pendingUrl, "_blank");
-      }, 500);
+    // 移动端优先尝试唤起APP
+    if (isMobileDevice() && pendingUrl.appUrl) {
+      try {
+        // 尝试打开APP
+        window.location.href = pendingUrl.appUrl;
+        
+        // 2秒后跳转网页作为备用
+        setTimeout(() => {
+          window.open(pendingUrl.webUrl, "_blank");
+          closeIosAlert();
+        }, 2000);
+      } catch (err) {
+        // 失败时直接跳转网页
+        window.open(pendingUrl.webUrl, "_blank");
+        closeIosAlert();
+      }
     } else {
-      // 其他链接正常跳转
-      window.open(pendingUrl, "_blank");
+      // 桌面端直接跳转网页
+      window.open(pendingUrl.webUrl, "_blank");
+      closeIosAlert();
     }
   }
-  closeIosAlert();
 }
 
 /* 通用工具函数 */
