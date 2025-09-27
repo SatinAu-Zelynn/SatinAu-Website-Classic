@@ -921,3 +921,7 @@ footer::before {
   padding: 0 16px;
   border-radius: var(--md-radius-full);
 }
+
+.nav-avatar {
+  display: none;
+}

@@ -675,6 +675,77 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   opacity: 0.7;
 }
 
+/* 桌面端导航栏调整 - 768px以上屏幕 */
+@media (min-width: 768px) {
+  .bottom-nav {
+    /* 从底部移到顶部 */
+    bottom: auto;
+    top: 20px;
+    /* 保持悬浮效果 */
+    position: fixed;
+    /* 调整宽度和内边距 */
+    width: min(90vw, 600px);
+    padding: 8px 20px;
+    /* 减小阴影强度：降低模糊半径和不透明度 */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12), inset 0 0 30px rgba(255,255,255,0.12);
+  }
+  
+  /* 中英文在一行显示 */
+  .bottom-nav a {
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px 16px;
+    justify-content: center; /* 水平居中 */
+    align-items: center;     /* 垂直居中 */
+    text-align: center;
+  }
+  
+  .bottom-nav .nav-cn,
+  .bottom-nav .nav-en {
+    display: inline-block;
+  }
+  
+  /* 调整字体大小以适应横向布局 */
+  .bottom-nav .nav-cn {
+    font-size: 16px;
+  }
+  
+  .bottom-nav .nav-en {
+    font-size: 14px;
+  }
+}
+
+/* 头像基础样式 */
+.nav-avatar {
+  display: none; /* 默认隐藏 */
+}
+
+/* 桌面端显示头像 */
+@media (min-width: 768px) {
+  .nav-avatar {
+    display: block;
+    margin-right: 12px; /* 与导航项保持间距 */
+  }
+  
+  .nav-avatar img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%; /* 圆形头像 */
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  
+  /* 调整导航栏布局以容纳头像 */
+  .bottom-nav {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  /* 导航项整体右移，给头像留出空间 */
+  .bottom-nav a {
+    flex: 1;
+  }
+}
 
 /* ===================== iOS-like parallel page transitions (3 pages) ===================== */
 .page { will-change: transform, opacity; transform: translateZ(0); }
@@ -1007,7 +1078,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 #authModal .tab-btn.active {
   background: rgba(255, 255, 255, 0.8);
-  color: #007aff;
+  color: #82afdf;
 }
 
 #authModal .tab-btn:hover,

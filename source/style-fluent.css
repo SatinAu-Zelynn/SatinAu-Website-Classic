@@ -586,3 +586,7 @@ footer {
   padding: 0 16px;
   border-radius: var(--fluent-border-radius-md);
 }
+
+.nav-avatar {
+  display: none;
+}
