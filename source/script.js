@@ -29,7 +29,30 @@ function closeIosAlert() {
 }
 
 function confirmIosAlert() {
-  if (pendingUrl) { window.open(pendingUrl, "_blank"); }
+  if (pendingUrl) {
+    // 判断是否为B站链接且在移动设备上
+    const isBilibili = pendingUrl.includes('bilibili.com/space/1502522588');
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    if (isBilibili && isMobile) {
+      // 尝试唤起B站APP
+      const appUrl = 'bilibili://space/1502522588';
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = appUrl;
+      document.body.appendChild(iframe);
+
+      // 500ms后检查是否唤起成功，失败则跳转网页
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+        // 尝试打开网页版
+        window.open(pendingUrl, "_blank");
+      }, 500);
+    } else {
+      // 其他链接正常跳转
+      window.open(pendingUrl, "_blank");
+    }
+  }
   closeIosAlert();
 }
 
