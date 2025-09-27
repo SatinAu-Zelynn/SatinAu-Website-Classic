@@ -590,3 +590,7 @@ footer {
 .nav-avatar {
   display: none;
 }
+
+#downloadArticle {
+  margin-left: auto;
+}

@@ -426,7 +426,7 @@ if (document.body.id === "blog-page") {
         // 关闭登录弹窗（如果打开）
         authModal.style.display = 'none';
         // 可以在这里添加登录成功后的其他操作（如刷新文章列表等）
-        showToast('登录成功！');
+        showToast('登录成功');
       } else if (event === 'SIGNED_OUT') {
         // 登出成功
         showLoginButton();
@@ -781,6 +781,48 @@ if (document.body.id === "blog-page") {
         });
       });
     }
+  }
+
+  const downloadBtn = document.getElementById('downloadArticle');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadCurrentArticle);
+  }
+
+  function downloadCurrentArticle() {
+    // 获取文章标题和内容
+    const title = postTitle ? postTitle.textContent.trim() : '未命名文章';
+    const date = postDate ? postDate.textContent.trim() : '';
+    const content = postContent ? postContent.innerText.trim() : '';
+  
+    // 构建要下载的文本内容
+    let textContent = `${title}\n\n`;
+    if (date) textContent += `发布日期: ${date}\n\n`;
+    textContent += content;
+    textContent += `\n---\n`;
+    textContent += `作者: 缎金SatinAu\n`;
+    textContent += `来源: https://satinau.cn/\n`;
+  
+    // 创建Blob对象
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+  
+    // 创建下载链接
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+  
+    // 设置下载属性
+    a.href = url;
+    a.download = `${title.replace(/\s+/g, '_')}.txt`; // 替换空格为下划线
+  
+    // 触发下载
+    document.body.appendChild(a);
+    a.click();
+  
+    // 清理
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('文章已下载');
+    }, 0);
   }
 
   // 初始化博客页面
