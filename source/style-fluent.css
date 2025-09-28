@@ -397,7 +397,7 @@ button:active, .email-item button:active, .ios-alert button:active, .back-button
 
   /* 底部区域居中 */
   footer {
-    max-width: calc(100% - 80px);
+    max-width: calc(100% - 180px);
     margin-left: 80px;
     padding-left: 24px;
     padding-right: 24px;

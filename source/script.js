@@ -909,7 +909,7 @@ if (document.body.id === "blog-page") {
 document.addEventListener('DOMContentLoaded', () => {
   // 初始化样式选项
   const styleOptions = document.querySelectorAll('input[name="style"]');
-  const savedStyle = localStorage.getItem('preferredStyle') || 'sainau';
+  const savedStyle = localStorage.getItem('preferredStyle') || 'satinau';
 
   // 设置初始选中状态
   const savedOption = document.querySelector(`input[name="style"][value="${savedStyle}"]`);
@@ -925,9 +925,9 @@ document.addEventListener('DOMContentLoaded', () => {
     option.addEventListener('change', function() {
       applyCssVersion(this.value);
       localStorage.setItem('preferredStyle', this.value);
-      let msg = '已切换到SainAu Design样式';
-      if (this.value === 'fluent') msg = '已切换到Microsoft Fluent样式';
-      if (this.value === 'material') msg = '已切换到Google Material样式';
+      let msg = '已切换到SainAu Design';
+      if (this.value === 'fluent') msg = '已切换到Microsoft Fluent';
+      if (this.value === 'material') msg = '已切换到Google Material';
       showToast(msg);
     });
   });
@@ -942,7 +942,7 @@ function applyCssVersion(style) {
     } else if (link.href.includes('style-material.css')) {
       link.disabled = style !== 'material';
     } else if (link.href.includes('style.css') && !link.href.includes('style-fluent.css') && !link.href.includes('style-material.css')) {
-      link.disabled = style !== 'sainau';
+      link.disabled = style !== 'satinau';
     }
   });
 }
