@@ -744,6 +744,7 @@ if (document.body.id === "blog-page") {
   function showLoading(show) {
     if (show) {
       loader.classList.add("show");
+      document.querySelector('.bottom-nav').style.pointerEvents = 'auto';
     } else {
       loader.classList.remove("show");
     }
