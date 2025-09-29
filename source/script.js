@@ -946,3 +946,146 @@ function applyCssVersion(style) {
     }
   });
 }
+
+// SPA页面切换逻辑
+document.addEventListener('DOMContentLoaded', function() {
+  // 初始化路由系统
+  initRouter();
+});
+
+function initRouter() {
+  // 拦截所有内部链接点击
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (!link || link.target === '_blank' || link.href.includes('://') && !link.href.includes(window.location.origin)) {
+      return; // 不处理外部链接和新窗口打开的链接
+    }
+
+    const href = link.getAttribute('href');
+    if (href && href.endsWith('.html') && href !== window.location.pathname) {
+      e.preventDefault();
+      navigateTo(href);
+    }
+  });
+
+  // 处理浏览器前进后退
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.url) {
+      loadPage(e.state.url, false);
+    }
+  });
+}
+
+function navigateTo(url) {
+  // 保存当前滚动位置
+  const scrollPos = window.scrollY;
+  
+  // 获取当前页面和目标页面
+  const currentPage = document.querySelector('.page');
+  const isZelynnPage = url.includes('zelynn');
+  
+  // 添加退出动画类
+  currentPage.classList.add(isZelynnPage ? 'slide-out-left' : 'slide-out-right');
+  
+  // 动画结束后加载新页面
+  currentPage.addEventListener('animationend', function handler() {
+    currentPage.removeEventListener('animationend', handler);
+    loadPage(url, true, scrollPos);
+  }, { once: true });
+}
+
+function loadPage(url, addToHistory, scrollPos = 0) {
+  // 显示加载动画
+  const loader = document.getElementById('loadingOverlay');
+  if (loader) loader.classList.add('show');
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error('加载失败');
+      return response.text();
+    })
+    .then(html => {
+      // 解析HTML获取内容
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // 获取新页面内容
+      const newPage = doc.querySelector('.page').innerHTML;
+      const newTitle = doc.title;
+      const newBodyId = doc.body.id;
+      
+      // 更新页面内容
+      document.querySelector('.page').innerHTML = newPage;
+      document.title = newTitle;
+      document.body.id = newBodyId;
+      
+      // 更新历史记录
+      if (addToHistory) {
+        history.pushState({ url }, newTitle, url);
+      }
+      
+      // 触发新页面入场动画
+      const page = document.querySelector('.page');
+      const fromIndex = url.includes('zelynn');
+      page.classList.add(fromIndex ? 'slide-in-left' : 'slide-in-right');
+      
+      // 动画结束后清理类名
+      page.addEventListener('animationend', function handler() {
+        page.removeEventListener('animationend', handler);
+        page.classList.remove('slide-in-left', 'slide-in-right');
+      }, { once: true });
+      
+      // 执行页面特定初始化逻辑
+      if (newBodyId === 'zelynn-page') {
+        window.initZelynnPage();
+      } else if (newBodyId === 'blog-page') {
+        initBlog();
+      } else if (newBodyId === 'index-page') {
+        // 初始化首页逻辑
+      }
+      
+      // 恢复滚动位置
+      window.scrollTo(0, scrollPos);
+      
+      // 隐藏加载动画
+      if (loader) loader.classList.remove('show');
+      
+      // 重新绑定事件
+      initRouter();
+      setupEventListeners();
+    })
+    .catch(error => {
+      console.error('页面加载失败:', error);
+      if (loader) loader.classList.remove('show');
+      // 加载失败时回退
+      window.location.href = url;
+    });
+}
+
+// 重新绑定页面元素事件
+function setupEventListeners() {
+  // 重新绑定底部导航事件
+  document.querySelectorAll(".bottom-nav a").forEach(link => {
+    link.addEventListener('mouseenter', preloadPage);
+    link.addEventListener('touchstart', preloadPage, { passive: true });
+  });
+  
+  // 重新绑定其他交互事件
+  if (document.body.id === "index-page") {
+    // 绑定首页特定事件
+  }
+}
+
+// 预加载页面函数保持不变
+function preloadPage() {
+  const target = this.getAttribute("href");
+  if (target && target.endsWith(".html")) {
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'prefetch';
+    preloadLink.href = target;
+    document.head.appendChild(preloadLink);
+
+    this.removeEventListener('mouseenter', preloadPage);
+    this.removeEventListener('touchstart', preloadPage);
+  }
+}
