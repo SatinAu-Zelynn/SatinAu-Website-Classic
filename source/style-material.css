@@ -929,3 +929,44 @@ footer::before {
 #downloadArticle {
   margin-left: auto;
 }
+
+/* 样式提示工具 */
+.style-switcher label {
+  position: relative;
+}
+
+.style-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 6px 12px;
+  border-radius: var(--md-radius-small, 8px);
+  background-color: var(--md-surface, #fff);
+  color: var(--md-on-surface, #333);
+  font-size: 12px;
+  white-space: nowrap;
+  box-shadow: var(--md-elevation-2, 0 4px 6px rgba(0,0,0,0.1));
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  margin-bottom: 8px;
+  z-index: 10;
+}
+
+/* 小三角指示器 */
+.style-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: var(--md-surface, #fff) transparent transparent transparent;
+}
+
+.style-switcher label:hover .style-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
