@@ -41,6 +41,7 @@ function confirmIosAlert() {
     if (isMobileDevice() && pendingUrl.appUrl) {
       try {
         // 尝试打开APP
+        showToast("尝试打开APP");
         window.location.href = pendingUrl.appUrl;
         
         // 2秒后跳转网页作为备用
@@ -123,144 +124,127 @@ window.addEventListener('DOMContentLoaded', function() {
 
 // SPA页面切换逻辑
 document.addEventListener('DOMContentLoaded', function() {
-  const pageCache = new Map();
-  const navLinks = document.querySelectorAll('.bottom-nav a');
-  let isNavigating = false; // 防止重复点击
+  // 初始化SPA导航
+  initSpaNavigation();
+});
 
-  // 初始化导航事件
-  initNavigation();
-
-  function initNavigation() {
-    navLinks.forEach(link => {
-      // 缩短悬停预加载触发时间（150ms），提高预加载命中率
-      link.addEventListener('mouseenter', () => {
-        setTimeout(() => preloadPage(link), 150);
-      });
-      // 触摸设备立即预加载
-      link.addEventListener('touchstart', () => preloadPage(link), { passive: true });
-      // 点击事件：优先执行动画，加载在动画期间完成
-      link.addEventListener('click', handleNavClick);
+// 初始化SPA导航系统
+function initSpaNavigation() {
+  // 拦截底部导航点击
+  document.querySelectorAll('.bottom-nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetUrl = this.getAttribute('href');
+      // 只处理内部HTML页面
+      if (targetUrl && targetUrl.endsWith('.html') && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        spaNavigate(targetUrl);
+      }
     });
+  });
 
-    // 历史记录导航处理
-    window.addEventListener('popstate', e => {
-      if (e.state?.url) navigateTo(e.state.url, false);
+  // 处理浏览器历史记录
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.url) {
+      loadPageContent(e.state.url, false);
+    }
+  });
+}
+
+// 页面导航核心函数
+function spaNavigate(targetUrl) {
+  const currentPage = document.querySelector('.page');
+  const isZelynn = targetUrl.includes('zelynn');
+  
+  // 添加退出动画
+  currentPage.classList.add(isZelynn ? 'slide-out-left' : 'slide-out-right');
+  
+  // 动画结束后加载新内容
+  currentPage.addEventListener('animationend', function handler() {
+    currentPage.removeEventListener('animationend', handler);
+    loadPageContent(targetUrl, true);
+  }, { once: true });
+}
+
+// 加载页面内容
+function loadPageContent(url, addToHistory) {
+  // 显示加载动画
+  const loader = document.getElementById('loadingOverlay');
+  if (loader) loader.classList.add('show');
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error('加载失败');
+      return response.text();
+    })
+    .then(html => {
+      // 解析HTML
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      
+      // 提取需要替换的内容
+      const newPageContent = doc.querySelector('.page').innerHTML;
+      const newTitle = doc.title;
+      const newBodyId = doc.body.id;
+      
+      // 更新页面内容
+      document.querySelector('.page').innerHTML = newPageContent;
+      document.title = newTitle;
+      document.body.id = newBodyId;
+      
+      // 更新历史记录
+      if (addToHistory) {
+        history.pushState({ url: url }, newTitle, url);
+      }
+      
+      // 添加入场动画
+      const page = document.querySelector('.page');
+      const fromIndex = url.includes('zelynn');
+      page.classList.remove('slide-out-left', 'slide-out-right');
+      page.classList.add(fromIndex ? 'slide-in-left' : 'slide-in-right');
+      
+      // 动画结束后清理
+      page.addEventListener('animationend', function handler() {
+        page.removeEventListener('animationend', handler);
+        page.classList.remove('slide-in-left', 'slide-in-right');
+      }, { once: true });
+      
+      // 执行页面初始化逻辑
+      if (newBodyId === 'zelynn-page' && typeof initZelynnPage === 'function') {
+        initZelynnPage();
+      } else if (newBodyId === 'blog-page' && typeof initBlog === 'function') {
+        initBlog();
+      }
+      
+      // 重新绑定事件
+      initSpaNavigation();
+      
+      // 隐藏加载动画
+      if (loader) loader.classList.remove('show');
+    })
+    .catch(error => {
+      console.error('页面加载失败:', error);
+      if (loader) loader.classList.remove('show');
+      // 失败时降级为普通跳转
+      window.location.href = url;
     });
-  }
+}
 
-  // 预加载页面（保持缓存逻辑）
-  function preloadPage(link) {
-    const url = link.getAttribute('href');
-    if (!url || pageCache.has(url) || url.includes('#')) return;
+// 保留原有代码，在底部导航部分修改预加载逻辑
+document.querySelectorAll(".bottom-nav a").forEach(link => {
+  // 移除原有的点击跳转逻辑，保留预加载
+  link.addEventListener('mouseenter', preloadPage);
+  link.addEventListener('touchstart', preloadPage, { passive: true });
 
-    fetch(url)
-      .then(res => res.ok ? res.text() : Promise.reject())
-      .then(html => {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        pageCache.set(url, {
-          content: doc.querySelector('.page').innerHTML,
-          title: doc.title,
-          bodyId: doc.body.id
-        });
-      })
-      .catch(err => console.log('预加载失败:', err));
-  }
+  function preloadPage() {
+    const target = link.getAttribute("href");
+    if (target && target.endsWith(".html")) {
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'prefetch';
+      preloadLink.href = target;
+      document.head.appendChild(preloadLink);
 
-  // 点击导航处理：立即执行动画，加载在动画期间并行处理
-  function handleNavClick(e) {
-    e.preventDefault();
-    if (isNavigating) return; // 防止重复触发
-
-    const targetUrl = e.currentTarget.getAttribute('href');
-    if (!targetUrl || !targetUrl.endsWith('.html')) return;
-
-    navigateTo(targetUrl, true);
-  }
-
-  // 核心导航逻辑：动画覆盖加载过程
-  function navigateTo(url, addToHistory) {
-    isNavigating = true;
-    const currentPage = document.querySelector('.page');
-    const isNext = getPageOrder(url) > getCurrentPageOrder();
-    const exitAnimClass = isNext ? 'slide-out-right' : 'slide-out-left';
-    const enterAnimClass = isNext ? 'slide-in-left' : 'slide-in-right';
-
-    // 1. 立即开始当前页面退出动画（0.5秒）
-    currentPage.classList.add(exitAnimClass);
-
-    // 2. 并行加载目标页面内容（利用动画时间完成加载）
-    const loadContent = pageCache.has(url) 
-      ? Promise.resolve(pageCache.get(url)) 
-      : fetch(url).then(res => res.text().then(html => {
-          const doc = new DOMParser().parseFromString(html, 'text/html');
-          const pageData = {
-            content: doc.querySelector('.page').innerHTML,
-            title: doc.title,
-            bodyId: doc.body.id
-          };
-          pageCache.set(url, pageData);
-          return pageData;
-        }));
-
-    // 3. 动画结束时（0.5秒后）刚好完成内容替换
-    setTimeout(() => {
-      loadContent.then(pageData => {
-        // 替换内容（动画间隙执行，用户无感知）
-        currentPage.innerHTML = pageData.content;
-        document.title = pageData.title;
-        document.body.id = pageData.bodyId;
-
-        // 4. 执行新页面入场动画
-        currentPage.classList.remove(exitAnimClass);
-        currentPage.classList.add(enterAnimClass);
-
-        // 5. 入场动画结束后清理状态
-        setTimeout(() => {
-          currentPage.classList.remove(enterAnimClass);
-          initPage(pageData.bodyId); // 执行页面初始化
-          isNavigating = false;
-        }, 500); // 与入场动画时长一致
-
-        // 更新历史记录
-        if (addToHistory) {
-          history.pushState({ url }, pageData.title, url);
-        }
-        updateNavActive(url);
-      }).catch(err => {
-        // 加载失败时降级处理（保留动画过渡）
-        currentPage.classList.remove(exitAnimClass);
-        window.location.href = url; // 最终跳转到目标页
-      });
-    }, 500); // 与退出动画时长一致（0.5秒）
-  }
-
-  // 辅助函数：获取页面顺序（控制动画方向）
-  function getPageOrder(url) {
-    const orderMap = {
-      'index.html': 0,
-      'blog.html': 1,
-      'zelynn.html': 2
-    };
-    return orderMap[new URL(url, window.location).pathname.split('/').pop()] || 0;
-  }
-
-  function getCurrentPageOrder() {
-    return getPageOrder(window.location.pathname);
-  }
-
-  // 更新导航激活状态
-  function updateNavActive(url) {
-    navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === url);
-    });
-  }
-
-  // 页面初始化逻辑
-  function initPage(bodyId) {
-    if (bodyId === 'blog-page' && typeof initBlog === 'function') {
-      initBlog();
-    } else if (bodyId === 'zelynn-page' && typeof initZelynnPage === 'function') {
-      initZelynnPage();
+      link.removeEventListener('mouseenter', preloadPage);
+      link.removeEventListener('touchstart', preloadPage);
     }
   }
 });
