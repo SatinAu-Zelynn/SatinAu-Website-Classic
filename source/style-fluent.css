@@ -159,6 +159,13 @@ h2 {
   background: var(--fluent-color-bg-active);
 }
 
+.content-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
 /* Icon */
 .icon {
   width: 40px;
