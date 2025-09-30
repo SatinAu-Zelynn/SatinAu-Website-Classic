@@ -1058,3 +1058,22 @@ document.addEventListener('click', function(e) {
     moreMenuVisible = false;
   }
 });
+
+// 动态问候语
+if (document.body.id === "index-page") {
+  const greetingEl = document.getElementById('greeting');
+  if (greetingEl) {
+    const hour = new Date().getHours();
+    let greeting = '';
+    if (hour < 6) greeting = '凌晨好 🌙';
+    else if (hour < 9) greeting = '早上好 🌞';
+    else if (hour < 12) greeting = '上午好 ☀️';
+    else if (hour < 14) greeting = '中午好 🍚';
+    else if (hour < 18) greeting = '下午好 🌆';
+    else if (hour < 22) greeting = '晚上好 🌃';
+    else greeting = '夜深了 🌌';
+    
+    greetingEl.textContent = greeting;
+    greetingEl.style.animation = 'fadeIn 1s ease forwards';
+  }
+}
