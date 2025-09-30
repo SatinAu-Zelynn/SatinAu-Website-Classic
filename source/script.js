@@ -1017,9 +1017,9 @@ document.addEventListener('DOMContentLoaded', () => {
     option.addEventListener('change', function() {
       applyCssVersion(this.value);
       localStorage.setItem('preferredStyle', this.value);
-      let msg = '已切换到SainAu Design';
-      if (this.value === 'fluent') msg = '已切换到Microsoft Fluent';
-      if (this.value === 'material') msg = '已切换到Google Material';
+      let msg = '已切换到SatinAu Design';
+      if (this.value === 'fluent') msg = '已切换到Fluent UI';
+      if (this.value === 'material') msg = '已切换到Material Design';
       showToast(msg);
     });
   });
