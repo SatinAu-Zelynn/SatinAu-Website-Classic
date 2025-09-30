@@ -126,6 +126,7 @@ window.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   // 初始化SPA导航
   initSpaNavigation();
+  toggleMoreMenu();
 });
 
 // 初始化SPA导航系统
@@ -148,6 +149,8 @@ function initSpaNavigation() {
       loadPageContent(e.state.url, false);
     }
   });
+
+  toggleMoreMenu();
 }
 
 // 页面导航核心函数
@@ -217,6 +220,7 @@ function loadPageContent(url, addToHistory) {
       
       // 重新绑定事件
       initSpaNavigation();
+      toggleMoreMenu();
       
       // 隐藏加载动画
       if (loader) loader.classList.remove('show');
@@ -1034,3 +1038,23 @@ function applyCssVersion(style) {
     }
   });
 }
+
+// 更多菜单控制
+let moreMenuVisible = false;
+
+function toggleMoreMenu() {
+  const dropdown = document.querySelector('.more-dropdown');
+  if (dropdown) {
+    moreMenuVisible = !moreMenuVisible;
+    dropdown.classList.toggle('show', moreMenuVisible);
+  }
+}
+
+// 点击其他区域关闭菜单
+document.addEventListener('click', function(e) {
+  const container = document.querySelector('.more-menu-container');
+  if (moreMenuVisible && !container.contains(e.target)) {
+    document.querySelector('.more-dropdown').classList.remove('show');
+    moreMenuVisible = false;
+  }
+});

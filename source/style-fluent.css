@@ -813,3 +813,7 @@ footer {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
+
+.more-menu-container {
+  display: none !important;
+}
