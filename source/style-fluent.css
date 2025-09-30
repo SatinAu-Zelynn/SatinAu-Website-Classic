@@ -440,9 +440,6 @@ button:active, .email-item button:active, .ios-alert button:active, .back-button
     .bottom-nav a.active {
       background: rgba(255, 255, 255, 0.18); /* 深色模式下的灰色背景 */
     }
-    .bottom-nav a.active::after {
-      background: var(--fluent-color-primary-dark); /* 深色模式下的蓝色 */
-    }
   }
 }
 
