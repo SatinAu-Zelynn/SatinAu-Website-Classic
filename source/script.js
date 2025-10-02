@@ -1071,7 +1071,7 @@ if (document.body.id === "index-page") {
     else if (hour < 14) greeting = '中午好 🍚';
     else if (hour < 18) greeting = '下午好 🌆';
     else if (hour < 22) greeting = '晚上好 🌃';
-    else greeting = '夜深了 🌌';
+    else greeting = '夜深了，休息一下吧~';
     
     greetingEl.textContent = greeting;
     greetingEl.style.animation = 'fadeIn 1s ease forwards';

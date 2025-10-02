@@ -619,7 +619,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   body#index-page .wechat-qr { color: #fff; }
 }
 
-/* ========== Apple Liquid Glass 底部导航栏 ========== */
+/* ========== Apple Liquid Glass 导航栏 ========== */
 .bottom-nav{
   position: fixed;
   left: 50%;
@@ -822,22 +822,20 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   cy: 12;
 }
 
-/* 下拉菜单样式 - 加大与导航栏距离并适配Liquid Glass */
+/* 下拉菜单样式 */
 .more-dropdown {
   position: absolute;
   top: 100%;
   right: 0;
   min-width: 160px;
   margin-top: 24px;
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  background: rgba(255, 255, 255);
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 16px; /* 与导航栏风格统一的圆角 */
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   padding: 8px 0;
   transform-origin: top right;
-  transform: scale(0.9) translateY(-10px);
+  transform: scale(0.5) translateY(-10px);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
