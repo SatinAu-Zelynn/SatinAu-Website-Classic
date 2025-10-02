@@ -360,11 +360,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function applyCssVersion(style) {
   const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
   cssLinks.forEach(link => {
-    if (link.href.includes('style-fluent.css')) {
+    if (link.href.includes('fluent.css')) {
       link.disabled = style !== 'fluent';
-    } else if (link.href.includes('style-material.css')) {
+    } else if (link.href.includes('material.css')) {
       link.disabled = style !== 'material';
-    } else if (link.href.includes('style.css') && !link.href.includes('style-fluent.css') && !link.href.includes('style-material.css')) {
+    } else if (link.href.includes('satinau.css') && !link.href.includes('fluent.css') && !link.href.includes('material.css')) {
       link.disabled = style !== 'satinau';
     }
   });
