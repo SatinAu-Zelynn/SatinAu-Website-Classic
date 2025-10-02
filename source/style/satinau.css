@@ -1,7 +1,7 @@
 /* ========== 全局字体设置 ========== */
 @font-face {
   font-family: 'MiSans';
-  src: url('font/MiSans VF.ttf') format('truetype');
+  src: url('../font/MiSans VF.ttf') format('truetype');
   font-weight: 100 900; /* 支持可变字重 */
   font-style: normal;
   font-display: swap;

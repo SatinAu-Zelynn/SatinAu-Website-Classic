@@ -408,3 +408,26 @@ if (document.body.id === "index-page") {
     greetingEl.style.animation = 'fadeIn 1s ease forwards';
   }
 }
+
+// 控制台美化效果
+function consoleBeautify() {
+  // 输出带样式的文字信息
+  console.log(
+    "%c这里是缎金SatinAu https://satinau.cn",
+    "color: #00FFCC; font-size: 16px; font-weight: bold;"
+  );
+  
+  console.log(
+    "%c当前页面: %s",
+    "color: #FFE92C; font-size: 14px;",
+    window.location.pathname
+  );
+  
+  console.log(
+    "%c问题反馈请前往https://github.com/SatinAu-Zelynn/SatinAu-Website-Classic/issues/",
+    "color: #FF9999; font-style: italic;"
+  );
+}
+
+// 页面加载完成后执行
+window.addEventListener('load', consoleBeautify);
