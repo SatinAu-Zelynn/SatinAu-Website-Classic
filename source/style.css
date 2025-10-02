@@ -835,7 +835,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   padding: 8px 0;
   transform-origin: top right;
-  transform: scale(0.5) translateY(-10px);
+  transform: scale(0.8) translateY(-10px);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
