@@ -432,10 +432,15 @@ function consoleBeautify() {
     "%c这里是缎金SatinAu https://satinau.cn",
     "color: #00FFCC; font-size: 16px; font-weight: bold;"
   );
+
+  console.log(
+    "%cCopyright 2025 缎金SatinAu",
+    "color: #FFE92C; font-size: 14px;",
+  );
   
   console.log(
     "%c当前页面: %s",
-    "color: #FFE92C; font-size: 14px;",
+    "color: #5E447B; font-size: 14px;",
     window.location.pathname
   );
   
