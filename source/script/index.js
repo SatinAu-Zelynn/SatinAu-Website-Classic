@@ -5,14 +5,14 @@ if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(email).then(() => {
     showToast("📋 已复制: " + email);
     }).catch(err => {
-    fallbackCopyText(email);
+    emailfallbackCopyText(email);
     });
 } else {
-    fallbackCopyText(email);
+    emailfallbackCopyText(email);
 }
 };
 
-function fallbackCopyText(text) {
+function emailfallbackCopyText(text) {
 const input = document.createElement("textarea");
 input.value = text;
 input.style.position = "fixed";

@@ -271,9 +271,13 @@ h2 {
 }
 
 /* ========== 卡片布局 ========== */
-.contact-wrapper, .lang-wrapper { display: grid; gap: 18px; margin-top: 30px; }
-.contact-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-.lang-wrapper { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); justify-items: center; }
+.contact-wrapper, .lang-wrapper { 
+  display: grid; 
+  gap: 18px; 
+  margin-top: 30px; 
+  grid-template-columns: 
+  repeat(auto-fit, minmax(260px, 1fr)); 
+}
 
 /* 卡片液态玻璃效果 */
 .contact-card {
