@@ -137,28 +137,24 @@ const copyAction = (ctx) => {
   const createRightClickMenu = () => {
     // 自定义主题配置和外部样式
     const menu = new CustomRightClickMenu({
-  
-      /*
-        theme: {
-          // 对应菜单的背景
-          '--menu-bg': 'rgba(255, 255, 255, 0.1)',
-          // 对应菜单的边框
-          '--menu-border': '1px solid rgba(255, 255, 255, 0.05)',
-          // 对应backdrop-filter---自定义项
-          '--menu-backdrop': 'blur(10px)',
-          // 对应过渡效果的时间
-          '--transition-speed': '0.1s',
-          // 对应菜单项 hover 背景
-          '--item-hover-bg': 'rgba(255, 255, 255, 0.3)',
-          // 对应菜单项文字颜色
-          '--text-color': 'white',
-          // 对应菜单标题文字颜色
-          '--header-color': 'white',
-          // 对应分隔线颜色
-          '--divider-color': '#e5e7eb'
-        },
-      */
-  
+      theme: {
+        // 对应菜单的背景
+        '--menu-bg': 'rgba(255, 255, 255, 0.28)',
+        // 对应菜单的边框
+        '--menu-border': '1px solid rgba(255, 255, 255, 0.25)',
+        // 对应backdrop-filter---自定义项
+        '--menu-backdrop': 'blur(24px) saturate(180%)',
+        // 对应过渡效果的时间
+        '--transition-speed': '0.1s',
+        // 对应菜单项 hover 背景
+        '--item-hover-bg': 'rgba(255, 255, 255, 0.3)',
+        // 对应菜单项文字颜色
+        '--text-color': 'black',
+        // 对应菜单标题文字颜色
+        '--header-color': 'black',
+        // 对应分隔线颜色
+        '--divider-color': '#e5e7eb'
+      },
       // 外部样式（可选，图标库也可换源或直接不使用）
       externalStyles: [
         //'Example.css',
