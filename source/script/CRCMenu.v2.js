@@ -151,7 +151,7 @@ const copyAction = (ctx) => {
         // 对应菜单项文字颜色
         '--text-color': 'black',
         // 对应菜单标题文字颜色
-        '--header-color': 'black',
+        '--header-color': 'gray',
         // 对应分隔线颜色
         '--divider-color': '#e5e7eb'
       },
