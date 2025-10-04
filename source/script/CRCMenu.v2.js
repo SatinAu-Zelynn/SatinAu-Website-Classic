@@ -113,7 +113,7 @@ const copyAction = (ctx) => {
   };
   
   const backToHomeAction = () => {
-    spaNavigate('index.html');
+    window.location.href = 'index.html';
   };
   
   const openImageInNewTabAction = (ctx) => {
