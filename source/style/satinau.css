@@ -1420,3 +1420,39 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
+
+/* 图片画廊样式 */
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.image-gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.03);
+}
+
+.loading-indicator {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+}
+
+.image-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 0;
+  color: #ff4444;
+}

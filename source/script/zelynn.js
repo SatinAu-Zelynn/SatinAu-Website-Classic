@@ -15,125 +15,60 @@
 */
 
 /* ============= zelynn.html 独有逻辑 ============= */
-window.initZelynnPage = function() {
-  // 确保DOM完全加载
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initZelynnContent);
-  } else {
-    initZelynnContent();
-  }
-
-  function initZelynnContent() {
-    try {
-      // 移动端尺寸适配处理
-      handleMobileLayout();
+// 等待DOM加载完成
+document.addEventListener('DOMContentLoaded', function() {
+  // 图片画廊容器
+  const galleryContainer = document.getElementById('zelynnGallery');
+  
+  // 加载图片列表
+  fetch('https://blog.satinau.cn/image/zelynn/list.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('图片列表加载失败');
+      }
+      return response.json();
+    })
+    .then(images => {
+      // 清空加载提示
+      galleryContainer.innerHTML = '';
       
-      // 处理卡片入场动画
-      const contactCards = document.querySelectorAll('.contact-card');
-      if (contactCards.length && document.body.id === "zelynn-page") {
-        contactCards.forEach((card, index) => {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                card.style.animationDelay = `${0.2 + index * 0.2}s`;
-                card.classList.add('visible');
-                observer.unobserve(card);
-              }
-            });
-          }, { 
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-          });
-          
-          observer.observe(card);
+      // 创建图片元素
+      images.forEach(imgInfo => {
+        const img = document.createElement('img');
+        img.src = `https://blog.satinau.cn/image/zelynn/${imgInfo.filename}`;
+        img.alt = imgInfo.alt || '泽凌图片';
+        img.loading = 'lazy'; // 懒加载
+        
+        // 添加错误处理
+        img.onerror = function() {
+          this.alt = '图片加载失败: ' + imgInfo.alt;
+          this.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTEyIDJjLTUuNSAyLTkgNi41LTkgMTFzMy41IDExIDkgMTExIDktMy41IDktMTEtMy41LTExLTktMTF6bTAgMTZjLTMuMyAwLTYtMi43LTYtNnMzLjcgMiA2IDIgNi0zLjMgNi02LTMuMy02LTYtNnoiLz48cGF0aCBmaWxsPSIjRjRBNEEwIiBkPSJNMTIgMTVoLjAxdjEuOTlsLS4wMS4wMUwxMiAxOWwtMS4wMS0xLjA5LS4wMS0uMDFWMTVoLjAxeiIvPjwvc3ZnPg==';
+        };
+        
+        galleryContainer.appendChild(img);
+      });
+      
+      // 初始化Viewer.js
+      if (images.length > 0) {
+        const viewer = new Viewer(galleryContainer, {
+          url: 'src', // 使用img的src属性作为大图地址
+          title: function(image) {
+            return image.alt; // 显示alt作为标题
+          },
+          toolbar: true,
+          tooltip: true,
+          movable: true,
+          zoomable: true,
+          rotatable: true,
+          scalable: true,
+          transition: true,
+          fullscreen: true,
+          keyboard: true
         });
       }
-
-      // 样式切换功能增强
-      setupStyleSwitcher();
-      
-    } catch (error) {
-      console.error('泽凌页面初始化错误:', error);
-      document.querySelectorAll('.contact-card').forEach(card => {
-        card.classList.add('visible');
-      });
-    }
-  }
-
-  // 移动端布局适配处理
-  function handleMobileLayout() {
-    // 针对小屏幕设备的特殊处理
-    function adjustLayout() {
-      const isMobile = window.innerWidth < 768;
-      const container = document.querySelector('.container');
-      
-      if (container) {
-        // 确保容器不超出屏幕宽度
-        container.style.paddingLeft = isMobile ? '16px' : '24px';
-        container.style.paddingRight = isMobile ? '16px' : '24px';
-      }
-      
-      // 调整卡片容器在移动端的布局
-      const langWrapper = document.querySelector('.lang-wrapper');
-      if (langWrapper) {
-        langWrapper.style.gridTemplateColumns = isMobile ? '1fr' : 'repeat(auto-fit, minmax(280px, 1fr))';
-      }
-    }
-
-    // 初始化时调整一次
-    adjustLayout();
-    // 窗口大小变化时重新调整
-    window.addEventListener('resize', adjustLayout);
-  }
-
-  // 增强样式切换器稳定性
-  function setupStyleSwitcher() {
-    const styleSwitcher = document.querySelector('.style-switcher');
-    if (!styleSwitcher) return;
-
-    const styleLinks = {
-      'satinau': document.querySelector('link[href="source/style/satinau.css"]'),
-      'fluent': document.querySelector('link[href="source/style/fluent.css"]'),
-      'material': document.querySelector('link[href="source/style/material.css"]')
-    };
-
-    // 从localStorage恢复用户偏好设置
-    try {
-      const savedStyle = localStorage.getItem('preferredStyle');
-      if (savedStyle && styleLinks[savedStyle]) {
-        Object.keys(styleLinks).forEach(key => {
-          styleLinks[key].disabled = key !== savedStyle;
-        });
-        const radio = styleSwitcher.querySelector(`input[value="${savedStyle}"]`);
-        if (radio) radio.checked = true;
-      }
-    } catch (e) {
-      console.error('读取样式偏好失败:', e);
-    }
-
-    // 绑定切换事件
-    styleSwitcher.querySelectorAll('input[type="radio"]').forEach(radio => {
-      radio.addEventListener('change', function() {
-        const style = this.value;
-        if (styleLinks[style]) {
-          Object.keys(styleLinks).forEach(key => {
-            styleLinks[key].disabled = key !== style;
-          });
-          try {
-            localStorage.setItem('preferredStyle', style);
-          } catch (e) {
-            console.error('保存样式偏好失败:', e);
-          }
-        }
-      });
+    })
+    .catch(error => {
+      console.error('加载图片失败:', error);
+      galleryContainer.innerHTML = '<div class="image-error">图片加载失败，请稍后重试</div>';
     });
-  }
-};
-
-// 页面切换时的清理工作
-window.addEventListener('beforeunload', function() {
-  if (document.body.id === "zelynn-page") {
-    // 移除resize事件监听
-    window.removeEventListener('resize', handleMobileLayout);
-  }
 });

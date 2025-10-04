@@ -25,14 +25,16 @@
   <meta name="author" content="缎金SatinAu">
   <link rel="canonical" href="https://satinau.cn/zelynn.html">
   <link rel="icon" type="image/png" href="source/image/favicon.png">
-  <!-- 关键样式优先加载 -->
   <link rel="stylesheet" href="source/style/satinau.css">
-  <!-- 非关键样式延迟加载 -->
   <link rel="stylesheet" href="source/style/fluent.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
   <link rel="stylesheet" href="source/style/material.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
   <script src="source/script/common.js" defer></script>
   <script src="source/script/zelynn.js" defer></script>
   <script src="source/script/CRCMenu.v2.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.6/dist/viewer.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.6/dist/viewer.min.js"></script>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9426096622283590"
        crossorigin="anonymous"></script>
@@ -63,6 +65,14 @@
           <div class="icon"><span class="paw-cyan">🐾</span></div>
           <div class="text"><div class="label">Language</div><div class="value">English</div></div>
         </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>图片展示 / Image Gallery</h2>
+      <div id="zelynnGallery" class="image-gallery">
+        <!-- 图片将通过JS动态加载 -->
+        <div class="loading-indicator">加载图片中...</div>
       </div>
     </section>
 
