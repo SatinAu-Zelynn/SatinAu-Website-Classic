@@ -123,6 +123,7 @@ const copyAction = (ctx) => {
   const copyImageUrlAction = (ctx) => {
     if (ctx.currentImageUrl) {
       navigator.clipboard?.writeText(ctx.currentImageUrl).catch(() => fallbackCopyText(ctx.currentImageUrl));
+      showToast("📋 已复制: " + ctx.currentImageUrl);
     }
   };
   

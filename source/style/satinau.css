@@ -353,6 +353,12 @@ h2 {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
+@media (prefers-color-scheme: dark) {
+  .contact-card {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
 /* Icon */
 .icon { width: 40px; height: 40px; display:inline-flex; align-items:center; justify-content:center;
         border-radius:12px; background:linear-gradient(135deg,#e8f0fe,#ffffff);
@@ -410,7 +416,16 @@ h2 {
 }
 
 /* ========== Footer ========== */
-footer{text-align:center;padding:30px 10px;margin-top:60px;font-size:13px;color:#666;background:rgba(255,255,255,0.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);}
+footer{
+  text-align:center;
+  padding:30px 10px;
+  margin-top:60px;
+  font-size:13px;
+  color:#666;
+  background:rgba(255,255,255,0.6);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
 
 footer a {
   color: #888; /* 灰色文字 */
@@ -435,14 +450,18 @@ footer a + a::before {
 
 /* 适配深色模式 */
 @media (prefers-color-scheme: dark) {
+  footer{
+    background:rgba(255,255,255,0.1);
+    color: #bbb;
+  }
   footer a {
-    color: #666666; /* 深色模式下的浅灰文字 */
+    color: #888;
   }
   footer a:hover {
     color: #ccc;
   }
   footer a + a::before {
-    color: #444; /* 深色模式下的浅灰竖线 */
+    color: #666; /* 深色模式下的浅灰竖线 */
   }
 }
 
@@ -470,7 +489,11 @@ footer a + a::before {
 .copied-tip.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.05); }
 .copied-tip.show.done { transform: translateX(-50%) translateY(0) scale(1); }
 @media (prefers-color-scheme: dark) {
-  .copied-tip { background: rgba(30,30,30,0.45); color: #fff; }
+  .copied-tip {
+    background: rgba(30,30,30,0.5);
+    border: 1px solid rgba(60,60,60,0.25);
+    color: #fff;
+  }
 }
 
 /* 通用遮罩 */
@@ -483,7 +506,7 @@ footer a + a::before {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
-  z-index: 9998;
+  z-index: 9997;
 }
 .overlay.show { opacity: 1; pointer-events: auto; }
 
@@ -502,7 +525,7 @@ footer a + a::before {
   opacity: 0;
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
-  z-index: 9999;
+  z-index: 9998;
 }
 .modal.show {
   opacity: 1;
@@ -865,16 +888,16 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 /* 深色模式适配 */
 @media (prefers-color-scheme: dark) {
   .more-btn {
-    background: rgba(30, 30, 30, 0.5);
+    background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.12);
   }
   
   .more-btn:hover {
-    background: rgba(40, 40, 40, 0.6);
+    background: rgba(255, 255, 255, 0.3);
   }
   
   .more-btn:active {
-    background: rgba(20, 20, 20, 0.4);
+    background: rgba(255, 255, 255, 0.1);
   }
   
   .more-dropdown {
