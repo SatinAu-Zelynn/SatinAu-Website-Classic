@@ -790,11 +790,6 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     padding-left: 16px;
     padding-right: 16px;
   }
-  
-  /* 导航项整体右移，给头像留出空间 */
-  .bottom-nav a {
-    flex: 1;
-  }
 }
 
 /* 更多按钮基础样式 - 仅在Liquid Glass显示 */
