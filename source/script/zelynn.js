@@ -92,9 +92,9 @@ window.initZelynnPage = function() {
     if (!styleSwitcher) return;
 
     const styleLinks = {
-      'sainau': document.querySelector('link[href="source/style.css"]'),
-      'fluent': document.querySelector('link[href="source/style-fluent.css"]'),
-      'material': document.querySelector('link[href="source/style-material.css"]')
+      'satinau': document.querySelector('link[href="source/style/satinau.css"]'),
+      'fluent': document.querySelector('link[href="source/style/fluent.css"]'),
+      'material': document.querySelector('link[href="source/style/material.css"]')
     };
 
     // 从localStorage恢复用户偏好设置
