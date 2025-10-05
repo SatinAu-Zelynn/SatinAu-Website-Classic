@@ -310,17 +310,9 @@ h2:hover::after {
   background-color: var(--md-primary);
 }
 
-.contact-card:hover .icon svg, .lang-wrapper a:hover .icon svg {
-  stroke: var(--md-on-primary);
-}
-
 .icon svg {
   width: 28px; /* 增大图标 */
   height: 28px;
-  stroke: var(--md-primary);
-  stroke-width: 2;
-  fill: none;
-  transition: stroke var(--md-transition-standard);
 }
 
 .icon img {
