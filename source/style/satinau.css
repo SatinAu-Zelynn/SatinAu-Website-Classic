@@ -1099,8 +1099,8 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
         from 25deg,
         #FFE92C 25%,
         #FF9999 0 50%,
-        #5E447B 0 75%,
-        #00FFCC 0
+        #00FFCC 0 75%,
+        #5E447B 0
     );
     /* 渐变蒙版 */
     -webkit-mask: repeating-conic-gradient(#0000 0 25deg,#000 23% 25%),
