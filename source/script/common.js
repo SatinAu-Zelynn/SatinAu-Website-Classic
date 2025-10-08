@@ -558,3 +558,88 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+/* ========== 自定义右键菜单逻辑 ========== */
+
+let customMenuInstance = null;
+const CUSTOM_MENU_KEY = 'setting_custom_context_menu_enabled';
+
+// 获取菜单设置，默认启用 (true)
+function getCustomMenuSetting() {
+    // localStorage 存储的是字符串 'true' 或 'false'
+    const setting = localStorage.getItem(CUSTOM_MENU_KEY);
+    // 如果没有设置，默认为 true
+    return setting === null ? true : setting === 'true';
+}
+
+// 初始化菜单实例并根据设置挂载/卸载
+function initCustomRightClickMenu() {
+    // 检查 CustomRightClickMenu 类是否可用 (来自 CRCMenu.v2.js)
+    if (typeof CustomRightClickMenu === 'undefined') {
+        console.warn('CRCMenu.v2.js 未加载或类名不正确。');
+        return;
+    }
+
+    // 实例化菜单（CustomRightClickMenu是单例模式）
+    if (!customMenuInstance) {
+        // 确保 Web Component 已定义（CRCMenu.v2.js 应该自行注册）
+        if (!customElements.get('custom-right-click-menu')) {
+             customElements.define('custom-right-click-menu', CustomRightClickMenu);
+        }
+        customMenuInstance = new CustomRightClickMenu({});
+        // 将 Web Component 添加到 body 中
+        document.body.appendChild(customMenuInstance);
+    }
+    
+    // 检查设置，决定是 mount 还是 unmount
+    const isEnabled = getCustomMenuSetting();
+    if (isEnabled) {
+        customMenuInstance.mount();
+    } else {
+        customMenuInstance.unmount();
+    }
+}
+
+// 设置页面加载时，将设置状态反映到 UI 上
+function loadCustomRightClickMenuSetting() {
+    const toggleEl = document.getElementById('customRightClickMenuToggle');
+    if (toggleEl) {
+        toggleEl.checked = getCustomMenuSetting();
+    }
+}
+
+// 设置开关的 onChange 事件处理函数 (在 settings.html 中调用)
+window.toggleCustomRightClickMenu = function() {
+    const toggleEl = document.getElementById('customRightClickMenuToggle');
+    if (!toggleEl) return;
+
+    const isChecked = toggleEl.checked;
+    
+    // 1. 保存设置到 localStorage
+    localStorage.setItem(CUSTOM_MENU_KEY, isChecked);
+    
+    // 2. 实时应用设置
+    if (customMenuInstance) {
+        if (isChecked) {
+            customMenuInstance.mount();
+            showToast("自定义右键菜单：已启用");
+        } else {
+            customMenuInstance.unmount();
+            showToast("自定义右键菜单：已禁用");
+        }
+    } else {
+         // 如果实例还未创建，则初始化它
+         initCustomRightClickMenu();
+    }
+};
+
+// 在 DOM 加载完成后，初始化自定义菜单并在设置页面加载 UI 状态
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化自定义右键菜单（所有页面）
+    initCustomRightClickMenu();
+    
+    // 如果在设置页面，加载设置状态
+    if (document.title.includes('设置')) {
+        loadCustomRightClickMenuSetting();
+    }
+});
