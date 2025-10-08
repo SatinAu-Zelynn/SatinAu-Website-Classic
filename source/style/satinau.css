@@ -931,6 +931,84 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   }
 }
 
+/* 移动端导航栏手势提示线 */
+@media (max-width: 767px) {
+  .bottom-nav {
+    padding-top: 24px; /* 为提示线预留空间 */
+  }
+  
+  /* 手势提示线样式 */
+  .bottom-nav::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .bottom-nav::before {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* 移动端专用更多菜单 */
+  .mobile-more-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 5000;
+    transition: max-height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu {
+      background: rgba(30, 30, 30, 0.95);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  /* 菜单展开状态 */
+  .mobile-more-menu.show {
+    max-height: 80vh;
+    padding-top: 24px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  }
+
+  /* 移动端菜单项样式 */
+  .mobile-more-menu .dropdown-item {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu .dropdown-item {
+      border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* 确保原有三个点按钮在移动端保持隐藏 */
+  .more-menu-container {
+    display: none !important;
+  }
+}
+
 /* ===================== iOS-like parallel page transitions (3 pages) ===================== */
 .page { will-change: transform, opacity; transform: translateZ(0); }
 

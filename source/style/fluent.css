@@ -460,6 +460,148 @@ button:active, .email-item button:active, .ios-alert button:active, .back-button
   }
 }
 
+@media (max-width: 767px) {
+  .bottom-nav {
+    padding-top: 24px; /* 为提示线预留空间 */
+  }
+  
+  /* 手势提示线样式 */
+  .bottom-nav::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .bottom-nav::before {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* 移动端专用更多菜单 */
+  .mobile-more-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 5000;
+    transition: max-height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu {
+      background: rgba(30, 30, 30, 0.95);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  /* 菜单展开状态 */
+  .mobile-more-menu.show {
+    max-height: 80vh;
+    padding-top: 24px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  }
+
+  /* 移动端菜单项样式 */
+  .mobile-more-menu .dropdown-item {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu .dropdown-item {
+      border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* 确保原有三个点按钮在移动端保持隐藏 */
+  .more-menu-container {
+    display: none !important;
+  }
+}
+
+/* 更多菜单项目显示在主导航下方 */
+@media (min-width: 768px) {
+  /* 调整导航栏布局为垂直排列并增加高度以容纳更多项目 */
+  .bottom-nav {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 40px; /* 为头像预留空间 */
+    padding-bottom: 20px;
+    height: auto; /* 自动适应内容高度 */
+    min-height: 100vh; /* 保持全屏高度 */
+  }
+
+  /* 隐藏原更多按钮 */
+  .more-btn {
+    display: none;
+  }
+
+  /* 显示更多菜单项目并整合到导航栏 */
+  .more-dropdown {
+    position: static; /* 取消绝对定位 */
+    min-width: auto;
+    margin-top: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* 添加分割线（在更多菜单项目上方） */
+  .more-dropdown::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--fluent-color-border);
+    margin: 8px 4px;
+  }
+
+  /* 调整菜单项样式以匹配主导航 */
+  .dropdown-item {
+    padding: 12px 0;
+    text-align: center;
+    border-radius: 8px;
+    margin: 0 4px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* 保持深色模式一致性 */
+  @media (prefers-color-scheme: dark) {
+    .more-dropdown {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+}
+
 /* ========== 弹窗与模态框 ========== */
 .overlay {
   position: fixed;
@@ -842,10 +984,6 @@ footer a:hover {
 .style-switcher label:hover .style-tooltip {
   opacity: 1;
   transform: translateX(-50%) scale(1);
-}
-
-.more-menu-container {
-  display: none !important;
 }
 
 /* 图片画廊样式 */

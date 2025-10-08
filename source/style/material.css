@@ -545,7 +545,7 @@ footer a:hover {
   transform: translateY(0);
 }
 
-/* 底部导航 - 增强识别度 */
+/* 底部导航 */
 .bottom-nav {
   position: fixed;
   left: 50%;
@@ -600,6 +600,164 @@ footer a:hover {
   opacity: 0.8;
 }
 
+@media (max-width: 767px) {
+  .bottom-nav {
+    padding-top: 24px; /* 为提示线预留空间 */
+  }
+  
+  /* 手势提示线样式 */
+  .bottom-nav::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .bottom-nav::before {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* 移动端专用更多菜单 */
+  .mobile-more-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 5000;
+    transition: max-height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* 深色模式适配 */
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu {
+      background: rgba(30, 30, 30, 0.95);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  /* 菜单展开状态 */
+  .mobile-more-menu.show {
+    max-height: 80vh;
+    padding-top: 24px;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+  }
+
+  /* 移动端菜单项样式 */
+  .mobile-more-menu .dropdown-item {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .mobile-more-menu .dropdown-item {
+      border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  /* 确保原有三个点按钮在移动端保持隐藏 */
+  .more-menu-container {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .more-menu-container {
+    display: block !important;
+    position: relative;
+    margin-left: auto; /* 推到右侧 */
+    display: flex;
+    align-items: center; /* 垂直居中 */
+  }
+
+  .more-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.2s ease;
+    margin: 9px;
+  }
+
+  .more-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .more-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .more-btn svg circle {
+    r: 2;
+    fill: var(--md-on-surface);
+  }
+
+  .more-btn svg circle:nth-child(1) { cx: 6; cy: 12; }
+  .more-btn svg circle:nth-child(2) { cx: 12; cy: 12; }
+  .more-btn svg circle:nth-child(3) { cx: 18; cy: 12; }
+
+  /* 向上弹出的菜单 */
+  .more-dropdown {
+    position: absolute;
+    bottom: 100%; /* 定位到按钮上方 */
+    right: 0;
+    margin-bottom: 8px; /* 与按钮保持距离 */
+    min-width: 160px;
+    background: var(--md-surface);
+    border-radius: var(--md-radius-large);
+    box-shadow: var(--md-elevation-4);
+    padding: 8px 0;
+    transform-origin: bottom right; /* 从右下角向上展开 */
+    transform: scale(0.9) translateY(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+    z-index: 3000;
+  }
+
+  .more-dropdown.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 12px 16px;
+    color: var(--md-on-surface);
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+
+  .dropdown-item:hover {
+    background: var(--md-surface-variant);
+  }
+}
+
 /* 博客正文排版 - 增强层级 */
 .md-article {
   max-width: 800px;
@@ -620,7 +778,7 @@ footer a:hover {
   margin-bottom: 24px;
 }
 
-/* 返回按钮 - 增强交互 */
+/* 返回按钮 */
 .back-button {
   display: inline-flex;
   align-items: center;
@@ -997,10 +1155,6 @@ footer a:hover {
 .style-switcher label:hover .style-tooltip {
   opacity: 1;
   transform: translateX(-50%) scale(1);
-}
-
-.more-menu-container {
-  display: none !important;
 }
 
 /* 图片画廊样式 */

@@ -450,3 +450,111 @@ function consoleBeautify() {
 
 // 页面加载完成后执行
 window.addEventListener('load', consoleBeautify);
+
+document.addEventListener('DOMContentLoaded', function() {
+  // 仅在移动端生效
+  if (window.innerWidth >= 768) return;
+  
+  // 获取桌面端原有的菜单选项
+  const desktopDropdown = document.querySelector('.more-dropdown');
+  if (!desktopDropdown) return;
+  
+  // 复制桌面端原菜单到移动端
+  const mobileMenu = document.createElement('div');
+  mobileMenu.className = 'mobile-more-menu';
+  mobileMenu.innerHTML = desktopDropdown.innerHTML;
+  document.body.appendChild(mobileMenu);
+  
+  const bottomNav = document.querySelector('.bottom-nav');
+  const navLinks = bottomNav.querySelectorAll('a'); // 获取导航按钮
+  let startY = 0;
+  let moveY = 0;
+  let isDragging = false;
+  let isMenuOpen = false;
+  let isNavLinkTouched = false; // 标记是否点击了导航按钮
+  
+  // 导航按钮触摸事件
+  navLinks.forEach(link => {
+    link.addEventListener('touchstart', () => {
+      isNavLinkTouched = true;
+    });
+    
+    link.addEventListener('touchend', () => {
+      // 延迟重置，确保在手势判断后执行
+      setTimeout(() => {
+        isNavLinkTouched = false;
+      }, 100);
+    });
+  });
+  
+  // 触摸开始
+  bottomNav.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    isDragging = true;
+    isNavLinkTouched = false; // 重置状态
+  }, { passive: false });
+  
+  // 触摸移动
+  bottomNav.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    
+    moveY = e.touches[0].clientY;
+    const diff = moveY - startY;
+    
+    // 上滑手势且菜单未打开时阻止页面滚动
+    if (diff < 0 && !isMenuOpen) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  // 触摸结束
+  bottomNav.addEventListener('touchend', function() {
+    if (!isDragging) return;
+    
+    const diff = moveY - startY;
+    const touchDuration = Date.now() - touchStartTime; // 计算触摸时长
+    
+    // 增加触发条件：上滑距离>80px，且不是点击导航按钮，且触摸时长>150ms
+    if (diff < -80 && !isMenuOpen && !isNavLinkTouched && touchDuration > 150) {
+      mobileMenu.classList.add('show');
+      isMenuOpen = true;
+      document.body.style.overflow = 'hidden';
+    }
+    
+    isDragging = false;
+  });
+  
+  // 记录触摸开始时间
+  let touchStartTime = 0;
+  bottomNav.addEventListener('touchstart', function() {
+    touchStartTime = Date.now();
+  }, { passive: true });
+  
+  // 点击菜单外部关闭
+  document.addEventListener('click', function(e) {
+    if (isMenuOpen && !mobileMenu.contains(e.target) && !bottomNav.contains(e.target)) {
+      mobileMenu.classList.remove('show');
+      isMenuOpen = false;
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // 菜单内部点击处理
+  mobileMenu.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const isExternal = this.target === '_blank' || this.href.startsWith('http');
+      if (!isExternal) {
+        e.preventDefault();
+        if (typeof spaNavigate === 'function') {
+          spaNavigate(this.getAttribute('href'));
+        } else {
+          window.location.href = this.getAttribute('href');
+        }
+      }
+      
+      mobileMenu.classList.remove('show');
+      isMenuOpen = false;
+      document.body.style.overflow = '';
+    });
+  });
+});
