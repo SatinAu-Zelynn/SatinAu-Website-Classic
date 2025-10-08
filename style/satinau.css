@@ -960,47 +960,119 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   /* 移动端专用更多菜单 */
   .mobile-more-menu {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    left: 50%;
+    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 12px);
+    transform: translateX(-50%) translateY(20px) scale(0.95);
+    width: min(90vw, 320px);
     max-height: 0;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(22px) saturate(180%);
+    background: rgba(255, 255, 255, 0.28);
     -webkit-backdrop-filter: blur(22px) saturate(180%);
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 22px;
+    box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.25), inset 0 0 30px rgba(255, 255, 255, 0.12);
     z-index: 5000;
-    transition: max-height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* 确保内容不会在动画时被裁剪 */
+    padding: 0;
   }
 
   /* 深色模式适配 */
   @media (prefers-color-scheme: dark) {
     .mobile-more-menu {
-      background: rgba(30, 30, 30, 0.95);
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+      background: rgba(30, 30, 30, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.12);
     }
   }
 
-  /* 菜单展开状态 */
+  /* 菜单展开状态 - 流畅的弹出动画 */
   .mobile-more-menu.show {
     max-height: 80vh;
-    padding-top: 24px;
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    padding: 16px 0;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+    /* 添加轻微的弹性效果 */
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1.2);
   }
 
-  /* 移动端菜单项样式 */
+  /* 移动端菜单项样式 - 添加入场动画 */
   .mobile-more-menu .dropdown-item {
     padding: 16px 24px;
     font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+    text-align: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    /* 初始状态为透明并向下偏移 */
+    opacity: 0;
+    transform: translateY(10px);
   }
 
+  .mobile-more-menu .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  /* 菜单项悬停效果 */
+  .mobile-more-menu .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* 菜单项动画 - 错开显示 */
+  .mobile-more-menu.show .dropdown-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* 为每个菜单项设置不同的延迟，形成流畅的序列动画 */
+  .mobile-more-menu.show .dropdown-item:nth-child(1) {
+    transition-delay: 0.1s;
+  }
+  .mobile-more-menu.show .dropdown-item:nth-child(2) {
+    transition-delay: 0.2s;
+  }
+  .mobile-more-menu.show .dropdown-item:nth-child(3) {
+    transition-delay: 0.3s;
+  }
+  .mobile-more-menu.show .dropdown-item:nth-child(4) {
+    transition-delay: 0.4s;
+  }
+
+  /* 深色模式菜单项 */
   @media (prefers-color-scheme: dark) {
     .mobile-more-menu .dropdown-item {
+      color: #f0f0f0;
       border-bottom-color: rgba(255, 255, 255, 0.05);
     }
+    
+    .mobile-more-menu .dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+  }
+
+  /* 添加背景遮罩，增强悬浮感 */
+  .mobile-more-menu::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-more-menu.show::before {
+    opacity: 1;
   }
 
   /* 确保原有三个点按钮在移动端保持隐藏 */
