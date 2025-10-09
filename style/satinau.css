@@ -1280,9 +1280,12 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   gap: 8px;
   padding: 6px;
   margin: 12px auto 0;
-  border-radius: 22px; /* 与底部导航栏统一圆角 */
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 22px;
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12), inset 0 0 20px rgba(255,255,255,0.08);
 }
 
 /* 隐藏原生单选按钮圆圈 */
