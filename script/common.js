@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', function() {
             observer.unobserve(e.target);
           }
         });
-      }, { threshold: 0.2 }).observe(card);
+      }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }).observe(card);
     }
   });
 
