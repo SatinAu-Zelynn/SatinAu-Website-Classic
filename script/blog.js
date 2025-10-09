@@ -316,16 +316,27 @@ posts.forEach((post, index) => {
     card.addEventListener("click", debounce(() => loadPost(post), 300));
     listEl.appendChild(card);
 
-    // 加入错位淡入动画
-    new IntersectionObserver((entries, observer) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-        e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
+    // 错位淡入动画
+    const cards = document.querySelectorAll('.contact-card');
+    const observer = new IntersectionObserver((entries) => {
+      // 收集当前可见的卡片
+      const visibleCards = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      // 对可见卡片按顺序添加动画，每组最多3张同时显示
+      visibleCards.forEach((entry, index) => {
+        if (!entry.target.classList.contains('visible')) {
+          entry.target.style.animationDelay = `${Math.floor(index / 3) * 0.2 + (index % 3) * 0.2}s`;
+          entry.target.classList.add('visible');
         }
+      });
+    }, { 
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
     });
-    }, { threshold: 0.2 }).observe(card);
+
+    cards.forEach(card => observer.observe(card));
 });
 }
 
