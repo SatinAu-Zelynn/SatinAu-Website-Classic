@@ -311,10 +311,24 @@ h2 {
               background 0.5s ease;
   will-change: transform, box-shadow;
 }
-.contact-card.visible { animation: staggerFade 0.8s ease forwards; }
+.contact-card.visible {
+  animation: staggerFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @keyframes staggerFade {
-  from { opacity: 0; transform: translateY(40px) scale(0.8); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+    filter: blur(8px); /* 初始轻微模糊 */
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-2px) scale(1.015); /* 轻微上冲 */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* 光泽扫过效果 */
