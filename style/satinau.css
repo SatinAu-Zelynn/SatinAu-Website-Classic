@@ -886,7 +886,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   transform: scale(0.8) translateY(-10px);
   opacity: 0;
   pointer-events: none;
-  transition: none !important;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
   z-index: 3000;
 }
 
@@ -914,43 +914,9 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 /* 菜单显示状态 */
 .more-dropdown.show {
-  /* 使用回弹效果的贝塞尔曲线 */
   transform: scale(1) translateY(0);
   opacity: 1;
-  animation: bounceIn 0.3s cubic-bezier(0.21, 0.98, 0.6, 1.16) forwards;
-}
-
-.more-dropdown:not(.show) {
-  animation: bounceOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 回弹进入动画关键帧 */
-@keyframes bounceIn {
-  0% {
-    transform: scale(0.8) translateY(-10px);
-    opacity: 0;
-    filter: blur(8px);
-  }
-  70% {
-    transform: scale(1.01) translateY(2px); /* 轻微超出再回弹 */
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
-
-/* 回弹退出动画关键帧 */
-@keyframes bounceOut {
-  0% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.8) translateY(-10px);
-    opacity: 0;
-  }
+  pointer-events: auto;
 }
 
 /* 菜单项样式优化 */
