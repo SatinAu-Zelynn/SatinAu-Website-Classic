@@ -1,0 +1,118 @@
+<!--
+  Copyright 2025 缎金SatinAu
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>设定总览 / Character Overview</title>
+  <link rel="canonical" href="https://satinau.cn/pages/character.html">
+  <link rel="icon" type="image/x-icon" href="../source/image/favicon.ico">
+  <link rel="stylesheet" href="../style/satinau.css">
+  <link rel="stylesheet" href="../style/fluent.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
+  <link rel="stylesheet" href="../style/material.css" disabled media="print" onload="this.media='all'; this.disabled=false;">
+  <script src="../script/common.js" defer></script>
+  <script src="../script/CRCMenu.v2.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 8vh;
+    }
+
+    iframe {
+      width: 90%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景色块 -->
+  <div class="color-bg color-bg-1"></div>
+  <div class="color-bg color-bg-2"></div>
+  <div class="color-bg color-bg-3"></div>
+  <div class="color-bg color-bg-4"></div>
+
+  <iframe id="docFrame" src="" title="嵌入文档"></iframe>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get("lang") || "zh-cn";
+
+    const docUrls = {
+      "zh-cn": "https://www.kdocs.cn/l/cbnmJFr498XG",
+      "zh-tw": "https://www.kdocs.cn/l/caB01lLIj8q2",
+      "en": "https://www.kdocs.cn/l/cjSN22oChlaT"
+    };
+
+    const iframe = document.getElementById("docFrame");
+    iframe.src = docUrls[lang] || docUrls["zh-cn"];
+  </script>
+
+  <!-- 加载动画 -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="copiedTip" class="copied-tip"></div>
+
+  <!-- 导航栏 -->
+  <nav class="bottom-nav">
+    <div class="nav-avatar">
+      <img src="../source/image/favicon.ico" alt="Avatar">
+    </div>
+    <a href="../index.html">
+      <span class="nav-cn">缎金</span>
+      <span class="nav-en">SatinAu</span>
+    </a>
+    <a href="../blog.html">
+      <span class="nav-cn">博客</span>
+      <span class="nav-en">Blog</span>
+    </a>
+    <a href="../zelynn.html">
+      <span class="nav-cn">泽凌</span>
+      <span class="nav-en">Zelynn</span>
+    </a>
+    <div class="more-menu-container">
+      <button class="more-btn" onclick="toggleMoreMenu()">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <circle cx="6" cy="12" r="2" />   <!-- 左侧点 -->
+          <circle cx="12" cy="12" r="2" />  <!-- 中间点 -->
+          <circle cx="18" cy="12" r="2" />  <!-- 右侧点 -->
+        </svg>
+      </button>
+      <div class="more-dropdown">
+        <a href="https://c6.y.qq.com/base/fcgi-bin/u?__=Fy3CGi4gRscv" target="_blank" class="dropdown-item">
+          我的歌单
+        </a>
+        <a href="settings.html" class="dropdown-item" onclick="window.location.href='settings.html'; return false;">
+          网站设置
+        </a>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>
