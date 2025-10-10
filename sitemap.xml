@@ -2,17 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://satinau.cn/</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-10</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://satinau.cn/blog</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://satinau.cn/zelynn</loc>
-    <lastmod>2025-10-04</lastmod>
+    <lastmod>2025-10-10</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://satinau.cn/pages/character</loc>
+    <lastmod>2025-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://satinau.cn/pages/settings</loc>
+    <lastmod>2025-10-10</lastmod>
+    <priority>0.4</priority>
   </url>
 </urlset>
