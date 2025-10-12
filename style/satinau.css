@@ -221,12 +221,21 @@ body {
 header {
   text-align: center;
   padding: 100px 20px 60px;
-  animation: fadeDown 1.2s ease forwards;
+  animation: blurScaleIn 2s ease-out forwards;
   opacity: 0;
 }
-@keyframes fadeDown {
-  from { transform: translateY(-40px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+
+@keyframes blurScaleIn {
+  from {
+    opacity: 0;
+    filter: blur(10px); /* 初始模糊 */
+    transform: scale(0.8); /* 初始缩小 */
+  }
+  to {
+    opacity: 1;
+    filter: blur(0); /* 结束时清晰 */
+    transform: scale(1); /* 结束时原大小 */
+  }
 }
 
 /* 标题和 Logo 一行显示 */
@@ -256,13 +265,27 @@ section p {
   line-height: 1.6; 
   margin: 8px 0; 
   opacity: 0; 
-  animation: fadeUp 1.2s ease forwards; 
+  animation: blurFadeUp 1.5s ease forwards;
+  animation-delay: 0;
 }
-/* 为四行文字分别设置递增的延迟，间隔 0.3s 形成流畅顺序 */
-section p:nth-of-type(1) { animation-delay: 0.6s; }
-section p:nth-of-type(2) { animation-delay: 0.9s; }
-section p:nth-of-type(3) { animation-delay: 1.2s; }
-section p:nth-of-type(4) { animation-delay: 1.5s; }
+/* 为四行文字设置递增延迟，在标题动画后依次出现 */
+section p:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
+section p:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
+section p:nth-of-type(3) { animation-delay: 2.6s; }   /* 延迟0.6s */
+section p:nth-of-type(4) { animation-delay: 2.9s; }   /* 延迟0.9s */
+
+@keyframes blurFadeUp {
+  from {
+    opacity: 0;
+    filter: blur(8px); /* 初始模糊 */
+    transform: translateY(30px); /* 初始位置靠下 */
+  }
+  to {
+    opacity: 1;
+    filter: blur(0); /* 结束时清晰 */
+    transform: translateY(0); /* 结束时原位置 */
+  }
+}
 
 body#index-page section:nth-of-type(2) h2 {
   margin-top: 100px;
@@ -273,7 +296,7 @@ h2 {
   margin: 20px 0 30px; 
   opacity: 0; 
   animation: fadeUp 1.2s ease forwards; 
-  animation-delay: 0.4s; /* 标题先于文字渐入 */
+  animation-delay: 0.8s;
 }
 
 @media (max-width: 768px) {
