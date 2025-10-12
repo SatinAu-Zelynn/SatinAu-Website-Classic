@@ -39,6 +39,19 @@
   --border-radius-md: 12px;
   --border-radius-lg: 20px;
   --transition-standard: 0.3s ease;
+  --custom-cursor: url('../source/image/cursor.Daeq1_K3.cur') 12 4, auto;
+}
+
+/* 替换手型光标 */
+a,
+button,
+.more-btn,
+.dropdown-item,
+.image-gallery img,
+.style-switcher label,
+.contact-card,
+.lang-wrapper a {
+  cursor: var(--custom-cursor) !important;
 }
 
 body {
