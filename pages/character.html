@@ -124,6 +124,57 @@
         </a>
       </div>
     </div>
+    <div class="cross-domain-tip" style="display: none; position: absolute; width: 100%; text-align: center; padding: 4px; color: #007aff; font-size: 14px; font-weight: 500;">
+      <a href="https://www.kdocs.cn/l/cbnmJFr498XG" target="_blank" style="color: inherit;">跨域访问受限？点击访问备用链接</a>
+    </div>
   </nav>
+
+  <style>
+    .bottom-nav > a, .bottom-nav .nav-avatar, .bottom-nav .more-menu-container {
+      transition: opacity 0.5s ease;
+    }
+    
+    .cross-domain-tip {
+      transition: opacity 0.5s ease;
+      opacity: 0;
+    }
+  </style>
+
+  <script>
+    // 在现有script标签中添加以下代码
+    document.addEventListener('DOMContentLoaded', function() {
+      // 获取导航元素和提示元素
+      const navItems = document.querySelectorAll('.bottom-nav > a, .bottom-nav > .nav-avatar, .bottom-nav > .more-menu-container');
+      const tipElement = document.querySelector('.cross-domain-tip');
+      
+      // 隐藏导航元素
+      setTimeout(() => {
+        navItems.forEach(item => {
+          item.style.opacity = '0';
+        });
+        
+        // 显示提示
+        setTimeout(() => {
+          tipElement.style.display = 'block';
+          setTimeout(() => {
+            tipElement.style.opacity = '1';
+            
+            // 10秒后隐藏提示
+            setTimeout(() => {
+              tipElement.style.opacity = '0';
+              
+              // 显示导航元素
+              setTimeout(() => {
+                tipElement.style.display = 'none';
+                navItems.forEach(item => {
+                  item.style.opacity = '1';
+                });
+              }, 500);
+            }, 10000);
+          }, 100);
+        }, 500);
+      }, 500);
+    });
+  </script>
 </body>
 </html>
