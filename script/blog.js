@@ -317,7 +317,7 @@ posts.forEach((post, index) => {
     listEl.appendChild(card);
 
     // 错位淡入动画
-    const cards = document.querySelectorAll('.contact-card');
+    const cards = document.querySelectorAll('.contact-card, h2');
     const observer = new IntersectionObserver((entries) => {
       // 收集当前可见的卡片
       const visibleCards = entries

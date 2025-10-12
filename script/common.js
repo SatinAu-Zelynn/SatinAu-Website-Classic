@@ -109,17 +109,22 @@ window.addEventListener('DOMContentLoaded', function() {
   sessionStorage.removeItem("from");
 
   // 处理卡片入场动画
-  document.querySelectorAll('.contact-card').forEach((card, index) => {
-    if (document.body.id !== "blog-page") { // 博客页面不走这段逻辑
+  document.querySelectorAll('.contact-card, h2').forEach((element, index) => {
+    if (document.body.id !== "blog-page") {
       new IntersectionObserver((entries, observer) => {
         entries.forEach(e => {
           if (e.isIntersecting) {
-            e.target.style.animationDelay = `${0.2 + index * 0.2}s`;
+            // 区分元素类型设置延迟
+            const delay = element.tagName === 'H2' 
+              ? `${0.2 + Math.floor(index / 2) * 0.2}s`  // H2延迟稍缓
+              : `${0.2 + index * 0.2}s`;  // 卡片保持原有延迟
+              
+            e.target.style.animationDelay = delay;
             e.target.classList.add('visible');
             observer.unobserve(e.target);
           }
         });
-      }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }).observe(card);
+      }, { threshold: 0.2, rootMargin: '0px 0px -100px 0px' }).observe(element);
     }
   });
 
