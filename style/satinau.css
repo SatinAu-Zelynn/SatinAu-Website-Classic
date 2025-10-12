@@ -221,8 +221,12 @@ body {
 header {
   text-align: center;
   padding: 100px 20px 60px;
-  animation: blurScaleIn 2s ease-out forwards;
+  animation: blurScaleIn 1.2s ease-out forwards;
   opacity: 0;
+}
+
+body#index-page header {
+  animation: blurScaleIn 2s ease-out forwards;
 }
 
 @keyframes blurScaleIn {
@@ -265,14 +269,14 @@ section p {
   line-height: 1.6; 
   margin: 8px 0; 
   opacity: 0; 
-  animation: blurFadeUp 1.5s ease forwards;
-  animation-delay: 0;
+  animation: blurFadeUp 1.2s ease forwards;
+  animation-delay: 0.3s;
 }
 /* 为四行文字设置递增延迟，在标题动画后依次出现 */
-section p:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
-section p:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
-section p:nth-of-type(3) { animation-delay: 2.6s; }   /* 延迟0.6s */
-section p:nth-of-type(4) { animation-delay: 2.9s; }   /* 延迟0.9s */
+body#index-page section p:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
+body#index-page section p:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
+body#index-page section p:nth-of-type(3) { animation-delay: 2.6s; }   /* 延迟0.6s */
+body#index-page section p:nth-of-type(4) { animation-delay: 2.9s; }   /* 延迟0.9s */
 
 @keyframes blurFadeUp {
   from {
@@ -298,7 +302,7 @@ h2 {
 }
 
 h2.visible {
-  animation: fadeUp 2s ease forwards;
+  animation: fadeUp 1.2s ease forwards;
 }
 
 @keyframes fadeUp { 
