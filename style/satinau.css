@@ -473,14 +473,14 @@ footer{
   padding:30px 10px;
   margin-top:60px;
   font-size:13px;
-  color:#666;
+  color:#888;
   background:rgba(255,255,255,0.6);
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
 
 footer a {
-  color: #888; /* 灰色文字 */
+  color: #aaa; /* 灰色文字 */
   text-decoration: none; /* 去除下划线 */
   margin: 0 8px; /* 链接两侧间距 */
   position: relative;
