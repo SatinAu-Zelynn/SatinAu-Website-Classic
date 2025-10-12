@@ -1688,3 +1688,119 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   padding: 40px 0;
   color: #ff4444;
 }
+
+/* ========== 设置页面 - 功能开关 ========== */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-radius: var(--border-radius-md, 12px);
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.setting-label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.setting-label .style-tooltip {
+  position: static; /* Reset tooltip positioning */
+  opacity: 1;
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  pointer-events: none;
+  white-space: normal;
+}
+
+.setting-label .style-tooltip::after {
+  display: none; /* Hide tooltip arrow */
+}
+
+/* Core styles for the toggle switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0; /* Prevents the switch from shrinking */
+  margin-left: 16px;
+}
+
+/* Hide the default HTML checkbox */
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The track of the switch */
+.switch-slider {
+  position: absolute;
+  cursor: var(--custom-cursor, pointer) !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 999px; /* Capsule shape */
+  transition: background-color var(--transition-standard, 0.3s ease);
+}
+
+/* The thumb (the sliding circle) */
+.switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-standard, 0.3s cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+/* Styles for the "On" state */
+input:checked + .switch-slider {
+  background-color: var(--primary-color, #007aff);
+}
+
+input:checked + .switch-slider::before {
+  transform: translateX(22px); /* Sliding distance */
+}
+
+/* Dark mode adaptations */
+@media (prefers-color-scheme: dark) {
+  .setting-item {
+    background: rgba(30, 30, 30, 0.4);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  .setting-label .style-tooltip {
+    color: #aaa;
+  }
+  .switch-slider {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+  input:checked + .switch-slider {
+    background-color: var(--primary-dark, #0a84ff);
+  }
+}
