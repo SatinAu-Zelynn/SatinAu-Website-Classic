@@ -131,6 +131,7 @@ body {
   color: var(--md-on-background);
   font-family: var(--md-font);
   font-size: 16px;
+  font-size-adjust: 0.54;
   line-height: 24px;
   transition: background-color var(--md-transition-standard),
               color var(--md-transition-standard);

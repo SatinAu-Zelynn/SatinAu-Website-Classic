@@ -73,6 +73,7 @@ body {
   color: var(--fluent-color-text);
   font-family: var(--fluent-font-family);
   font-size: var(--fluent-font-size);
+  font-size-adjust: 0.54;
   margin: 0;
   padding: 0;
   transition: background 0.4s, color 0.3s;

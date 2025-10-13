@@ -26,6 +26,7 @@
 /* 强制全站使用 MiSans */
 * {
   font-family: 'MiSans', sans-serif !important;
+  font-size-adjust: 0.54;
 }
 
 /* ========== 全局基础 ========== */
