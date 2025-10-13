@@ -9,7 +9,7 @@
 
 ## 🛠️ 技术栈
 
-- **基础框架**：HTML5 + CSS3 + Vanilla JavaScript
+- **基础框架**：HTML5 + CSS3 + JavaScript
 - **组件引用**：
 ![Static Badge](https://img.shields.io/badge/Markdown%20rendering-marked.js-cyan)
 [![Static Badge](https://img.shields.io/badge/Custom%20right%20click%20menu-CRCMenu.v2.js-yellow?logo=github)](https://github.com/add-qwq/Custom-Right-Click-Menu)
