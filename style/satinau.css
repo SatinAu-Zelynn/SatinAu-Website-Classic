@@ -668,42 +668,48 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   z-index: 2001;
   /* 隔离动画 */
   animation: none !important;
+
+  a{
+    flex: 1;
+    text-align: center;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.2;
+    padding: 8px 0;
+
+    &.active{
+      background: rgba(255,255,255,0.6);
+      color: #007aff;
+    }
+
+    &:hover{
+      background: rgba(255,255,255,0.4);
+    }
+  }
+
+  /* === 底部导航栏（中英文分两行显示） === */
+  .nav-cn {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .nav-en {
+    font-size: 12px;
+    opacity: 0.7;
+  }
 }
-.bottom-nav a{
-  flex: 1;
-  text-align: center;
-  border-radius: 14px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  text-decoration: none;
-  transition: background 0.3s ease, color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.2;
-  padding: 8px 0;
-}
-.bottom-nav a.active{
-  background: rgba(255,255,255,0.6);
-  color: #007aff;
-}
-.bottom-nav a:hover{ background: rgba(255,255,255,0.4); }
+
 @media (prefers-color-scheme: dark){
   .bottom-nav{ background: rgba(30,30,30,0.5); border: 1px solid rgba(255,255,255,0.12); }
   .bottom-nav a{ color: #f5f5f5; }
   .bottom-nav a.active{ background: rgba(255,255,255,0.18); color: #0a84ff; }
-}
-
-/* === 底部导航栏（中英文分两行显示） === */
-.bottom-nav .nav-cn {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.bottom-nav .nav-en {
-  font-size: 12px;
-  opacity: 0.7;
 }
 
 /* 桌面端导航栏调整 - 768px以上屏幕 */
@@ -719,30 +725,30 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     padding: 8px 20px;
     /* 减小阴影强度：降低模糊半径和不透明度 */
     box-shadow: 0 8px 16px rgba(0,0,0,0.12), inset 0 0 30px rgba(255,255,255,0.12);
-  }
   
-  /* 中英文在一行显示 */
-  .bottom-nav a {
-    flex-direction: row;
-    gap: 8px;
-    padding: 8px 16px;
-    justify-content: center; /* 水平居中 */
-    align-items: center;     /* 垂直居中 */
-    text-align: center;
-  }
-  
-  .bottom-nav .nav-cn,
-  .bottom-nav .nav-en {
-    display: inline-block;
-  }
-  
-  /* 调整字体大小以适应横向布局 */
-  .bottom-nav .nav-cn {
-    font-size: 16px;
-  }
-  
-  .bottom-nav .nav-en {
-    font-size: 14px;
+    /* 中英文在一行显示 */
+    a {
+      flex-direction: row;
+      gap: 8px;
+      padding: 8px 16px;
+      justify-content: center; /* 水平居中 */
+      align-items: center;     /* 垂直居中 */
+      text-align: center;
+    }
+    
+    .nav-cn,
+    .nav-en {
+      display: inline-block;
+    }
+    
+    /* 调整字体大小以适应横向布局 */
+    .nav-cn {
+      font-size: 16px;
+    }
+    
+    .nav-en {
+      font-size: 14px;
+    }
   }
 }
 
