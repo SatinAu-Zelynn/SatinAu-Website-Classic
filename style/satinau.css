@@ -255,7 +255,7 @@ body#index-page section:nth-of-type(2) h2 {
 }
 
 h2 { 
-  font-size: 1.6rem; 
+  font-size: clamp(1.4rem, 4vw, 1.6rem); /* 字号将在 1.4rem 和 1.6rem 之间平滑缩放 */ 
   margin: 20px 0 30px; 
   opacity: 0; /* 初始隐藏 */
 }
