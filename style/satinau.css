@@ -803,45 +803,44 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   margin: 2px 0 0 12px; /* 靠右对齐 */
   /* 移除上下移动效果，仅保留必要过渡 */
   transition: background 0.2s ease;
-}
 
-.more-btn:hover {
-  background: light-dark(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.3));
-}
+  :hover {
+    background: light-dark(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.3));
+  }
 
-.more-btn:active {
-  background: light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-}
+  :active {
+    background: light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  }
 
-/* 三个点横排显示（修正图标位置） */
-.more-btn svg {
-  width: 24px;
-  height: 24px; /* 恢复正常尺寸 */
-}
+  /* 三个点横排显示（修正图标位置） */
+  svg {
+    width: 24px;
+    height: 24px; /* 恢复正常尺寸 */
+  }
 
-/* 修正圆点位置，确保水平排列且间距均匀 */
-.more-btn svg circle {
-  /* 重置之前的transform */
-  transform: none;
-  r: 2; /* 圆点大小 */
-}
+  svg circle {
+    /* 重置之前的transform */
+    transform: none;
+    r: 2; /* 圆点大小 */
+  }
 
-/* 第一个点在左侧 */
-.more-btn svg circle:nth-child(1) {
-  cx: 6;
-  cy: 12;
-}
+  /* 第一个点在左侧 */
+  svg circle:nth-child(1) {
+    cx: 6;
+    cy: 12;
+  }
 
-/* 第二个点在中间 */
-.more-btn svg circle:nth-child(2) {
-  cx: 12;
-  cy: 12;
-}
+  /* 第二个点在中间 */
+  svg circle:nth-child(2) {
+    cx: 12;
+    cy: 12;
+  }
 
-/* 第三个点在右侧 */
-.more-btn svg circle:nth-child(3) {
-  cx: 18;
-  cy: 12;
+  /* 第三个点在右侧 */
+  svg circle:nth-child(3) {
+    cx: 18;
+    cy: 12;
+  }
 }
 
 /* 下拉菜单样式 */
@@ -930,31 +929,31 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     /* 确保内容不会在动画时被裁剪 */
     padding: 0;
-  }
 
-  .mobile-more-menu a{
-    flex: 1;
-    text-align: center;
-    padding: 12px 0;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    text-decoration: none;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
+    a{
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.3s ease, color 0.3s ease;
 
-  .mobile-more-menu a.active{
-    padding: 16px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    text-decoration: none;
-    display: block;
-    transition: all 0.3s ease;
-    text-align: center;
-    background: rgba(255,255,255,0.6);
-    color: #007aff;
+      &.active{
+        padding: 16px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s ease;
+        text-align: center;
+        background: rgba(255,255,255,0.6);
+        color: #007aff;
+      }
+    }
   }
 
   /* 深色模式适配 */
