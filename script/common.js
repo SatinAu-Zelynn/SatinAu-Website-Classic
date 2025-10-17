@@ -197,7 +197,15 @@ function loadPageContent(url, addToHistory) {
 
   fetch(url)
     .then(response => {
-      if (!response.ok) throw new Error('加载失败');
+      // 判断响应状态码
+      if (!response.ok) {
+        // 若状态码为404，抛出特定错误
+        if (response.status === 404) {
+          throw new Error('404');
+        }
+        // 其他错误（如500、403等）抛出通用错误
+        throw new Error('加载失败');
+      }
       return response.text();
     })
     .then(html => {
@@ -249,8 +257,14 @@ function loadPageContent(url, addToHistory) {
     .catch(error => {
       console.error('页面加载失败:', error);
       if (loader) loader.classList.remove('show');
-      // 失败时降级为普通跳转
-      window.location.href = url;
+
+      // 仅当明确是404错误时才跳转至404页面
+      if (error.message === '404') {
+        window.location.href = 'pages/404.html';
+      } else {
+        // 其他错误保留原有降级方案（跳转到目标URL，让服务器处理）
+        window.location.href = url;
+      }
     });
 }
 
