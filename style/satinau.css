@@ -462,14 +462,14 @@ footer{
       text-decoration: none; /* 确保hover时也无下划线 */
     }
   }
-}
 
-/* 竖线分隔符（通过相邻兄弟选择器实现，不影响第一个链接） */
-footer a + a::before {
-  content: "|";
-  color: light-dark(#ddd, #666); /* 浅灰色竖线 */
-  position: absolute;
-  left: -12px; /* 调整竖线位置 */
+  /* 竖线分隔符（通过相邻兄弟选择器实现，不影响第一个链接） */
+  a + a::before {
+    content: "|";
+    color: light-dark(#ddd, #666); /* 浅灰色竖线 */
+    position: absolute;
+    left: -12px; /* 调整竖线位置 */
+  }
 }
 
 /* ========== iOS 风格提示 & 弹窗 ========== */
@@ -518,7 +518,7 @@ footer a + a::before {
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
-  background: rgba(255,255,255,0.3);
+  background: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.1));
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
   border-radius: 20px;
@@ -529,6 +529,7 @@ footer a + a::before {
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
   z-index: 9998;
+  color: light-dark(#111, #f5f5f5);
 
   &.show {
     opacity: 1;
@@ -543,7 +544,7 @@ footer a + a::before {
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.25);
   box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
-  p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #111; }
+  p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: light-dark(#111, #f5f5f5); }
 
   /* iOS 弹窗按钮：竖直堆叠 + 胶囊形状 */
   .actions {
@@ -571,85 +572,83 @@ footer a + a::before {
   }
 }
 
-/* 邮箱选择弹窗内部样式 */
-body#index-page .email-list {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 10px 0 16px;
-}
-body#index-page .email-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: light-dark(rgba(255,255,255,0.35), rgba(30,30,30,0.45));
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  backdrop-filter: blur(12px) saturate(180%);
-
-  span { font-size: 14px; font-weight: 500; word-break: break-all; }
-  button {
-    min-width: 60px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 600;
-    border: none;
-    border-radius: 999px;
-    background: rgba(0,122,255,0.85);
-    color: #f5f5f5;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    backdrop-filter: blur(10px) saturate(180%);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
-
-    &:hover {
-      background: rgba(0,122,255,1);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
-    }
-    &:active { transform: scale(0.9); }
+body#index-page {
+  /* 邮箱选择弹窗内部样式 */
+  .email-list {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 10px 0 16px;
   }
-}
-@media (prefers-color-scheme: dark) {
-  body#index-page .email-item span { color: #f5f5f5; }
-}
+  .email-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: light-dark(rgba(255,255,255,0.35), rgba(30,30,30,0.45));
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    backdrop-filter: blur(12px) saturate(180%);
 
-/* 邮箱关闭按钮 */
-body#index-page .actions {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
+    span { font-size: 14px; font-weight: 500; word-break: break-all; }
+    button {
+      min-width: 60px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      border-radius: 999px;
+      background: rgba(0,122,255,0.85);
+      color: #f5f5f5;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      -webkit-backdrop-filter: blur(10px) saturate(180%);
+      backdrop-filter: blur(10px) saturate(180%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
 
-  .cancel {
-    flex: 1;
-    padding: 12px 0;
-    font-size: 15px;
-    font-weight: 600;
-    color: light-dark(#ff3b30, #ff453a);
-    background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
-
-    &:hover {
-      background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75));
-    }
-    &:active {
-      transform: scale(0.95);
-      filter: brightness(0.9);
+      &:hover {
+        background: rgba(0,122,255,1);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
+      }
+      &:active { transform: scale(0.9); }
     }
   }
-}
 
-/* 微信二维码弹窗 */
-body#index-page .wechat-qr img { width: 240px; height: 240px; border-radius: 12px; }
-body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 600; color: #111; }
-@media (prefers-color-scheme: dark) {
-  body#index-page .wechat-qr { color: #f5f5f5; }
+  /* 邮箱关闭按钮 */
+  .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+
+    .cancel {
+      flex: 1;
+      padding: 12px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: light-dark(#ff3b30, #ff453a);
+      background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
+
+      &:hover {
+        background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75));
+      }
+      &:active {
+        transform: scale(0.95);
+        filter: brightness(0.9);
+      }
+    }
+  }
+
+  /* 微信二维码弹窗 */
+  .wechat-qr {
+    img { width: 240px; height: 240px; border-radius: 12px; }
+    p { margin-top: 12px; font-size: 15px; font-weight: 600; color: light-dark(#111, #f5f5f5); }
+  }
 }
 
 /* ========== SatinAu Design 导航栏 ========== */
