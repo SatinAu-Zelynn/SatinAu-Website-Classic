@@ -215,15 +215,22 @@ body#index-page header {
 }
 
 /* ========== Section 通用 ========== */
-section { padding: 30px; max-width: 960px; margin: auto; text-align: center; }
-section p { 
-  font-size: 1.1rem; 
-  line-height: 1.6; 
-  margin: 8px 0; 
-  opacity: 0; 
-  animation: blurFadeUp 1.2s ease forwards;
-  animation-delay: 0.3s;
+section {
+  padding: 30px;
+  max-width: 960px;
+  margin: auto;
+  text-align: center;
+  
+  p { 
+    font-size: 1.1rem; 
+    line-height: 1.6; 
+    margin: 8px 0; 
+    opacity: 0; 
+    animation: blurFadeUp 1.2s ease forwards;
+    animation-delay: 0.3s;
+  }
 }
+
 /* 为四行文字设置递增延迟，在标题动画后依次出现 */
 body#index-page section p:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
 body#index-page section p:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
@@ -251,10 +258,10 @@ h2 {
   font-size: clamp(1.4rem, 4vw, 1.6rem); /* 字号将在 1.4rem 和 1.6rem 之间平滑缩放 */ 
   margin: 20px 0 30px; 
   opacity: 0; /* 初始隐藏 */
-}
 
-h2.visible {
-  animation: fadeUp 1.2s ease forwards;
+  &.visible {
+    animation: fadeUp 1.2s ease forwards;
+  }
 }
 
 @keyframes fadeUp { 
@@ -307,9 +314,10 @@ h1, h2 { text-wrap: balance; }
               box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
               background 0.5s ease;
   will-change: transform, box-shadow;
-}
-.contact-card.visible {
-  animation: staggerFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  &.visible {
+    animation: staggerFade 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
 }
 
 @keyframes staggerFade {
@@ -374,9 +382,9 @@ h1, h2 { text-wrap: balance; }
   flex-shrink:0;
   transition: transform 0.4s ease, background 0.5s ease;
   scrollbar-gutter: stable both-edges;
+  svg{width:22px;height:rgb(230, 227, 227);}
+  img{width:22px;height:22px;}
 }
-.icon svg{width:22px;height:rgb(230, 227, 227);}
-.icon img{width:22px;height:22px;}
 .text{display:flex;flex-direction:column;text-align:left;}
 .label{font-size:12px;color:light-dark(#666, #aaa);}
 .value{font-size:15px;font-weight:600;color:light-dark(#111, #f5f5f5);}
@@ -446,19 +454,19 @@ footer{
   background:light-dark(rgba(255,255,255,0.6), rgba(255,255,255,0.1));
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
-}
 
-footer a {
-  color: light-dark(#aaa, #888);
-  text-decoration: none; /* 去除下划线 */
-  margin: 0 8px; /* 链接两侧间距 */
-  position: relative;
-}
+  a {
+    color: light-dark(#aaa, #888);
+    text-decoration: none; /* 去除下划线 */
+    margin: 0 8px; /* 链接两侧间距 */
+    position: relative;
 
-/* 链接悬停效果优化 */
-footer a:hover {
-  color: light-dark(#666, #ccc);
-  text-decoration: none; /* 确保hover时也无下划线 */
+    /* 链接悬停效果优化 */
+    &:hover {
+      color: light-dark(#666, #ccc);
+      text-decoration: none; /* 确保hover时也无下划线 */
+    }
+  }
 }
 
 /* 竖线分隔符（通过相邻兄弟选择器实现，不影响第一个链接） */
@@ -489,9 +497,11 @@ footer a + a::before {
   pointer-events: none;
   z-index: 9999;
   transition: opacity 0.4s ease, transform 0.4s ease;
+
+  &.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.05); 
+    &.done { transform: translateX(-50%) translateY(0) scale(1); }
+  }
 }
-.copied-tip.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.05); }
-.copied-tip.show.done { transform: translateX(-50%) translateY(0) scale(1); }
 
 /* 通用遮罩 */
 .overlay {
@@ -504,8 +514,9 @@ footer a + a::before {
   pointer-events: none;
   transition: opacity 0.35s ease;
   z-index: 9997;
+
+  &.show { opacity: 1; pointer-events: auto; }
 }
-.overlay.show { opacity: 1; pointer-events: auto; }
 
 /* 通用模态框 */
 .modal {
@@ -523,11 +534,12 @@ footer a + a::before {
   pointer-events: none;
   transition: all 0.4s cubic-bezier(0.22, 1.4, 0.36, 1);
   z-index: 9998;
-}
-.modal.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto;
+
+  &.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
 }
 
 /* iOS 弹窗（复用 .modal） */
@@ -536,32 +548,33 @@ footer a + a::before {
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.25);
   box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
-}
-.ios-alert p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #111; }
+  p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: #111; }
 
-/* iOS 弹窗按钮：竖直堆叠 + 胶囊形状 */
-.ios-alert .actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 16px;
-  border-top: none;
+  /* iOS 弹窗按钮：竖直堆叠 + 胶囊形状 */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+    border-top: none;
+  }
+
+  button {
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
+    color: light-dark(#007aff, #0a84ff);
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
+    &.cancel { color: light-dark(#ff3b30, #ff453a); }
+    &.confirm { color: #007aff; }
+    &:hover { background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75)); }
+    &:active { transform: scale(0.96); filter: brightness(0.9); }
+  }
 }
-.ios-alert button {
-  padding: 12px 0;
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  border-radius: 14px;
-  background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
-  color: light-dark(#007aff, #0a84ff);
-  cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
-}
-.ios-alert button.cancel { color: light-dark(#ff3b30, #ff453a); }
-.ios-alert button.confirm { color: #007aff; }
-.ios-alert button:hover { background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75)); }
-.ios-alert button:active { transform: scale(0.96); filter: brightness(0.9); }
 
 /* 邮箱选择弹窗内部样式 */
 body#index-page .email-list {
@@ -580,29 +593,31 @@ body#index-page .email-item {
   background: light-dark(rgba(255,255,255,0.35), rgba(30,30,30,0.45));
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   backdrop-filter: blur(12px) saturate(180%);
+
+  span { font-size: 14px; font-weight: 500; word-break: break-all; }
+  button {
+    min-width: 60px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0,122,255,0.85);
+    color: #f5f5f5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    backdrop-filter: blur(10px) saturate(180%);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
+
+    &:hover {
+      background: rgba(0,122,255,1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
+    }
+    &:active { transform: scale(0.9); }
+  }
 }
-body#index-page .email-item span { font-size: 14px; font-weight: 500; word-break: break-all; }
-body#index-page .email-item button {
-  min-width: 60px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  border: none;
-  border-radius: 999px;
-  background: rgba(0,122,255,0.85);
-  color: #f5f5f5;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  backdrop-filter: blur(10px) saturate(180%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 0 8px rgba(255,255,255,0.15);
-}
-body#index-page .email-item button:hover {
-  background: rgba(0,122,255,1);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25), inset 0 0 12px rgba(255,255,255,0.2);
-}
-body#index-page .email-item button:active { transform: scale(0.95); }
 @media (prefers-color-scheme: dark) {
   body#index-page .email-item span { color: #f5f5f5; }
 }
@@ -612,25 +627,27 @@ body#index-page .actions {
   display: flex;
   justify-content: center;
   margin-top: 12px;
-}
-body#index-page .actions .cancel {
-  flex: 1;
-  padding: 12px 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: light-dark(#ff3b30, #ff453a);
-  background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
-}
-body#index-page .actions .cancel:hover {
-  background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75));
-}
-body#index-page .actions .cancel:active {
-  transform: scale(0.95);
-  filter: brightness(0.9);
+
+  .cancel {
+    flex: 1;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: light-dark(#ff3b30, #ff453a);
+    background: light-dark(rgba(255,255,255,0.6), rgba(40,40,40,0.6));
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
+    
+    &:hover {
+      background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75));
+    }
+    &:active {
+      transform: scale(0.95);
+      filter: brightness(0.9);
+    }
+  }
 }
 
 /* 微信二维码弹窗 */
