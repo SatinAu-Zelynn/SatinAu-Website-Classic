@@ -886,12 +886,12 @@ body#index-page {
     width: min(90vw, 320px);
     max-height: 0;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.28);
+    background: light-dark(rgba(255, 255, 255, 0.28), rgba(30, 30, 30, 0.5));
     -webkit-backdrop-filter: blur(22px) saturate(180%);
     backdrop-filter: blur(22px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid light-dark(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.12));
     border-radius: 22px;
-    box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.25), inset 0 0 30px rgba(255, 255, 255, 0.12);
+    box-shadow: 0 -18px 40px light-dark(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.4)), inset 0 0 30px light-dark(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12));
     z-index: 5000;
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -922,72 +922,63 @@ body#index-page {
         color: #007aff;
       }
     }
-  }
 
-  /* 深色模式适配 */
-  @media (prefers-color-scheme: dark) {
-    .mobile-more-menu {
-      background: rgba(30, 30, 30, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.12);
+    /* 菜单展开状态 - 流畅的弹出动画 */
+    &.show {
+      max-height: 80vh;
+      padding: 16px 0;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+      /* 添加轻微的弹性效果 */
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1.2);
     }
-  }
 
-  /* 菜单展开状态 - 流畅的弹出动画 */
-  .mobile-more-menu.show {
-    max-height: 80vh;
-    padding: 16px 0;
-    opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
-    /* 添加轻微的弹性效果 */
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1.2);
-  }
+    /* 移动端菜单项样式 - 添加入场动画 */
+    .dropdown-item {
+      padding: 16px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      color: light-dark(#333, #f5f5f5);
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      /* 初始状态为透明并向下偏移 */
+      opacity: 0;
+      transform: translateY(10px);
 
-  /* 移动端菜单项样式 - 添加入场动画 */
-  .mobile-more-menu .dropdown-item {
-    padding: 16px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    color: light-dark(#333, #f5f5f5);
-    text-decoration: none;
-    display: block;
-    transition: all 0.3s ease;
-    text-align: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    /* 初始状态为透明并向下偏移 */
-    opacity: 0;
-    transform: translateY(10px);
-  }
+      &:last-child {
+        border-bottom: none;
+      }
 
-  .mobile-more-menu .dropdown-item:last-child {
-    border-bottom: none;
-  }
+      /* 菜单项悬停效果 */
+      &:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px) scale(1.02);
+      }
+    }
 
-  /* 菜单项悬停效果 */
-  .mobile-more-menu .dropdown-item:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px) scale(1.02);
-  }
+    /* 菜单项动画 - 错开显示 */
+    &.show .dropdown-item {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
-  /* 菜单项动画 - 错开显示 */
-  .mobile-more-menu.show .dropdown-item {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  /* 为每个菜单项设置不同的延迟，形成流畅的序列动画 */
-  .mobile-more-menu.show .dropdown-item:nth-child(1) {
-    transition-delay: 0.1s;
-  }
-  .mobile-more-menu.show .dropdown-item:nth-child(2) {
-    transition-delay: 0.2s;
-  }
-  .mobile-more-menu.show .dropdown-item:nth-child(3) {
-    transition-delay: 0.3s;
-  }
-  .mobile-more-menu.show .dropdown-item:nth-child(4) {
-    transition-delay: 0.4s;
+      /* 为每个菜单项设置不同的延迟，形成流畅的序列动画 */
+      &:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      &:nth-child(2) {
+        transition-delay: 0.2s;
+      }
+      &:nth-child(3) {
+        transition-delay: 0.3s;
+      }
+      &:nth-child(4) {
+        transition-delay: 0.4s;
+      }
+    }
   }
 
   /* 深色模式菜单项 */
