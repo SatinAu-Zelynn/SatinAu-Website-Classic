@@ -106,7 +106,13 @@ function initBlog() {
         loadPost(post);
         }
     } else {
-        // 后退到列表
+        // 显示头部和列表区域
+        const header = document.querySelector('header');
+        const sectionTitle = document.querySelector('section h2');
+        const blogList = document.getElementById('blogList');
+        if (header) header.style.display = '';
+        if (sectionTitle) sectionTitle.style.display = '';
+        if (blogList) blogList.style.display = 'grid'; // 恢复列表显示
         postView.style.display = "none";
         listEl.style.display = "grid";
     }
@@ -287,6 +293,13 @@ function initBlog() {
 
     // 返回列表按钮事件
     backToList.addEventListener("click", () => {
+        // 显示头部和列表区域
+        const header = document.querySelector('header');
+        const sectionTitle = document.querySelector('section h2');
+        const blogList = document.getElementById('blogList');
+        if (header) header.style.display = '';
+        if (sectionTitle) sectionTitle.style.display = '';
+        if (blogList) blogList.style.display = 'grid'; // 恢复列表显示
         postView.style.display = "none";
         listEl.style.display = "grid";
         history.pushState({}, "博客列表", "blog.html");
@@ -433,68 +446,82 @@ fetch(`https://blog.satinau.cn/${post.file}`)
 
 // 渲染文章内容
 function renderPost(post, mdContent) {
-postTitle.textContent = post.title;
-postDate.textContent = post.date;
+    // 隐藏"最新文章"及其上方所有元素
+    const header = document.querySelector('header');
+    const sectionTitle = document.querySelector('section h2'); // 最新文章标题
+    const blogList = document.getElementById('blogList');
+    const emptyState = document.getElementById('emptyState');
+    const errorState = document.getElementById('errorState');
+    
+    // 隐藏头部和列表区域
+    if (header) header.style.display = 'none';
+    if (sectionTitle) sectionTitle.style.display = 'none';
+    if (blogList) blogList.style.display = 'none';
+    if (emptyState) emptyState.style.display = 'none';
+    if (errorState) errorState.style.display = 'none';
 
-// 优化Markdown渲染
-try {
-    // 处理图片路径
-    const processedMd = mdContent.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
-    // 如果是相对路径，添加前缀
-    if (!src.startsWith('http://') && !src.startsWith('https://')) {
-        return `![${alt}](blog/${src})`;
-    }
-    return match;
-    });
-    
-    postContent.innerHTML = marked.parse(processedMd);
+    postTitle.textContent = post.title;
+    postDate.textContent = post.date;
 
-    postContent.querySelectorAll('h2').forEach(h2 => {
-        h2.classList.add('visible');
-    });
-    
-    // 处理链接跳转
-    postContent.querySelectorAll('a').forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && !href.startsWith('#') && 
-        !href.startsWith('http://') && 
-        !href.startsWith('https://')) {
-        link.setAttribute('href', `blog/${href}`);
-    }
-    
-    // 外部链接处理
-    if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
-        link.setAttribute('target', '_blank');
-        link.setAttribute('rel', 'noopener noreferrer');
+    // 优化Markdown渲染
+    try {
+        // 处理图片路径
+        const processedMd = mdContent.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+        // 如果是相对路径，添加前缀
+        if (!src.startsWith('http://') && !src.startsWith('https://')) {
+            return `![${alt}](blog/${src})`;
+        }
+        return match;
+        });
         
-        // 对于iOS设备使用弹窗确认
-        link.addEventListener('click', (e) => {
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
-            e.preventDefault();
-            showIosAlert(href);
+        postContent.innerHTML = marked.parse(processedMd);
+
+        postContent.querySelectorAll('h2').forEach(h2 => {
+            h2.classList.add('visible');
+        });
+        
+        // 处理链接跳转
+        postContent.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && 
+            !href.startsWith('http://') && 
+            !href.startsWith('https://')) {
+            link.setAttribute('href', `blog/${href}`);
+        }
+        
+        // 外部链接处理
+        if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+            
+            // 对于iOS设备使用弹窗确认
+            link.addEventListener('click', (e) => {
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                e.preventDefault();
+                showIosAlert(href);
+            }
+            });
         }
         });
+    } catch (err) {
+        console.error("Markdown渲染失败:", err);
+        postContent.innerHTML = "<p>文章解析错误，请稍后重试</p>";
     }
-    });
-} catch (err) {
-    console.error("Markdown渲染失败:", err);
-    postContent.innerHTML = "<p>文章解析错误，请稍后重试</p>";
-}
 
-// 显示文章视图
-listEl.style.display = "none";
-postView.style.display = "block";
+    // 显示文章视图
+    listEl.style.display = "none";
+    postView.style.display = "block";
 
-// 触发文章淡入动画
-postView.classList.remove("animate");
-void postView.offsetWidth; // 强制重绘
-postView.classList.add("animate");
+    // 触发文章淡入动画
+    postView.classList.remove("animate");
+    void postView.offsetWidth; // 强制重绘
+    postView.classList.add("animate");
 
-// 隐藏加载动画
-showLoading(false);
+    // 隐藏加载动画
+    showLoading(false);
 
-// 滚动到顶部
-window.scrollTo({ top: 0, behavior: 'smooth' });
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // 显示/隐藏加载动画
@@ -522,11 +549,17 @@ function initBlogButtons() {
 const backToListBtn = document.getElementById('backToListBtn');
 if (backToListBtn) {
     backToListBtn.addEventListener('click', () => {
+    // 显示头部和列表区域
+    const header = document.querySelector('header');
+    const sectionTitle = document.querySelector('section h2');
+    const blogList = document.getElementById('blogList');
+    if (header) header.style.display = '';
+    if (sectionTitle) sectionTitle.style.display = '';
+    if (blogList) blogList.style.display = 'grid'; // 恢复列表显示
     postView.style.display = 'none';
     listEl.style.display = 'grid';
     history.pushState({}, "博客列表", "blog.html");
     emptyState.style.display = 'none';
-    window.scrollTo(0, 0);
     });
 }
 
