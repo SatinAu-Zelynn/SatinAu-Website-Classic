@@ -140,26 +140,22 @@ body {
   box-sizing: border-box;
   will-change: transform, opacity;
   transform: translateZ(0); /* 触发GPU加速 */
-}
 
-.page.slide-out-left,
-.page.slide-out-right,
-.page.slide-in-left,
-.page.slide-in-right {
-  will-change: transform; /* 提前优化 */
-}
+  &.slide-out-left,
+  &.slide-out-right,
+  &.slide-in-left,
+  &.slide-in-right {
+    will-change: transform; /* 提前优化 */
 
-.page.slide-out-left  { animation: slideOutLeft  0.5s ease forwards; }
-.page.slide-out-right { animation: slideOutRight 0.5s ease forwards; }
-.page.slide-in-left   { animation: slideInLeft   0.5s ease forwards; }
-.page.slide-in-right  { animation: slideInRight  0.5s ease forwards; }
+    &.finished {
+      will-change: auto; /* 动画结束后释放资源 */
+    }
+  }
 
-/* 动画结束后释放资源 */
-.page.slide-out-left.finished,
-.page.slide-out-right.finished,
-.page.slide-in-left.finished,
-.page.slide-in-right.finished {
-  will-change: auto;
+  &.slide-out-left  { animation: slideOutLeft  0.5s ease forwards; }
+  &.slide-out-right { animation: slideOutRight 0.5s ease forwards; }
+  &.slide-in-left   { animation: slideInLeft   0.5s ease forwards; }
+  &.slide-in-right  { animation: slideInRight  0.5s ease forwards; }
 }
 
 @keyframes slideOutLeft  { from{transform:translateX(0);   opacity:1;} to{transform:translateX(-30%); opacity:0;} }
@@ -232,10 +228,12 @@ section {
 }
 
 /* 为四行文字设置递增延迟，在标题动画后依次出现 */
-body#index-page section p:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
-body#index-page section p:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
-body#index-page section p:nth-of-type(3) { animation-delay: 2.6s; }   /* 延迟0.6s */
-body#index-page section p:nth-of-type(4) { animation-delay: 2.9s; }   /* 延迟0.9s */
+body#index-page section p {
+  &:nth-of-type(1) { animation-delay: 2s; }     /* 标题动画结束后立即 */
+  &:nth-of-type(2) { animation-delay: 2.3s; }   /* 延迟0.3s */
+  &:nth-of-type(3) { animation-delay: 2.6s; }   /* 延迟0.6s */
+  &:nth-of-type(4) { animation-delay: 2.9s; }   /* 延迟0.9s */
+}
 
 @keyframes blurFadeUp {
   from {
@@ -260,13 +258,8 @@ h2 {
   opacity: 0; /* 初始隐藏 */
 
   &.visible {
-    animation: fadeUp 1.2s ease forwards;
+    animation: blurFadeUp 1.2s ease forwards;
   }
-}
-
-@keyframes fadeUp { 
-  from { opacity: 0; filter: blur(8px); transform: translateY(20px); } 
-  to { opacity: 1; filter: blur(0px); transform: translateY(0); } 
 }
 
 @media (max-width: 768px) {
@@ -406,41 +399,43 @@ h1, h2 { text-wrap: balance; }
 }
 
 @media (max-width: 768px) {
-  body#index-page section:nth-of-type(3) .contact-wrapper {
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    gap: 12px;
-    margin-top: 20px;
-  }
-  
-  body#index-page section:nth-of-type(3) .contact-card {
-    flex-direction: column;
-    justify-content: center;
-    padding: 16px 8px;
-    min-width: auto;
-    max-width: none;
-  }
-  
-  body#index-page section:nth-of-type(3) .contact-card .text {
-    display: none; /* 隐藏文本内容 */
-  }
-  
-  body#index-page section:nth-of-type(3) .contact-card .icon {
-    background: none;
-    backdrop-filter: none;
-    box-shadow: none;
-    width: 40px;
-    height: 40px;
-  }
-  
-  body#index-page section:nth-of-type(3) .contact-card .icon img,
-  body#index-page section:nth-of-type(3) .contact-card .icon svg {
-    width: 32px;
-    height: 32px;
-  }
-  
-  /* 调整交互效果适配小卡片 */
-  body#index-page section:nth-of-type(3) .contact-card:hover {
-    transform: translateY(-6px) scale(1.05);
+  body#index-page section:nth-of-type(3) {
+    .contact-wrapper {
+      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .contact-card {
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px 8px;
+      min-width: auto;
+      max-width: none;
+    
+      .text {
+        display: none; /* 隐藏文本内容 */
+      }
+      
+      .icon {
+        background: none;
+        backdrop-filter: none;
+        box-shadow: none;
+        width: 40px;
+        height: 40px;
+      
+        img,
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      
+      /* 调整交互效果适配小卡片 */
+      &:hover {
+        transform: translateY(-6px) scale(1.05);
+      }
+    }
   }
 }
 
@@ -1498,19 +1493,19 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   gap: 16px;
   margin-top: 20px;
   padding: 10px;
-}
 
-.image-gallery img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 
-.image-gallery img:hover {
-  transform: scale(1.03);
+    &:hover {
+      transform: scale(1.03);
+    }
+  }
 }
 
 .loading-indicator {
@@ -1553,24 +1548,24 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   text-align: left;
   gap: 4px;
   font-weight: 500;
-}
 
-.setting-label .style-tooltip {
-  position: static; /* Reset tooltip positioning */
-  opacity: 1;
-  transform: none;
-  box-shadow: none;
-  background: transparent;
-  padding: 0;
-  font-size: 12px;
-  font-weight: 400;
-  color: light-dark(#666, #aaa);
-  pointer-events: none;
-  white-space: normal;
-}
+  .style-tooltip {
+    position: static; /* Reset tooltip positioning */
+    opacity: 1;
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: light-dark(#666, #aaa);
+    pointer-events: none;
+    white-space: normal;
 
-.setting-label .style-tooltip::after {
-  display: none; /* Hide tooltip arrow */
+    &::after {
+      display: none; /* Hide tooltip arrow */
+    }
+  }
 }
 
 /* Core styles for the toggle switch */
@@ -1581,13 +1576,13 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   height: 28px;
   flex-shrink: 0; /* Prevents the switch from shrinking */
   margin-left: 16px;
-}
 
-/* Hide the default HTML checkbox */
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  /* Hide the default HTML checkbox */
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 }
 
 /* The track of the switch */
@@ -1601,27 +1596,27 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.15));
   border-radius: 999px; /* Capsule shape */
   transition: background-color var(--transition-standard, 0.3s ease);
-}
 
-/* The thumb (the sliding circle) */
-.switch-slider::before {
-  position: absolute;
-  content: "";
-  height: 24px;
-  width: 24px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: transform var(--transition-standard, 0.3s cubic-bezier(0.22, 1, 0.36, 1));
+  /* The thumb (the sliding circle) */
+  &::before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-standard, 0.3s cubic-bezier(0.22, 1, 0.36, 1));
+  }
 }
 
 /* Styles for the "On" state */
 input:checked + .switch-slider {
   background-color: light-dark(var(--primary-color, #007aff), var(--primary-dark, #0a84ff));
-}
 
-input:checked + .switch-slider::before {
-  transform: translateX(22px); /* Sliding distance */
+  &::before {
+    transform: translateX(22px); /* Sliding distance */
+  }
 }
