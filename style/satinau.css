@@ -64,20 +64,11 @@ body {
   overflow-x: hidden; /* 禁止横向滚动 */
   width: 100%;
   box-sizing: border-box;
-}
-
-/* 预留底部导航栏空间（避免内容被遮挡） */
-body{
   padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px) + 18px);
-}
-
-/* 背景动态渐变 */
-/* 1. 全局基础：将页面背景为透明 */
-body {
   background: transparent !important; /* 透明背景，让色块直接作为底层 */
 }
 
-/* 2. 流光色块基础样式 */
+/* 流光色块基础样式 */
 .color-bg {
   position: fixed;
   border-radius: 50%;
@@ -87,7 +78,7 @@ body {
   transition: none;
 }
 
-/* 3. 4个色块的颜色与位置 */
+/* 4个色块的颜色与位置 */
 .color-bg-1 {
   width: 400px; height: 400px;
   background: #00FFCC;
@@ -113,7 +104,7 @@ body {
   animation: color4Move 20s ease-in-out infinite alternate;
 }
 
-/* 4. 色块运动关键帧 */
+/* 色块运动关键帧 */
 @keyframes color1Move {
   0% { transform: translate(0, 0); }
   25% { transform: translate(-63%, 0%); }
@@ -207,18 +198,20 @@ body#index-page header {
   align-items: center;
   gap: 6px;
   margin-top: 30px;
-}
-.title-row h1 {
-  margin: 0;
-  font-size: 2.4rem;
-  font-weight: 700;
-}
-.title-row img {
-  max-height: 90px;
-  width: auto;
-  margin: 0;
-  margin-top: 5px;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
+
+  h1 {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+  }
+
+  img {
+    max-height: 90px;
+    width: auto;
+    margin: 0;
+    margin-top: 5px;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.15));
+  }
 }
 
 /* ========== Section 通用 ========== */
@@ -1619,10 +1612,10 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   align-items: center;
   padding: 16px;
   border-radius: var(--border-radius-md, 12px);
-  background: rgba(255, 255, 255, 0.2);
+  background: light-dark(rgba(255, 255, 255, 0.2), rgba(30, 30, 30, 0.4));
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.12));
 }
 
 .setting-label {
@@ -1642,7 +1635,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   padding: 0;
   font-size: 12px;
   font-weight: 400;
-  color: #666;
+  color: light-dark(#666, #aaa);
   pointer-events: none;
   white-space: normal;
 }
@@ -1676,7 +1669,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.15));
   border-radius: 999px; /* Capsule shape */
   transition: background-color var(--transition-standard, 0.3s ease);
 }
@@ -1697,26 +1690,9 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 
 /* Styles for the "On" state */
 input:checked + .switch-slider {
-  background-color: var(--primary-color, #007aff);
+  background-color: light-dark(var(--primary-color, #007aff), var(--primary-dark, #0a84ff));
 }
 
 input:checked + .switch-slider::before {
   transform: translateX(22px); /* Sliding distance */
-}
-
-/* Dark mode adaptations */
-@media (prefers-color-scheme: dark) {
-  .setting-item {
-    background: rgba(30, 30, 30, 0.4);
-    border-color: rgba(255, 255, 255, 0.12);
-  }
-  .setting-label .style-tooltip {
-    color: #aaa;
-  }
-  .switch-slider {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
-  input:checked + .switch-slider {
-    background-color: var(--primary-dark, #0a84ff);
-  }
 }
