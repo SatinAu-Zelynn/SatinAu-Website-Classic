@@ -50,213 +50,257 @@ let currentPost = null;
 
 // 初始化
 function initBlog() {
-// 先隐藏错误状态，显示加载状态
-const loader = document.getElementById("loadingOverlay");
-const emptyState = document.getElementById("emptyState");
-const errorState = document.getElementById("errorState");
+    // 先隐藏错误状态，显示加载状态
+    const loader = document.getElementById("loadingOverlay");
+    const emptyState = document.getElementById("emptyState");
+    const errorState = document.getElementById("errorState");
 
-if (emptyState) emptyState.style.display = 'none';
-if (errorState) errorState.style.display = 'none';
-if (loader) loader.classList.add("show");
+    if (emptyState) emptyState.style.display = 'none';
+    if (errorState) errorState.style.display = 'none';
+    if (loader) loader.classList.add("show");
 
-loadPostsList().finally(() => {
-    // 无论成功失败都隐藏加载动画
-    if (loader) loader.classList.remove("show");
-});
-
-checkUserSession();
-setupAuthEventListeners();
-setupAuthStateListener();
-initBlogButtons();
-
-// 检查用户会话
-async function checkUserSession() {
-const { data: { session }, error } = await supabase.auth.getSession();
-
-if (error) {
-    console.error('会话检查失败:', error);
-    return;
-}
-
-if (session) {
-    showUserInfo(session.user);
-} else {
-    showLoginButton();
-}
-}
-
-// 显示用户信息
-function showUserInfo(user) {
-// 从元数据中优先获取用户名
-const meta = user.raw_user_meta_data || {};
-const displayName = meta.name || meta.user_name || meta.preferred_username || user.email;
-userInfo.innerHTML = `欢迎, ${displayName}`;
-userInfo.style.display = 'inline-block';
-logoutBtn.style.display = 'inline-block';
-loginBtn.style.display = 'none';
-}
-
-// 显示登录按钮
-function showLoginButton() {
-loginBtn.style.display = 'inline-block';
-userInfo.style.display = 'none';
-logoutBtn.style.display = 'none';
-}
-
-function setupAuthStateListener() {
-// 监听登录状态变化（包括OAuth回调）
-supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-    // 登录成功，显示用户信息
-    showUserInfo(session.user);
-    // 关闭登录弹窗（如果打开）
-    authModal.style.display = 'none';
-    // 可以在这里添加登录成功后的其他操作（如刷新文章列表等）
-    showToast('登录成功');
-    } else if (event === 'SIGNED_OUT') {
-    // 登出成功
-    showLoginButton();
-    showToast('已退出登录');
-    }
-});
-}
-
-// 设置认证事件监听
-function setupAuthEventListeners() {
-// 登录按钮
-loginBtn.addEventListener('click', () => {
-    authModal.style.display = 'block';
-    authModal.classList.add('show');
-    const modalContent = authModal.querySelector('.modal');
-    if (modalContent) {
-    modalContent.classList.add('show');
-    }
-});
-
-// 关闭弹窗
-closeAuthModal.addEventListener('click', () => {
-    authModal.style.display = 'none';
-    authModal.classList.remove('show')
-    const modalContent = authModal.querySelector('.modal');
-    if (modalContent) {
-    modalContent.classList.remove('show');
-    }
-    authError.textContent = '';
-});
-
-// 标签切换
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-    const tab = btn.getAttribute('data-tab');
-    tabBtns.forEach(b => b.classList.remove('active'));
-    authTabs.forEach(t => t.style.display = 'none');
-    btn.classList.add('active');
-    document.getElementById(`${tab}Tab`).style.display = 'block';
+    loadPostsList().finally(() => {
+        // 无论成功失败都隐藏加载动画
+        if (loader) loader.classList.remove("show");
     });
-});
 
-// 邮箱登录
-emailLoginBtn.addEventListener('click', async () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    checkUserSession();
+    setupAuthEventListeners();
+    setupAuthStateListener();
+    initBlogButtons();
+
+    // 检查URL中是否有文章标题参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetTitle = urlParams.get('title');
     
-    const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-    });
+    if (targetTitle) {
+        // 尝试从缓存加载
+        const decodedTitle = decodeURIComponent(targetTitle);
+        const cachedPost = postCache.get(decodedTitle);
+        
+        if (cachedPost) {
+        loadPost(cachedPost);
+        } else {
+        // 缓存中没有则先加载列表再查找
+        loadPostsList().then(() => {
+            const post = postsData.find(p => p.title === decodedTitle);
+            if (post) {
+            loadPost(post);
+            } else {
+            // 处理文章不存在的情况
+            console.error('文章不存在');
+            postView.style.display = "block";
+            postError.style.display = "block";
+            listEl.style.display = "none";
+            }
+        });
+        }
+    }
 
-    if (error) {
-    authError.textContent = error.message;
+    window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.title) {
+        // 后退到某篇文章
+        const post = postCache.get(event.state.title) || 
+                    postsData.find(p => p.title === event.state.title);
+        if (post) {
+        loadPost(post);
+        }
     } else {
-    showUserInfo(data.user);
-    authModal.style.display = 'none';
-    }
-});
-
-// 注册新用户
-signupBtn.addEventListener('click', async () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-        emailRedirectTo: window.location.origin
+        // 后退到列表
+        postView.style.display = "none";
+        listEl.style.display = "grid";
     }
     });
 
-    if (error) {
-    authError.textContent = error.message;
-    } else {
-    authError.textContent = '注册成功';
-    authError.style.color = 'green'; // 改为绿色提示
-    document.getElementById('emailTab').style.display = 'block';
-    document.getElementById('oauthTab').style.display = 'none';
-    tabBtns.forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-tab="email"]').classList.add('active');
-    }
-});
-
-// GitHub 登录
-githubLoginBtn.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'github',
-    options: {
-        // 指定回调地址
-        redirectTo: window.location.origin + '/blog'
-    }
-    });
+    // 检查用户会话
+    async function checkUserSession() {
+    const { data: { session }, error } = await supabase.auth.getSession();
 
     if (error) {
-    authError.textContent = error.message;
+        console.error('会话检查失败:', error);
+        return;
     }
-});
 
-// Google 登录
-googleLoginBtn.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'google'
-    });
-    
-    if (error) {
-    authError.textContent = error.message;
-    }
-});
-
-// 退出登录
-logoutBtn.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-    showLoginButton();
-    }
-});
-
-// 监听认证状态变化
-supabase.auth.onAuthStateChange((event, session) => {
     if (session) {
-    showUserInfo(session.user);
+        showUserInfo(session.user);
     } else {
-    showLoginButton();
+        showLoginButton();
     }
-});
-}
-
-// 返回列表按钮事件
-backToList.addEventListener("click", () => {
-    postView.style.display = "none";
-    listEl.style.display = "grid";
-});
-
-// 重试按钮事件
-retryBtn.addEventListener("click", loadPostsList);
-
-// 文章内重试按钮事件委托
-postView.addEventListener("click", (e) => {
-    if (e.target.closest(".retryPost") && currentPost) {
-    loadPost(currentPost, true);
     }
-});
+
+    // 显示用户信息
+    function showUserInfo(user) {
+    // 从元数据中优先获取用户名
+    const meta = user.raw_user_meta_data || {};
+    const displayName = meta.name || meta.user_name || meta.preferred_username || user.email;
+    userInfo.innerHTML = `欢迎, ${displayName}`;
+    userInfo.style.display = 'inline-block';
+    logoutBtn.style.display = 'inline-block';
+    loginBtn.style.display = 'none';
+    }
+
+    // 显示登录按钮
+    function showLoginButton() {
+    loginBtn.style.display = 'inline-block';
+    userInfo.style.display = 'none';
+    logoutBtn.style.display = 'none';
+    }
+
+    function setupAuthStateListener() {
+    // 监听登录状态变化（包括OAuth回调）
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+        // 登录成功，显示用户信息
+        showUserInfo(session.user);
+        // 关闭登录弹窗（如果打开）
+        authModal.style.display = 'none';
+        // 可以在这里添加登录成功后的其他操作（如刷新文章列表等）
+        showToast('登录成功');
+        } else if (event === 'SIGNED_OUT') {
+        // 登出成功
+        showLoginButton();
+        showToast('已退出登录');
+        }
+    });
+    }
+
+    // 设置认证事件监听
+    function setupAuthEventListeners() {
+    // 登录按钮
+    loginBtn.addEventListener('click', () => {
+        authModal.style.display = 'block';
+        authModal.classList.add('show');
+        const modalContent = authModal.querySelector('.modal');
+        if (modalContent) {
+        modalContent.classList.add('show');
+        }
+    });
+
+    // 关闭弹窗
+    closeAuthModal.addEventListener('click', () => {
+        authModal.style.display = 'none';
+        authModal.classList.remove('show')
+        const modalContent = authModal.querySelector('.modal');
+        if (modalContent) {
+        modalContent.classList.remove('show');
+        }
+        authError.textContent = '';
+    });
+
+    // 标签切换
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        tabBtns.forEach(b => b.classList.remove('active'));
+        authTabs.forEach(t => t.style.display = 'none');
+        btn.classList.add('active');
+        document.getElementById(`${tab}Tab`).style.display = 'block';
+        });
+    });
+
+    // 邮箱登录
+    emailLoginBtn.addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+        });
+
+        if (error) {
+        authError.textContent = error.message;
+        } else {
+        showUserInfo(data.user);
+        authModal.style.display = 'none';
+        }
+    });
+
+    // 注册新用户
+    signupBtn.addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            emailRedirectTo: window.location.origin
+        }
+        });
+
+        if (error) {
+        authError.textContent = error.message;
+        } else {
+        authError.textContent = '注册成功';
+        authError.style.color = 'green'; // 改为绿色提示
+        document.getElementById('emailTab').style.display = 'block';
+        document.getElementById('oauthTab').style.display = 'none';
+        tabBtns.forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-tab="email"]').classList.add('active');
+        }
+    });
+
+    // GitHub 登录
+    githubLoginBtn.addEventListener('click', async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+            // 指定回调地址
+            redirectTo: window.location.origin + '/blog'
+        }
+        });
+
+        if (error) {
+        authError.textContent = error.message;
+        }
+    });
+
+    // Google 登录
+    googleLoginBtn.addEventListener('click', async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google'
+        });
+        
+        if (error) {
+        authError.textContent = error.message;
+        }
+    });
+
+    // 退出登录
+    logoutBtn.addEventListener('click', async () => {
+        const { error } = await supabase.auth.signOut();
+        if (!error) {
+        showLoginButton();
+        }
+    });
+
+    // 监听认证状态变化
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (session) {
+        showUserInfo(session.user);
+        } else {
+        showLoginButton();
+        }
+    });
+    }
+
+    // 返回列表按钮事件
+    backToList.addEventListener("click", () => {
+        postView.style.display = "none";
+        listEl.style.display = "grid";
+        history.pushState({}, "博客列表", "blog.html");
+    });
+
+    // 重试按钮事件
+    retryBtn.addEventListener("click", loadPostsList);
+
+    // 文章内重试按钮事件委托
+    postView.addEventListener("click", (e) => {
+        if (e.target.closest(".retryPost") && currentPost) {
+        loadPost(currentPost, true);
+        }
+    });
 }
 
 // 加载文章列表
@@ -313,7 +357,19 @@ posts.forEach((post, index) => {
     `;
     
     // 点击事件 - 使用防抖处理
-    card.addEventListener("click", debounce(() => loadPost(post), 300));
+    card.addEventListener("click", debounce(() => {
+    // 保存当前文章到缓存
+    currentPost = post;
+    postCache.set(post.title, post);
+    
+    // 更新URL，添加标题参数（使用encodeURIComponent处理特殊字符）
+    const encodedTitle = encodeURIComponent(post.title);
+    history.pushState({ title: post.title }, post.title, `?title=${encodedTitle}`);
+    
+    // 加载文章内容
+    loadPost(post);
+    }, 300));
+    
     listEl.appendChild(card);
 
     // 错位淡入动画
@@ -468,6 +524,7 @@ if (backToListBtn) {
     backToListBtn.addEventListener('click', () => {
     postView.style.display = 'none';
     listEl.style.display = 'grid';
+    history.pushState({}, "博客列表", "blog.html");
     emptyState.style.display = 'none';
     window.scrollTo(0, 0);
     });
@@ -523,7 +580,7 @@ a.click();
 setTimeout(() => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('文章已下载');
+    showToast('开始下载文章TXT');
 }, 0);
 }
 
