@@ -1107,14 +1107,14 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   }
 }
 
-.md-article .post-date { margin: 6px 0 16px; color: #666; font-size: 0.95rem; }
+.md-article .post-date { margin: 6px 0 16px; color: #666; font-size: clamp(0.8rem, 3vw, 1rem); }
 
-.md-body { font-size: 1rem; line-height: 1.8; 
+.md-body { font-size: clamp(0.8rem, 3vw, 1rem); line-height: 1.8; 
   h1, h2, h3, h4 { margin: 1.2em 0 0.6em; }
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.6rem; }
-  h3 { font-size: 1.3rem; }
-  p { margin: 0.8em 0; }
+  h1 { font-size: clamp(1.6rem, 4vw, 1.8rem); }
+  h2 { font-size: clamp(1.4rem, 4vw, 1.6rem); }
+  h3 { font-size: clamp(1.2rem, 4vw, 1.4rem); }
+  p { margin: 0.8em 0; font-size: clamp(0.95rem, 3vw, 1rem); }
   a { color: #007aff; text-decoration: none; 
     &:hover { text-decoration: underline; }}
   img { max-width: 100%; height: auto; border-radius: 12px; }
@@ -1125,24 +1125,16 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   ul, ol { padding-left: 1.4em; margin: 0.6em 0; }
   /* 引用 */
   blockquote {
-    margin: 1em 0; padding: 0.6em 1em; border-left: 3px solid #ccc; opacity: 0.9;
-    background: rgba(255,255,255,0.5); border-radius: 8px;
+    margin: 1em 0; padding: 0.6em 1em; border-left: 3px solid light-dark(#ccc, #666); opacity: 0.9;
+    background: light-dark(rgba(255,255,255,0.5), rgba(40,40,40,0.4)); border-radius: 8px;
   }
-}
-
-@media (prefers-color-scheme: dark) {
-  .md-body blockquote { background: rgba(40,40,40,0.4); border-left-color: #666; }
 }
 
 /* 二级页面淡入动画 */
 .md-article {
-  animation: fadeInUp 0.5s ease forwards;
+  animation: blurFadeUp 0.5s ease forwards;
   opacity: 0;
   transform: translateY(20px);
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== 加载动画 ===== */
@@ -1152,17 +1144,17 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.6);
+  background: light-dark(rgba(255,255,255,0.6), rgba(0,0,0,0.55));
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   z-index: 2000;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-}
-.loading-overlay.show {
-  opacity: 1;
-  pointer-events: auto;
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .spinner{
@@ -1210,10 +1202,6 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     }
 }
 
-@media (prefers-color-scheme: dark) {
-  .loading-overlay { background: rgba(0,0,0,0.55); }
-}
-
 /* SatinAu Design风格样式选择器 */
 .style-switcher {
   display: inline-flex;
@@ -1224,72 +1212,47 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   border-radius: 22px;
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
-  background: rgba(255, 255, 255, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: light-dark(rgba(255, 255, 255, 0.28),rgba(30, 30, 30, 0.5));
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.12));
   box-shadow: 0 12px 32px rgba(0,0,0,0.12), inset 0 0 20px rgba(255,255,255,0.08);
-}
 
-/* 隐藏原生单选按钮圆圈 */
-.style-switcher input[type="radio"] {
-  display: none;
-}
+  /* 隐藏原生单选按钮圆圈 */
+  input[type="radio"] {
+    display: none;
 
-/* 选项标签基础样式 */
-.style-switcher label {
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 16px;
-  color: #333;
-  transition: all 0.3s ease;
-}
-
-/* 选中状态 - 半透明白色遮罩效果 */
-.style-switcher input[type="radio"]:checked + label {
-  background: rgba(255, 255, 255, 0.6); /* 半透明白色遮罩 */
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  color: #007aff;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15);
-}
-
-/* 未选中状态悬停效果 */
-.style-switcher label:hover:not(:has(~ input:checked)) {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* 深色模式适配 */
-@media (prefers-color-scheme: dark) {
-  .style-switcher {
-    background: rgba(30, 30, 30, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    /* 选中状态 - 半透明白色遮罩效果 */
+    &:checked + label {
+      background: light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.18)); /* 半透明白色遮罩 */
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      color: light-dark(#007aff, #0a84ff);
+      box-shadow: 0 4px 12px light-dark(rgba(0, 122, 255, 0.15), rgba(10, 132, 255, 0.2));
+    }
   }
-  
-  .style-switcher label {
-    color: #f5f5f5;
-  }
-  
-  .style-switcher input[type="radio"]:checked + label {
-    background: rgba(255, 255, 255, 0.18); /* 深色模式下的半透明遮罩 */
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    color: #0a84ff;
-    box-shadow: 0 4px 12px rgba(10, 132, 255, 0.2);
-  }
-  
-  .style-switcher label:hover:not(:has(~ input:checked)) {
-    background: rgba(255, 255, 255, 0.08);
+
+  /* 选项标签基础样式 */
+  label {
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 16px;
+    color: light-dark(#333, #f5f5f5);
+    transition: all 0.3s ease;
+
+    /* 未选中状态悬停效果 */
+    &:hover:not(:has(~ input:checked)) {
+      background: light-dark(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.08));
+    }
   }
 }
 
 /* 登录按钮 - SatinAu Design 风格 */
 #loginBtn {
-  background: rgba(255, 255, 255, 0.28);
+  background: light-dark(rgba(255, 255, 255, 0.28), rgba(40, 40, 40, 0.6));
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.12));
   border-radius: 14px;
   padding: 10px 20px;
   font-size: 15px;
@@ -1298,26 +1261,14 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
-#loginBtn:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
-
-#loginBtn:active {
-  transform: scale(0.95);
-  filter: brightness(0.9);
-}
-
-/* 深色模式适配 */
-@media (prefers-color-scheme: dark) {
-  #loginBtn {
-    background: rgba(40, 40, 40, 0.6);
-    border-color: rgba(255, 255, 255, 0.12);
+  &:hover {
+    background: light-dark(rgba(255, 255, 255, 0.4), rgba(60, 60, 60, 0.75));
   }
-  
-  #loginBtn:hover {
-    background: rgba(60, 60, 60, 0.75);
+
+  &:active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
   }
 }
 
@@ -1335,15 +1286,15 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: inline-block; /* 确保按钮正确显示 */
-}
 
-#logoutBtn:hover {
-  background: rgba(255, 255, 255, 0.4);
-}
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
 
-#logoutBtn:active {
-  transform: scale(0.95);
-  filter: brightness(0.9);
+  &:active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+  }
 }
 
 /* 登录弹窗 - SatinAu Design 风格 */
