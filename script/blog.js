@@ -560,6 +560,7 @@ if (backToListBtn) {
     listEl.style.display = 'grid';
     history.pushState({}, "博客列表", "blog.html");
     emptyState.style.display = 'none';
+    window.scrollTo(0, 0);
     });
 }
 
