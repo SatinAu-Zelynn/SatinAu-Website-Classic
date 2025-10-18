@@ -639,7 +639,7 @@ body#index-page .actions {
     border-radius: 14px;
     cursor: pointer;
     transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
-    
+
     &:hover {
       background: light-dark(rgba(255,255,255,0.75), rgba(60,60,60,0.75));
     }
@@ -670,10 +670,10 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   width: min(90vw, 320px);
   padding: 10px;
   border-radius: 22px;
-  background: rgba(255,255,255,0.28);
+  background: light-dark(rgba(255,255,255,0.28),rgba(30,30,30,0.5));
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.35);
+  border: 1px solid light-dark(rgba(255,255,255,0.35),rgba(255,255,255,0.12));
   box-shadow: 0 18px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
   z-index: 2001;
   /* 隔离动画 */
@@ -685,7 +685,7 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     border-radius: 14px;
     font-size: 14px;
     font-weight: 600;
-    color: #333;
+    color: light-dark(#333, #f5f5f5);
     text-decoration: none;
     transition: background 0.3s ease, color 0.3s ease;
     display: flex;
@@ -695,8 +695,8 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     padding: 8px 0;
 
     &.active{
-      background: rgba(255,255,255,0.6);
-      color: #007aff;
+      background: light-dark(rgba(255,255,255,0.6), rgba(255,255,255,0.18));
+      color: light-dark(#007aff, #0a84ff);
     }
 
     &:hover{
@@ -714,12 +714,6 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
     font-size: 12px;
     opacity: 0.7;
   }
-}
-
-@media (prefers-color-scheme: dark){
-  .bottom-nav{ background: rgba(30,30,30,0.5); border: 1px solid rgba(255,255,255,0.12); }
-  .bottom-nav a{ color: #f5f5f5; }
-  .bottom-nav a.active{ background: rgba(255,255,255,0.18); color: #0a84ff; }
 }
 
 /* 桌面端导航栏调整 - 768px以上屏幕 */
@@ -772,14 +766,14 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   .nav-avatar {
     display: block;
     margin-right: 12px; /* 与导航项保持间距 */
-  }
   
-  .nav-avatar img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%; /* 圆形头像 */
-    object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%; /* 圆形头像 */
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
   }
   
   /* 调整导航栏布局以容纳头像 */
@@ -821,36 +815,6 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   :active {
     background: light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
   }
-
-  /* 三个点横排显示（修正图标位置） */
-  svg {
-    width: 24px;
-    height: 24px; /* 恢复正常尺寸 */
-  }
-
-  svg circle {
-    /* 重置之前的transform */
-    transform: none;
-    r: 2; /* 圆点大小 */
-  }
-
-  /* 第一个点在左侧 */
-  svg circle:nth-child(1) {
-    cx: 6;
-    cy: 12;
-  }
-
-  /* 第二个点在中间 */
-  svg circle:nth-child(2) {
-    cx: 12;
-    cy: 12;
-  }
-
-  /* 第三个点在右侧 */
-  svg circle:nth-child(3) {
-    cx: 18;
-    cy: 12;
-  }
 }
 
 /* 下拉菜单样式 */
@@ -871,13 +835,13 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   pointer-events: none;
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
   z-index: 3000;
-}
 
-/* 菜单显示状态 */
-.more-dropdown.show {
-  transform: scale(1) translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+  /* 菜单显示状态 */
+  &.show {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* 菜单项样式优化 */
@@ -888,10 +852,10 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   text-decoration: none;
   font-size: 14px;
   transition: background 0.2s ease;
-}
 
-.dropdown-item:hover {
-  background: light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); /* 半透明高亮 */
+  &:hover {
+    background: light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); /* 半透明高亮 */
+  }
 }
 
 @media (max-width: 767px) {
@@ -1108,8 +1072,8 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
 }
 
 /* ======== 博客 Markdown 正文排版（轻量） ======== */
-.md-article { max-width: 860px; margin: 0 auto; text-align: left; }
-.md-article .post-meta { margin-bottom: 18px; }
+.md-article { max-width: 860px; margin: 0 auto; text-align: left; 
+  .post-meta { margin-bottom: 18px; }}
 
 /* 返回按钮样式 */
 .back-button {
@@ -1119,56 +1083,53 @@ body#index-page .wechat-qr p { margin-top: 12px; font-size: 15px; font-weight: 6
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.25);
+  border: 1px solid light-dark(rgba(255,255,255,0.35), rgba(255,255,255,0.2));
+  background: light-dark(rgba(255,255,255,0.25), rgba(40,40,40,0.4));
   -webkit-backdrop-filter: blur(18px) saturate(180%);
   backdrop-filter: blur(18px) saturate(180%);
   box-shadow: 0 8px 24px rgba(0,0,0,0.2), inset 0 0 20px rgba(255,255,255,0.15);
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 10px;
-}
-.back-button svg {
-  width: 20px;
-  height: 20px;
-  stroke: #007aff;
-  stroke-width: 2.2;
-  fill: none;
-}
-.back-button:hover {
-  transform: scale(1.08);
-  background: rgba(255,255,255,0.45);
-}
-.back-button:active {
-  transform: scale(0.9);
-}
-
-@media (prefers-color-scheme: dark) {
-  .back-button { background: rgba(40,40,40,0.4); border: 1px solid rgba(255,255,255,0.2); }
-  .back-button svg { stroke: #0a84ff; }
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: light-dark(#007aff, #0a84ff);
+    stroke-width: 2.2;
+    fill: none;
+  }
+  &:hover {
+    transform: scale(1.08);
+    background: rgba(255,255,255,0.45);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
 }
 
 .md-article .post-date { margin: 6px 0 16px; color: #666; font-size: 0.95rem; }
 
-.md-body { font-size: 1rem; line-height: 1.8; }
-.md-body h1, .md-body h2, .md-body h3, .md-body h4 { margin: 1.2em 0 0.6em; }
-.md-body h1 { font-size: 2rem; }
-.md-body h2 { font-size: 1.6rem; }
-.md-body h3 { font-size: 1.3rem; }
-.md-body p { margin: 0.8em 0; }
-.md-body a { color: #007aff; text-decoration: none; }
-.md-body a:hover { text-decoration: underline; }
-.md-body img { max-width: 100%; height: auto; border-radius: 12px; }
-.md-body code { padding: 0.2em 0.4em; border-radius: 6px; background: light-dark(rgba(0,0,0,0.06), rgba(255,255,255,0.12)); }
-.md-body pre { overflow: auto; padding: 14px; border-radius: 12px; background: light-dark(rgba(0,0,0,0.06), rgba(255,255,255,0.08)); }
-.md-body pre code { background: transparent; padding: 0; }
-/* 列表 */
-.md-body ul, .md-body ol { padding-left: 1.4em; margin: 0.6em 0; }
-/* 引用 */
-.md-body blockquote {
-  margin: 1em 0; padding: 0.6em 1em; border-left: 3px solid #ccc; opacity: 0.9;
-  background: rgba(255,255,255,0.5); border-radius: 8px;
+.md-body { font-size: 1rem; line-height: 1.8; 
+  h1, h2, h3, h4 { margin: 1.2em 0 0.6em; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.3rem; }
+  p { margin: 0.8em 0; }
+  a { color: #007aff; text-decoration: none; 
+    &:hover { text-decoration: underline; }}
+  img { max-width: 100%; height: auto; border-radius: 12px; }
+  code { padding: 0.2em 0.4em; border-radius: 6px; background: light-dark(rgba(0,0,0,0.06), rgba(255,255,255,0.12)); }
+  pre { overflow: auto; padding: 14px; border-radius: 12px; background: light-dark(rgba(0,0,0,0.06), rgba(255,255,255,0.08)); 
+    code { background: transparent; padding: 0; }}
+  /* 列表 */
+  ul, ol { padding-left: 1.4em; margin: 0.6em 0; }
+  /* 引用 */
+  blockquote {
+    margin: 1em 0; padding: 0.6em 1em; border-left: 3px solid #ccc; opacity: 0.9;
+    background: rgba(255,255,255,0.5); border-radius: 8px;
+  }
 }
+
 @media (prefers-color-scheme: dark) {
   .md-body blockquote { background: rgba(40,40,40,0.4); border-left-color: #666; }
 }
