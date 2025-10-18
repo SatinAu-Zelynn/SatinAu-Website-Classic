@@ -392,6 +392,10 @@ try {
     });
     
     postContent.innerHTML = marked.parse(processedMd);
+
+    postContent.querySelectorAll('h2').forEach(h2 => {
+        h2.classList.add('visible');
+    });
     
     // 处理链接跳转
     postContent.querySelectorAll('a').forEach(link => {
