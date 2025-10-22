@@ -943,7 +943,7 @@ body#index-page {
       display: block;
       transition: all 0.3s ease;
       text-align: center;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
       /* 初始状态为透明并向下偏移 */
       opacity: 0;
       transform: translateY(10px);
@@ -954,7 +954,7 @@ body#index-page {
 
       /* 菜单项悬停效果 */
       &:hover {
-        background: rgba(255, 255, 255, 0.4);
+        background: light-dark(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.18));
         transform: translateY(-2px) scale(1.02);
       }
     }
@@ -979,35 +979,24 @@ body#index-page {
         transition-delay: 0.4s;
       }
     }
-  }
 
-  /* 深色模式菜单项 */
-  @media (prefers-color-scheme: dark) {
-    .mobile-more-menu .dropdown-item {
-      border-bottom-color: rgba(255, 255, 255, 0.05);
+    /* 添加背景遮罩，增强悬浮感 */
+    &::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-    
-    .mobile-more-menu .dropdown-item:hover {
-      background: rgba(255, 255, 255, 0.18);
+
+    &.show::before {
+      opacity: 1;
     }
-  }
-
-  /* 添加背景遮罩，增强悬浮感 */
-  .mobile-more-menu::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .mobile-more-menu.show::before {
-    opacity: 1;
   }
 
   /* 确保原有三个点按钮在移动端保持隐藏 */
@@ -1258,7 +1247,7 @@ body#index-page {
 }
 
 #logoutBtn {
-  background: rgba(255, 255, 255, 0.28);
+  background: light-dark(rgba(255, 255, 255, 0.28), rgba(40, 40, 40, 0.6));
   -webkit-backdrop-filter: blur(22px) saturate(180%);
   backdrop-filter: blur(22px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.35);
@@ -1266,7 +1255,7 @@ body#index-page {
   padding: 10px 20px;
   font-size: 15px;
   font-weight: 600;
-  color: #333;
+  color: light-dark(#333, #f5f5f5);
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -1292,11 +1281,11 @@ body#index-page {
 
 #authModal .modal {
   /* 统一背景和模糊效果 */
-  background: rgba(255, 255, 255, 0.3); /* 与首页.modal一致 */
+  background: light-dark(rgba(255, 255, 255, 0.3), rgba(30, 30, 30, 0.45)); /* 与首页.modal一致 */
   -webkit-backdrop-filter: blur(24px) saturate(180%); /* 统一模糊参数 */
   backdrop-filter: blur(24px) saturate(180%);
   border-radius: 20px; /* 保持一致的圆角 */
-  border: 1px solid rgba(255, 255, 255, 0.25); /* 统一边框 */
+  border: 1px solid light-dark(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.12)); /* 统一边框 */
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25); /* 统一阴影 */
   padding: 24px;
   min-width: 300px;
@@ -1359,11 +1348,6 @@ body#index-page {
 
 /* 深色模式下弹窗样式统一 */
 @media (prefers-color-scheme: dark) {
-  #authModal .modal {
-    background: rgba(30, 30, 30, 0.45); /* 与深色模式下的.ios-alert一致 */
-    border-color: rgba(255, 255, 255, 0.12); /* 统一边框 */
-  }
-  
   /* 弹窗内按钮深色模式样式统一 */
   #authModal .tab-btn,
   #emailLoginBtn,
