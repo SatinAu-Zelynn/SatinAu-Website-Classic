@@ -1,11 +1,21 @@
+<div align="center">
+
+<img width="" src="source\image\缎金SatinAu_logo_v3.5.png"  width=120 height=120  align="center">
+
 # 缎金SatinAu 个人网站
+
+### 一个基于 HTML+CSS+JavaScript 开发的个人网站
 
 [![GitHub license](https://img.shields.io/github/license/SatinAu-Zelynn/SatinAu-Website-Classic)](LICENSE)
 ![Static Badge](https://img.shields.io/badge/tech-HTML5%2FCSS3%2FJS-blue)
 
+</div>
 
-一个基于 HTML+CSS+JavaScript 开发的个人网站
-
+<p align="center">
+<a href="#️-技术栈">技术栈</a> &nbsp;&bull;&nbsp;
+<a href="#-兼容性">兼容性</a> &nbsp;&bull;&nbsp;
+<a href="#-本地运行">本地运行</a>
+</p>
 
 ## 🛠️ 技术栈
 
@@ -18,7 +28,8 @@
 
 ## 🔄 兼容性
 
-本项目采用现代Web技术构建，包含了Web Platform Baseline 2024和2025的新特性，以下是主要特性的兼容性说明：
+<details>
+   <summary>本项目采用现代Web技术构建，包含了Web Platform Baseline 2024和2025的新特性</summary>
 
 | 技术特性 | 所属基准 | 支持的浏览器及版本 |
 |---------|---------|-------------------|
@@ -35,6 +46,9 @@
 | `:has()` 伪类 | Baseline 2025 | Chrome 105+, Firefox 121+, Safari 15.4+, Edge 105+ |
 | 滚动驱动动画 (Scroll-driven) | Baseline 2025 | Chrome 115+, Firefox 121+, Safari 17.0+, Edge 115+ |
 
+</details>
+
+> [!TIP]
 > 注：项目通过渐进式增强策略确保在旧浏览器中仍能正常运行核心功能，高级视觉效果会根据浏览器支持情况自动降级。
 
 
@@ -46,3 +60,9 @@
    ```
 
 2. 进入项目目录，直接用浏览器打开 `index.html` 即可运行
+
+<div align="right">
+<table><td>
+<a href="#缎金satinau-个人网站">👆 返回顶部</a>
+</td></table>
+</div>
