@@ -29,7 +29,7 @@
 ## 🔄 兼容性
 
 <details>
-   <summary>本项目采用现代Web技术构建，包含了Web Platform Baseline 2024和2025的新特性</summary>
+   <summary>本项目采用现代Web技术构建，包含了Web Platform Baseline 2024和2025的新特性，展开查看兼容性参考表</summary>
 
 | 技术特性 | 所属基准 | 支持的浏览器及版本 |
 |---------|---------|-------------------|
