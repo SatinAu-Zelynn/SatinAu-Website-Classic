@@ -27,7 +27,6 @@ const emptyState = document.getElementById("emptyState");
 const errorState = document.getElementById("errorState");
 const retryBtn = document.getElementById("retryBtn");
 const postError = document.getElementById("postError");
-const supabaseUrl = 'https://fluqmhywopwayiehzdik.supabase.co';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const loginBtn = document.getElementById('loginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
