@@ -15,15 +15,8 @@
 */
 
 /* ========== 全局字体设置 ========== */
-@font-face {
-  font-family: 'MiSans';
-  src: url('../source/font/MiSans VF.ttf') format('truetype');
-  font-weight: 100 900; /* 支持可变字重 */
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://font.sec.miui.com/font/css?family=MiSans:200,300,400,450,500,600,650,700:Chinese_Simplify,Latin&display=swap');
 
-/* 强制全站使用 MiSans */
 * {
   font-family: 'MiSans', sans-serif !important;
   font-size-adjust: 0.54;
@@ -197,7 +190,7 @@ body#index-page header {
 
   h1 {
     margin: 0;
-    font-size: 2.4rem;
+    font-size: 2.6rem;
     font-weight: 700;
   }
 
@@ -253,7 +246,7 @@ body#index-page section:nth-of-type(2) h2 {
 }
 
 h2 { 
-  font-size: clamp(1.4rem, 4vw, 1.6rem); /* 字号将在 1.4rem 和 1.6rem 之间平滑缩放 */ 
+  font-size: clamp(1.6rem, 4vw, 1.8rem);
   margin: 20px 0 30px; 
   opacity: 0; /* 初始隐藏 */
 
@@ -739,7 +732,6 @@ body#index-page {
       display: inline-block;
     }
     
-    /* 调整字体大小以适应横向布局 */
     .nav-cn {
       font-size: 16px;
     }
