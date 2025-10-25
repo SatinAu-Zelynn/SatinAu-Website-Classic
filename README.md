@@ -4,10 +4,9 @@
 
 # 缎金SatinAu 个人网站
 
-### 一个基于 HTML+CSS+JavaScript 开发的个人网站
+### 一个 HTML+CSS+JavaScript 开发的个人网站
 
 [![GitHub license](https://img.shields.io/github/license/SatinAu-Zelynn/SatinAu-Website-Classic)](LICENSE)
-![Static Badge](https://img.shields.io/badge/tech-HTML5%2FCSS3%2FJS-blue)
 
 </div>
 
