@@ -20,19 +20,30 @@ class NavigateBar extends HTMLElement {
   }
 
   connectedCallback() {
-    // 获取当前页面路径作为默认激活项
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    let filename = window.location.pathname.split('/').pop();
+    let currentPath;
+
+    // 移除可能的 .html 扩展名，得到用于匹配的基础路径名
+    if (filename.endsWith('.html')) {
+        currentPath = filename.slice(0, -5); // 移除 '.html'
+    } else {
+        currentPath = filename; // 如果没有 .html，直接使用文件名
+    }
+
+    if (currentPath === '' || currentPath.toLowerCase() === 'index.html') {
+        currentPath = 'index';
+    }
     
     // 主导航项数据
     const navItems = [
-      { cn: '缎金', en: 'SatinAu', href: 'index.html' },
-      { cn: '博客', en: 'Blog', href: 'blog.html' },
-      { cn: '泽凌', en: 'Zelynn', href: 'zelynn.html' }
+      { cn: '缎金', en: 'SatinAu', href: 'index' },
+      { cn: '博客', en: 'Blog', href: 'blog' },
+      { cn: '泽凌', en: 'Zelynn', href: 'zelynn' }
     ];
 
     // 更多选项菜单数据
     const moreItems = [
-      { label: '网站设置', href: 'settings.html' },
+      { label: '网站设置', href: 'settings' },
     ];
 
     // 构建HTML结构
@@ -43,7 +54,7 @@ class NavigateBar extends HTMLElement {
         </div>
         ${navItems.map(item => `
           <a 
-            href="/${item.href}" 
+            href="/${item.href}.html" 
             class="${currentPath === item.href ? 'active' : ''}"
           >
             <span class="nav-cn">${item.cn}</span>
@@ -62,16 +73,21 @@ class NavigateBar extends HTMLElement {
             <a href="https://c6.y.qq.com/base/fcgi-bin/u?__=Fy3CGi4gRscv" target="_blank" class="dropdown-item">
               我的歌单
             </a>
-            ${moreItems.map(item => `
+            ${moreItems.map(item => {
+              // 更多菜单项的激活逻辑，获取其基础文件名进行匹配
+              const moreItemBaseName = item.href.split('/').pop().replace('.html', '');
+              const isActive = currentPath === moreItemBaseName;
+              
+              return `
               <a 
-                href="/pages/${item.href}" 
-                class="dropdown-item ${currentPath === item.href ? 'active' : ''}"
+                href="/pages/${item.href}.html" 
+                class="dropdown-item ${isActive ? 'active' : ''}"
                 onclick="window.location.href='/pages/settings.html'; return false;"
                 ${item.target ? `target="${item.target}"` : ''}
               >
                 ${item.label}
               </a>
-            `).join('')}
+            `;}).join('')}
           </div>
         </div>
       </nav>
