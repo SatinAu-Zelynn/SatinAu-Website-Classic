@@ -848,7 +848,7 @@ body#index-page {
   transition: background 0.2s ease;
 
   &:hover {
-    background: light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); /* 半透明高亮 */
+    color: light-dark(#888, #bbb);
   }
 }
 

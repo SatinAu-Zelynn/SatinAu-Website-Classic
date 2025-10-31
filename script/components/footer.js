@@ -26,7 +26,7 @@ class SiteFooter extends HTMLElement {
           width: 1em;
           height: 1em;
           vertical-align: middle;
-          margin: 0 4px;
+          margin-top: -2px;
           fill: currentColor;
           color: light-dark(#888, #bbb);
         }
