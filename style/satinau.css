@@ -521,8 +521,9 @@ footer{
   background: light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.1));
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.25);
   border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
   padding: 20px;
   text-align: center;
   opacity: 0;
@@ -542,8 +543,6 @@ footer{
 .ios-alert {
   width: 300px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 0 30px rgba(255,255,255,0.12);
   p { margin: 0 0 14px; font-size: 15px; font-weight: 500; color: light-dark(#111, #f5f5f5); }
 
   /* iOS 弹窗按钮：竖直堆叠 + 胶囊形状 */
