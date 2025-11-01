@@ -571,7 +571,7 @@ const copyAction = (ctx) => {
   };
   
   const backToHomeAction = () => {
-    window.location.href = 'index.html';
+    window.location.href = '/';
   };
   
   const openImageInNewTabAction = (ctx) => {

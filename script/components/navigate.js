@@ -49,12 +49,15 @@ class NavigateBar extends HTMLElement {
     // 构建HTML结构
     this.innerHTML = `
       <style>
+        .nav-avatar {
+          cursor: pointer;
+        }
         .more-btn-svg {
           fill: light-dark(#111, #f5f5f5);
         }
       </style>
       <nav class="bottom-nav">
-        <div class="nav-avatar">
+        <div class="nav-avatar" onclick="window.location.href='/'">
           <img src="/source/image/favicon.ico" alt="Avatar">
         </div>
         ${navItems.map(item => `
