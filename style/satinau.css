@@ -1533,6 +1533,10 @@ body#index-page {
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid light-dark(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.12));
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .setting-label {
