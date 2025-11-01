@@ -598,7 +598,7 @@ const copyAction = (ctx) => {
     const menu = new CustomRightClickMenu({
       theme: {
         // 对应菜单的背景
-        '--menu-bg': 'rgba(255, 255, 255, 0.28)',
+        '--menu-bg': 'light-dark(rgba(255,255,255,0.3), rgba(255,255,255,0.1))',
         // 对应菜单的边框
         '--menu-border': '1px solid rgba(255, 255, 255, 0.25)',
         // 对应backdrop-filter---自定义项
@@ -606,13 +606,13 @@ const copyAction = (ctx) => {
         // 对应过渡效果的时间
         '--transition-speed': '0.1s',
         // 对应菜单项 hover 背景
-        '--item-hover-bg': 'rgba(255, 255, 255, 0.3)',
+        '--item-hover-bg': 'light-dark(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2))',
         // 对应菜单项文字颜色
-        '--text-color': 'black',
+        '--text-color': 'light-dark(#111, #f5f5f5)',
         // 对应菜单标题文字颜色
-        '--header-color': 'gray',
+        '--header-color': 'light-dark(#888, #bbb)',
         // 对应分隔线颜色
-        '--divider-color': '#e5e7eb'
+        '--divider-color': 'light-dark(#ccc, #888)'
       },
       // 外部样式（可选，图标库也可换源或直接不使用）
       externalStyles: [

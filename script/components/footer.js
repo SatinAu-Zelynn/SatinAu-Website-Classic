@@ -28,7 +28,7 @@ class SiteFooter extends HTMLElement {
           vertical-align: middle;
           margin-top: -2px;
           fill: currentColor;
-          stroke: light-dark(#888, #bbb);
+          stroke: currentColor;
         }
         .footer-icon-a {
           width: 1em;
@@ -36,7 +36,7 @@ class SiteFooter extends HTMLElement {
           vertical-align: middle;
           margin-top: -2px;
           fill: currentColor;
-          stroke: light-dark(#aaa, #888)
+          stroke: currentColor;
         }
       </style>
       <footer>

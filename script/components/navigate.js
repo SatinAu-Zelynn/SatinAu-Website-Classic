@@ -48,6 +48,11 @@ class NavigateBar extends HTMLElement {
 
     // 构建HTML结构
     this.innerHTML = `
+      <style>
+        .more-btn-svg {
+          fill: light-dark(#111, #f5f5f5);
+        }
+      </style>
       <nav class="bottom-nav">
         <div class="nav-avatar">
           <img src="/source/image/favicon.ico" alt="Avatar">
@@ -63,7 +68,7 @@ class NavigateBar extends HTMLElement {
         `).join('')}
         <div class="more-menu-container">
           <button class="more-btn" onclick="toggleMoreMenu()">
-            <svg viewBox="0 0 24 24" width="24" height="24">
+            <svg class="more-btn-svg" viewBox="0 0 24 24" width="24" height="24">
               <circle cx="6" cy="12" r="2" />
               <circle cx="12" cy="12" r="2" />
               <circle cx="18" cy="12" r="2" />
